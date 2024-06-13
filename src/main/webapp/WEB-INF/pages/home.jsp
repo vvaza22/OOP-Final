@@ -8,5 +8,6 @@
 <body>
     <jsp:include page="/WEB-INF/components/home/header.jsp" />
     <jsp:include page="/WEB-INF/components/home/main.jsp" />
+    <jsp:include page="/WEB-INF/components/home/footer.jsp" />
 </body>
 </html>
