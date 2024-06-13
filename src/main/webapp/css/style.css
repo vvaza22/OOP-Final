@@ -90,6 +90,11 @@
 	padding: 1rem;
 }
 
+.anno-item:hover {
+	border: 1px solid #7b7474;
+	box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+}
+
 .anno-reaction > div {
 	display: inline-block;
 }
