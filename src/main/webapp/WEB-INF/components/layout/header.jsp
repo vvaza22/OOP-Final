@@ -1,9 +1,9 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark navbar--blue">
         <div class="container">
-            <div class="navbar-brand title-box">
+            <a href="/" class="navbar-brand title-box">
                 <span>MyCoolQuiz</span>
-            </div>
+            </a>
             <div class="collapse navbar-collapse justify-content-between">
                 <ul class="navbar-nav">
                     <li class="navbar-item menu-item">
