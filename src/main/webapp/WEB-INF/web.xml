@@ -10,12 +10,20 @@
     <servlet-name>HomeServlet</servlet-name>
     <servlet-class>Home.HomeServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>Login.LoginServlet</servlet-class>
+  </servlet>
   <!-- Servlet Definitions END -->
 
   <!-- Servlet Mapping -->
   <servlet-mapping>
     <servlet-name>HomeServlet</servlet-name>
     <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
   <!-- Servlet Mapping END -->
 

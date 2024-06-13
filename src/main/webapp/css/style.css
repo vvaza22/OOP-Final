@@ -152,3 +152,21 @@
 	right:0;
 	z-index:1;
 }
+
+/* Account Access */
+
+.ac-access-page {
+	display: flex;
+	justify-content: center;
+	padding: 5rem 0;
+}
+
+.form-container {
+	padding: 1rem;
+	border: 1px solid #ccc;
+	box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.2);
+}
+
+.input-cont {
+	padding-bottom: .7rem;
+}
