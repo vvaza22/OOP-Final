@@ -4,4 +4,19 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <!-- Servlet Definitions -->
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>Home.HomeServlet</servlet-class>
+  </servlet>
+  <!-- Servlet Definitions END -->
+
+  <!-- Servlet Mapping -->
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <!-- Servlet Mapping END -->
+
 </web-app>
