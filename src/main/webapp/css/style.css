@@ -176,3 +176,13 @@
 .input-cont .btn {
 	width: 100%;
 }
+
+/* Profile */
+.user-not-found {
+	text-align: center;
+	padding: 5rem 0;
+}
+
+.user-not-found h3 {
+	color: #aaa;
+}
