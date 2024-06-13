@@ -13,6 +13,7 @@
             <div class="input-cont submit-cont">
                 <input type="submit" class="btn btn-primary" name="submit" value="Sign In" />
             </div>
+            <span>Not registered yet? <a href="/register">Sign Up.</a></span>
         </form>
     </div>
 </main>
