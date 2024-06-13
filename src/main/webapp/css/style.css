@@ -162,11 +162,17 @@
 }
 
 .form-container {
-	padding: 1rem;
+	padding: 2rem;
+	border-radius: 5px;
 	border: 1px solid #ccc;
-	box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.2);
+	box-shadow: 2px 2px 15px 0 rgba(0,0,0,0.2);
+	max-width: 500px;
 }
 
 .input-cont {
 	padding-bottom: .7rem;
+}
+
+.input-cont .btn {
+	width: 100%;
 }
