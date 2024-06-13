@@ -27,8 +27,8 @@
                 </form>
 
                 <div class="account-buttons">
-                    <button class="btn btn-warning">Login</button>
-                    <button class="btn btn-warning">Register</button>
+                    <a href="/login" class="btn btn-warning">Login</a>
+                    <a href="/register" class="btn btn-warning">Register</a>
                 </div>
             </div>
         </div>
