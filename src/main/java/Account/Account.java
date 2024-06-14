@@ -31,4 +31,8 @@ public class Account {
         return imageLink;
     }
 
+    public boolean checkPassword(String password) {
+        return Hash.verifyPassword(password, passHash);
+    }
+
 }
