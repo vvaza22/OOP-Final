@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9a5136f-f4f1-4007-9fab-5b3700165ee9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Account/Account.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Jsp File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -44,7 +44,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "feat/account",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Teko/IdeaProjects/OOP-Final",
     "node.js.detected.package.eslint": "true",
@@ -95,7 +95,7 @@
       <workItem from="1718283771033" duration="5933000" />
       <workItem from="1718301684108" duration="2337000" />
       <workItem from="1718312673815" duration="2523000" />
-      <workItem from="1718359303292" duration="122000" />
+      <workItem from="1718359303292" duration="4206000" />
     </task>
     <servers />
   </component>
