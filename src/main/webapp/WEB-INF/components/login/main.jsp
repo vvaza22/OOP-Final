@@ -4,6 +4,10 @@
             <div class="form-title">
                 <h3>Log into your account.</h3>
             </div>
+            <div id="login_error" style="display: none" class="alert alert-danger">
+                Username or password is incorrect.
+                <a href="#" id="error_close"> <i class="fa-solid fa-x"></i> </a>
+            </div>
             <div class="row input-cont">
                 <div class="col">
                     <input id="username" type="text" class="form-control" name="username" placeholder="Username" />

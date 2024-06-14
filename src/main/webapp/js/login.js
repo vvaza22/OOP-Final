@@ -1,5 +1,15 @@
 (function() {
 
+
+    function letUserIn(userName) {
+        location.href = "/profile/" + userName;
+    }
+
+    function drawError() {
+        var loginError = document.getElementById("login_error");
+        loginError.style.display = "block";
+    }
+
     function sendRequest(userName, password) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/login", true);
@@ -11,9 +21,9 @@
                 var response = xhr.responseText;
 
                 if(response == "ok") {
-                    alert("good");
+                    letUserIn(userName);
                 } else {
-                    alert("not good");
+                    drawError();
                 }
 
             }
@@ -21,6 +31,12 @@
         xhr.send("username="+userName+"&password="+password);
     }
 
+    var errorClose = document.getElementById("error_close");
+    errorClose.onclick = function(e) {
+        e.preventDefault();
+        var loginError = document.getElementById("login_error");
+        loginError.style.display = "none";
+    }
     var loginForm = document.getElementById("login-form");
     loginForm.onsubmit = function(e) {
         e.preventDefault();

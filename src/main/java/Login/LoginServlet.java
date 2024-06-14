@@ -22,12 +22,14 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
 
+        response.setContentType("text/html");
         if(acm.accountExists(username)) {
             if(acm.passwordMatches(username, password)) {
-                response.sendRedirect("/profile/" + username);
+                response.getWriter().print("ok");
+                return;
             }
         }
-
+        response.getWriter().print("no");
 
     }
 
