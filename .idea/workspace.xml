@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9a5136f-f4f1-4007-9fab-5b3700165ee9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Account/AccountContextListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Account/AccountManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Account/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Account/AccountManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Account/AccountManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Login/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/components/login/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/components/login/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "feat/account",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Teko/IdeaProjects/OOP-Final",
+    "last_opened_file_path": "C:/Users/Teko/OneDrive/Desktop/talkh22",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,6 +64,11 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.4993789",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
