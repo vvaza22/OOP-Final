@@ -32,6 +32,7 @@ public class Account {
     }
 
     public boolean checkPassword(String password) {
+
         return Hash.verifyPassword(password, passHash);
     }
 

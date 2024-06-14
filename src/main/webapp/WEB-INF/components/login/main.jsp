@@ -1,6 +1,6 @@
 <main class="ac-access-page">
     <div class="form-container">
-        <form>
+        <form action="/login" method="post">
             <div class="form-title">
                 <h3>Log into your account.</h3>
             </div>
