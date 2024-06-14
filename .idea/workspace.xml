@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9a5136f-f4f1-4007-9fab-5b3700165ee9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Account/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Account/Hash.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +25,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
+        &quot;associatedIndex&quot;: 2
+        }</component>
   <component name="ProjectId" id="2hpBmZVHFF2lhEhUCdCewbfpihL" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -44,7 +44,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feat/account",
+    "git-widget-placeholder": "Merging feat/account",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Teko/IdeaProjects/OOP-Final",
     "node.js.detected.package.eslint": "true",
@@ -115,5 +115,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>
