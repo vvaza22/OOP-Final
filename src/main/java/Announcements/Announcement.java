@@ -34,11 +34,11 @@ public class Announcement {
         return author;
     }
 
-    public int get_like() {
+    public int get_num_like() {
         return num_like;
     }
 
-    public int get_dislike(){
+    public int get_num_dislike(){
         return num_dislikes;
     }
 
