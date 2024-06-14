@@ -18,27 +18,27 @@ public class Announcement {
         this.num_like = num_like;
     }
 
-    public String get_title(){
+    public String getTitle(){
         return title;
     }
 
-    public String get_date(){
+    public String getDate(){
         return date;
     }
 
-    public String get_text(){
+    public String getText(){
         return text;
     }
 
-    public String get_author(){
+    public String getAuthor(){
         return author;
     }
 
-    public int get_num_like() {
+    public int getNumLike() {
         return num_like;
     }
 
-    public int get_num_dislike(){
+    public int getNumDislike(){
         return num_dislikes;
     }
 

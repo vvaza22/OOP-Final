@@ -42,23 +42,23 @@
             <!-- Item -->
             <div class="anno-item">
                 <div class="anno-header">
-                    <h3><%= announcement.get_title() %></h3>
+                    <h3><%= announcement.getTitle() %></h3>
                 </div>
                 <div class="anno-meta">
-                    <div class="anno-date"><i class="fa-solid fa-calendar-days me-1"></i><%= announcement.get_date() %></div>
-                    <div class="ms-1">By <span class="anno-by-admin"><%= announcement.get_author() %></span></div>
+                    <div class="anno-date"><i class="fa-solid fa-calendar-days me-1"></i><%= announcement.getDate() %></div>
+                    <div class="ms-1">By <span class="anno-by-admin"><%= announcement.getAuthor() %></span></div>
                 </div>
                 <div class="anno-text">
-                    <p><%= announcement.get_text() %></p>
+                    <p><%= announcement.getText() %></p>
                 </div>
                 <div class="anno-reaction">
                     <div class="anno-loved me-2">
                         <i class="fa-solid fa-heart"></i>
-                        <span><%= announcement.get_num_like() %></span>
+                        <span><%= announcement.getNumLike() %></span>
                     </div>
                     <div class="anno-hated">
                         <i class="fa-solid fa-thumbs-down"></i>
-                        <span><%= announcement.get_num_dislike() %></span>
+                        <span><%= announcement.getNumDislike() %></span>
                     </div>
                 </div>
             </div>
