@@ -1,5 +1,10 @@
 package Register;
 
+import Account.Account;
+import Account.AccountManager;
+import Global.SessionManager;
+import org.json.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,5 +17,63 @@ public class RegisterServlet extends HttpServlet {
             throws IOException, ServletException {
         request.getRequestDispatcher("/WEB-INF/pages/register.jsp")
                 .forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String firstName = request.getParameter("firstname");
+        String lastName = request.getParameter("lastname");
+
+        if(
+                username == null ||
+                password == null ||
+                firstName == null ||
+                lastName == null ||
+                username.isEmpty() ||
+                firstName.isEmpty() ||
+                lastName.isEmpty() ||
+                password.isEmpty()
+        ) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Username or Password field not supplied");
+            return;
+        }
+
+        // Access the current HTTP session
+        SessionManager sessionManager = new SessionManager(request.getSession());
+
+        AccountManager acm = ((AccountManager)
+                request.getServletContext().getAttribute("accountManager"));
+
+        // Output JSON to the client
+        response.setContentType("application/json");
+
+        // Prepare the response object
+        JSONObject responseObj = new JSONObject();
+
+        if(!acm.accountExists(username)) {
+
+            // Register account
+            acm.registerAccount(firstName, lastName, username, password);
+
+            // Remember that the user has just logged in
+            sessionManager.setCurrentUser(acm.getAccount(username));
+
+            // Tell the client that the register was successful
+            responseObj.put("status", "success");
+
+        } else {
+            // Tell the client that the register failed
+            responseObj.put("status", "fail");
+            responseObj.put("errorMsg", "User \"" + username + "\" already exists.");
+        }
+
+        // Print the response to the client
+        response.getWriter().print(responseObj);
+
     }
 }

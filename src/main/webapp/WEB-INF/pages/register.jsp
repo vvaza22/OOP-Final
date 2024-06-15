@@ -10,6 +10,9 @@
     <jsp:include page="/WEB-INF/components/register/main.jsp" />
     <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
+    <!-- Local Javascript -->
+    <script src="/js/register.js" type="text/javascript"></script>
+
     <!-- Global Javascript -->
     <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>
