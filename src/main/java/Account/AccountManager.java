@@ -35,7 +35,8 @@ public class AccountManager {
                 lastName,
                 username,
                 Constants.NO_IMAGE,
-                Hash.hashPassword(password)
+                Hash.hashPassword(password),
+                "user"
         );
         accountList.put(username, ac);
     }

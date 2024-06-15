@@ -13,9 +13,10 @@ class AccountTest {
                 "Pirveli",
                 "g.pirveli",
                 "link1",
-                Hash.hashPassword("g.pirveli"));
+                Hash.hashPassword("g.pirveli"),
+                "admin"
+        );
         assertTrue(ac1.checkPassword("g.pirveli"));
-
     }
 
 

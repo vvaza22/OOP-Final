@@ -6,13 +6,22 @@ public class Account {
     private String userName;
     private String imageLink;
     private String passHash;
+    private String userType;
 
-    public Account(String firstName, String lastName, String userName, String imageLink, String passHash) {
+    public Account(
+            String firstName,
+            String lastName,
+            String userName,
+            String imageLink,
+            String passHash,
+            String userType
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.imageLink = imageLink;
         this.passHash = passHash;
+        this.userType = userType;
     }
 
     public String getFirstName() {
@@ -32,8 +41,11 @@ public class Account {
     }
 
     public boolean checkPassword(String password) {
-
         return Hash.verifyPassword(password, passHash);
+    }
+
+    public boolean isAdmin() {
+        return userType.equals("admin");
     }
 
 }
