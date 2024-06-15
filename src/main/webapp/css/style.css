@@ -181,6 +181,17 @@
 	width: 100%;
 }
 
+.login-alert > a {
+	position: absolute;
+	text-decoration: none;
+	color: darkred;
+	height: 16px;
+	display: block;
+	top: 50%;
+	right: 15px;
+	transform: translateY(-50%);
+}
+
 /* Profile */
 .user-not-found {
 	text-align: center;
