@@ -24,6 +24,10 @@ public class Account {
         this.userType = userType;
     }
 
+    public static boolean isValidUsername(String username) {
+        return username.matches("^[A-Za-z0-9._-]+$");
+    }
+
     public String getFirstName() {
         return firstName;
     }

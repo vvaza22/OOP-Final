@@ -201,3 +201,112 @@
 .user-not-found h3 {
 	color: #aaa;
 }
+
+.user-profile {
+	padding: 1.5rem;
+	margin-top: 3rem;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	position: relative;
+}
+
+.user-action {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+}
+
+.profile-row {
+	display: flex;
+}
+
+.user-details-cont {
+	padding-left: 1rem;
+}
+
+.profile-note {
+	padding: 1rem;
+	margin-right: .5rem;
+}
+
+.friends-cont {
+	background-color: crimson;
+}
+
+.friends-cont h4 {
+	color: white;
+}
+.friends-cont ul a {
+	color: white;
+}
+
+.my-quizzes-cont {
+	background-color: lightblue;
+}
+
+.quizzes-took-cont {
+	background-color: lightgreen;
+}
+
+.profile-note ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.profile-note ul a {
+	text-decoration: none;
+}
+
+.profile-note ul a:hover {
+	text-decoration: underline;
+}
+
+.name-lastname-cont > h3 {
+	margin: 0;
+}
+
+.profile-sub-row {
+	display: flex;
+	padding-top: .5rem;
+}
+
+.username-cont > p {
+	color: #403b3b;
+	font-weight: bold;
+}
+
+.about-cont {
+	background: aqua;
+	padding: 1em;
+}
+
+.owner-action {
+	text-align: center;
+}
+
+.btn-action {
+	padding-top: .2rem;
+}
+
+.achievement-cont {
+	margin-top: 1rem;
+}
+
+.achievement-cont h4 {
+	font-size: 1.2em;
+	color: gold;
+}
+
+.achievement-cont ul {
+	list-style: none;
+	padding-left: 0;
+}
+
+.achievement-cont ul li {
+	font-weight: bold;
+}
+
+.about-me-edit {
+	font-size: 1rem;
+}

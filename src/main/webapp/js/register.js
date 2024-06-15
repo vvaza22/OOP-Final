@@ -1,7 +1,7 @@
 (function() {
 
     function letUserIn(userName) {
-        location.href = "/profile/" + userName;
+        location.href = "/profile?username=" + userName;
     }
 
     function drawError(errorMsg) {
