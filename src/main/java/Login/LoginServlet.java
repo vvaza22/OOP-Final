@@ -1,7 +1,9 @@
 package Login;
 
+import Account.Account;
 import Account.AccountManager;
 import Global.SessionManager;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +23,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/html");
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -38,17 +38,31 @@ public class LoginServlet extends HttpServlet {
         AccountManager acm = ((AccountManager)
                 request.getServletContext().getAttribute("accountManager"));
 
+        // Output JSON to the client
+        response.setContentType("application/json");
+
+        // Prepare the response object
+        JSONObject responseObj = new JSONObject();
+
         if(acm.accountExists(username) && acm.passwordMatches(username, password)) {
 
-            // Remember that the user has just logged in
-            sessionManager.setCurrentUser(acm.getAccount(username));
+            // Get the user account
+            Account userAccount = acm.getAccount(username);
 
-            response.getWriter().print("ok");
+            // Remember that the user has just logged in
+            sessionManager.setCurrentUser(userAccount);
+
+            // Tell the client that the login was successful
+            responseObj.put("status", "success");
+
         } else {
-            response.getWriter().print("no");
+            // Tell the client that the login failed
+            responseObj.put("status", "fail");
         }
 
-    }
+        // Print the response to the client
+        response.getWriter().print(responseObj);
 
+    }
 
 }

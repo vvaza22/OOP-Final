@@ -30,6 +30,12 @@
       <artifactId>mysql-connector-j</artifactId>
       <version>8.2.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20240303</version>
+    </dependency>
     <!-- XSS -->
     <dependency>
       <groupId>org.owasp.encoder</groupId>

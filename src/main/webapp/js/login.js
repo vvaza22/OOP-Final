@@ -20,8 +20,9 @@
         // Listen for the state change
         xhr.onreadystatechange = function() {
             if(this.readyState === 4 && this.status === 200) {
-                var response = xhr.responseText;
-                if(response === "ok") {
+                // Read the server response
+                var response = JSON.parse(xhr.responseText);
+                if(response.status === "success") {
                     letUserIn(userName);
                 } else {
                     drawError();
