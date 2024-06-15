@@ -1,6 +1,7 @@
 package Logout;
 
 import Global.SessionManager;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,16 +24,24 @@ public class LogoutServlet extends HttpServlet {
         // Access the current HTTP session
         SessionManager sessionManager = new SessionManager(request.getSession());
 
-        // Set the Content Type
-        response.setContentType("text/html");
+        // Output JSON to the client
+        response.setContentType("application/json");
+
+        // Prepare the response object
+        JSONObject responseObj = new JSONObject();
 
         if(logoutRequest.equals("logoutRequest")) {
             // Reset the session
             sessionManager.resetCurrentUser();
 
-            response.getWriter().print("ok");
+            // Logout was successful
+            responseObj.put("status", "success");
         } else {
-            response.getWriter().print("no");
+            // Logout failed
+            responseObj.put("status", "fail");
         }
+
+        // Print the response to the client
+        response.getWriter().print(responseObj);
     }
 }

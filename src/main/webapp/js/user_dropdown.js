@@ -11,8 +11,10 @@
 
         xhr.onreadystatechange = function() {
             if(this.readyState === 4 && this.status === 200) {
+                // Parse the server response
+                var response = JSON.parse(this.responseText);
                 // If the request was successful
-                callback(this.responseText);
+                callback(response);
             }
         }
 
@@ -26,7 +28,7 @@
             logout.onclick = function(e) {
                 e.preventDefault();
                 sendLogoutRequest(function(response) {
-                    if(response === "ok") {
+                    if(response.status === "success") {
                         // Redirect to the homepage
                         location.href = "/";
                     } else {
