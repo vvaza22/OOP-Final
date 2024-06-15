@@ -22,6 +22,8 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
 
+        request.getSession();
+
         response.setContentType("text/html");
         if(acm.accountExists(username)) {
             if(acm.passwordMatches(username, password)) {
