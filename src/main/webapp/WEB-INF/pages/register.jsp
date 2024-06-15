@@ -6,10 +6,11 @@
 <jsp:include page="/WEB-INF/components/global/head.jsp" />
 
 <body>
-<jsp:include page="/WEB-INF/components/layout/header.jsp" />
+    <jsp:include page="/WEB-INF/components/layout/header.jsp" />
+    <jsp:include page="/WEB-INF/components/register/main.jsp" />
+    <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
-<jsp:include page="/WEB-INF/components/register/main.jsp" />
-
-<jsp:include page="/WEB-INF/components/layout/footer.jsp" />
+    <!-- Global Javascript -->
+    <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>
 </html>

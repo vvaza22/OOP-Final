@@ -1,3 +1,10 @@
+<%@ page import="Global.SessionManager" %>
+<%@ page import="Account.Account" %>
+<%
+    // Access the current http session
+    SessionManager sessionManager = new SessionManager( request.getSession() );
+%>
+
 <header>
     <nav class="navbar navbar-expand-md navbar-dark navbar--blue">
         <div class="container">
@@ -26,10 +33,30 @@
                     </div>
                 </form>
 
-                <div class="account-buttons">
-                    <a href="/login" class="btn btn-warning">Login</a>
-                    <a href="/register" class="btn btn-warning">Register</a>
-                </div>
+                <% if(sessionManager.isUserLoggedIn()) { %>
+
+                <%
+                    // Get the user account
+                    Account userAccount = sessionManager.getCurrentUserAccount();
+                %>
+                    <div class="account-buttons">
+                        <div id="user-dropdown" class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle">
+                                <%= userAccount.getUserName() %>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a id="user-logout" class="dropdown-item" href="#">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="account-buttons">
+                        <a href="/login" class="btn btn-warning">Login</a>
+                        <a href="/register" class="btn btn-warning">Register</a>
+                    </div>
+                <% } %>
+
             </div>
         </div>
     </nav>

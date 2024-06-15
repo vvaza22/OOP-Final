@@ -9,5 +9,8 @@
     <jsp:include page="/WEB-INF/components/layout/header.jsp" />
     <jsp:include page="/WEB-INF/components/home/main.jsp" />
     <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
+
+    <!-- Global Javascript -->
+    <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>
 </html>

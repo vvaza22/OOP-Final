@@ -1,6 +1,7 @@
 package Login;
 
 import Account.AccountManager;
+import Global.SessionManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,21 +18,35 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
-
-        request.getSession();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         response.setContentType("text/html");
-        if(acm.accountExists(username)) {
-            if(acm.passwordMatches(username, password)) {
-                response.getWriter().print("ok");
-                return;
-            }
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if(username == null || password == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Username or Password field not supplied");
+            return;
         }
-        response.getWriter().print("no");
+
+        // Access the current HTTP session
+        SessionManager sessionManager = new SessionManager(request.getSession());
+
+        AccountManager acm = ((AccountManager)
+                request.getServletContext().getAttribute("accountManager"));
+
+        if(acm.accountExists(username) && acm.passwordMatches(username, password)) {
+
+            // Remember that the user has just logged in
+            sessionManager.setCurrentUser(acm.getAccount(username));
+
+            response.getWriter().print("ok");
+        } else {
+            response.getWriter().print("no");
+        }
 
     }
 

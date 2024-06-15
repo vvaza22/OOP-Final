@@ -27,5 +27,3 @@
         </form>
     </div>
 </main>
-
-<script src="/js/login.js" type="text/javascript"></script>

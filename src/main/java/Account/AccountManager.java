@@ -25,6 +25,10 @@ public class AccountManager {
         return accountList.get(username).checkPassword(password);
     }
 
+    public Account getAccount(String username) {
+        return accountList.get(username);
+    }
+
     public void registerAccount(String firstName, String lastName, String username, String password) {
         Account ac = new Account(
                 firstName,

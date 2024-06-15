@@ -5,9 +5,11 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <!-- Context Listeners -->
   <listener>
     <listener-class>Account.AccountContextListener</listener-class>
   </listener>
+  <!-- Context Listeners END -->
 
   <!-- Servlet Definitions -->
   <servlet>
@@ -25,6 +27,10 @@
   <servlet>
     <servlet-name>ProfileServlet</servlet-name>
     <servlet-class>Profile.ProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>Logout.LogoutServlet</servlet-class>
   </servlet>
   <!-- Servlet Definitions END -->
 
@@ -44,6 +50,10 @@
   <servlet-mapping>
     <servlet-name>ProfileServlet</servlet-name>
     <url-pattern>/profile/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogoutServlet</servlet-name>
+    <url-pattern>/logout</url-pattern>
   </servlet-mapping>
   <!-- Servlet Mapping END -->
 

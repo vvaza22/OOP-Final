@@ -6,10 +6,14 @@
 <jsp:include page="/WEB-INF/components/global/head.jsp" />
 
 <body>
-<jsp:include page="/WEB-INF/components/layout/header.jsp" />
+    <jsp:include page="/WEB-INF/components/layout/header.jsp" />
+    <jsp:include page="/WEB-INF/components/login/main.jsp" />
+    <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
-<jsp:include page="/WEB-INF/components/login/main.jsp" />
+    <!-- Local Javascript -->
+    <script src="/js/login.js" type="text/javascript"></script>
 
-<jsp:include page="/WEB-INF/components/layout/footer.jsp" />
+    <!-- Global Javascript -->
+    <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>
 </html>

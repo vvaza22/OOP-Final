@@ -6,7 +6,7 @@ import Account.Account;
 public class SessionManager {
     private HttpSession session;
 
-    SessionManager(HttpSession session) {
+    public SessionManager(HttpSession session) {
         this.session = session;
     }
 
