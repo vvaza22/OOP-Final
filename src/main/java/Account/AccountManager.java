@@ -1,28 +1,39 @@
 package Account;
 
+import Global.Constants;
+
 import java.util.HashMap;
 
 public class AccountManager {
-    private final HashMap<String, Account> accounts;
+    private final HashMap<String, Account> accountList;
 
     public AccountManager() {
-        accounts = new HashMap<String, Account>();
-        this.registerAccount("giorgi", "pirveli", "gpirveli", "link1", "g.pirveli");
-        this.registerAccount("giorgi", "meore", "gmeore", "link2", "g.meore");
-
+        accountList = new HashMap<String, Account>();
+        this.registerAccount(
+                "Tia",
+                "Alkhazishvili",
+                "tia",
+                "abc123"
+        );
     }
 
     public boolean accountExists(String username) {
-        return accounts.containsKey(username);
+        return accountList.containsKey(username);
     }
 
     public boolean passwordMatches(String username, String password) {
-        return accounts.get(username).checkPassword(password);
+        return accountList.get(username).checkPassword(password);
     }
 
-    public void registerAccount(String firstName, String lastName, String username, String image, String password) {
-        Account ac = new Account(firstName, lastName, username, image, Hash.hashPassword(password));
-        accounts.put(username,ac);
+    public void registerAccount(String firstName, String lastName, String username, String password) {
+        Account ac = new Account(
+                firstName,
+                lastName,
+                username,
+                Constants.NO_IMAGE,
+                Hash.hashPassword(password)
+        );
+        accountList.put(username, ac);
     }
 
 }
