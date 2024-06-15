@@ -9,6 +9,9 @@
   <listener>
     <listener-class>Account.AccountContextListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>Database.DatabaseContextListener</listener-class>
+  </listener>
   <!-- Context Listeners END -->
 
   <!-- Servlet Definitions -->
