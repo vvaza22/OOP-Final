@@ -45,7 +45,7 @@
                                 <%= userAccount.getUserName() %>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">My Profile</a></li>
+                                <li><a class="dropdown-item" href="/profile?username=<%= userAccount.getUserName() %>">My Profile</a></li>
                                 <li><a id="user-logout" class="dropdown-item" href="#">Logout</a></li>
                             </ul>
                         </div>

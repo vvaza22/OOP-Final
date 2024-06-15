@@ -43,7 +43,6 @@
         var dropdown = document.getElementById("user-dropdown");
         if(dropdown != null) {
             dropdown.onclick = function (e) {
-                e.preventDefault();
                 var dropdownMenu = this.querySelector(".dropdown-menu");
 
                 // Toggle the class

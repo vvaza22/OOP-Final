@@ -59,6 +59,23 @@
 	color: #fff;
 }
 
+#user-dropdown > .btn {
+	/* Blue Variant
+		background-color: #1d5bfe;
+		border: 1px solid #0030b1;
+	*/
+	background-color: indianred;
+	border: none;
+	border-radius: 30px;
+}
+
+#user-dropdown:hover > .btn {
+	/* Blue Variant
+		background-color: #0030b1;
+	*/
+	/*background-color: crimson;*/
+}
+
 /* Footer */
 .page-footer {
 	display: flex;
