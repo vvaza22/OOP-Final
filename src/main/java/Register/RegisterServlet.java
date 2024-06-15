@@ -2,6 +2,8 @@ package Register;
 
 import Account.Account;
 import Account.AccountManager;
+import Account.Hash;
+import Global.Constants;
 import Global.SessionManager;
 import org.json.JSONObject;
 
@@ -56,9 +58,9 @@ public class RegisterServlet extends HttpServlet {
         JSONObject responseObj = new JSONObject();
 
         if(!acm.accountExists(username)) {
-
+            Account acc = new Account(firstName, lastName, username, Constants.NO_IMAGE, Hash.hashPassword(password), "user");
             // Register account
-            acm.registerAccount(firstName, lastName, username, password);
+            acm.registerAccount(acc);
 
             // Remember that the user has just logged in
             sessionManager.setCurrentUser(acm.getAccount(username));

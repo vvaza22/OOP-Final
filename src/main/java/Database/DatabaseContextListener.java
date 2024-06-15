@@ -18,6 +18,9 @@ public class DatabaseContextListener implements ServletContextListener {
         // Create Database Object
         Database db = new Database(dataSource);
         servletContextEvent.getServletContext().setAttribute("database", db);
+        // Create Account Manager Object
+        AccountManager acm = new AccountManager(db);
+        servletContextEvent.getServletContext().setAttribute("accountManager", acm);
     }
 
     @Override

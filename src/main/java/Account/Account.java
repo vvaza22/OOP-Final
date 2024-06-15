@@ -36,6 +36,14 @@ public class Account {
         return userName;
     }
 
+    public String getPassHash() {
+        return passHash;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
     public String getImage() {
         return imageLink;
     }
