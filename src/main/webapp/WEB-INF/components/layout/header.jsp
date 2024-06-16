@@ -24,9 +24,9 @@
                     </li>
                 </ul>
 
-                <form id="search-form">
+                <form id="search-form" action="/profile" method="GET">
                     <div class="input-group">
-                        <input class="search-box form-control" type="text" placeholder="Search..." name="search" id="search" autocomplete="off" />
+                        <input class="search-box form-control" type="text" placeholder="Search by username..." name="username" id="search" autocomplete="off" />
                         <button class="btn search-button">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>

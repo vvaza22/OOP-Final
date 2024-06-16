@@ -17,7 +17,9 @@ public class ProfileServlet extends HttpServlet {
         String userName = request.getParameter("username");
 
         if(userName == null || userName.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username must be non-empty.");
+            // response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username must be non-empty.");
+            // If the client just clicked the search button, return them to the home page
+            response.sendRedirect("/");
             return;
         }
 
@@ -40,7 +42,15 @@ public class ProfileServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/pages/profile.jsp")
                     .forward(request, response);
         } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Username.");
+            // response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Username.");
+            // Tell the client that such user does not exist.
+            request.setAttribute("reqUsername", userName);
+
+            // TODO: FIX XSS VULNERABILITY
+
+            // Display the page
+            request.getRequestDispatcher("/WEB-INF/pages/profile.jsp")
+                    .forward(request, response);
         }
 
     }
