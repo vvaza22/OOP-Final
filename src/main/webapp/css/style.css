@@ -244,25 +244,16 @@
 .profile-note {
 	padding: 1rem;
 	margin-right: .5rem;
+
+	flex-grow: 1;
 }
 
-.friends-cont {
-	background-color: crimson;
+.profile-sub-row > .profile-note {
+	border-right: 1px dashed #ccc;
 }
 
-.friends-cont h4 {
-	color: white;
-}
-.friends-cont ul a {
-	color: white;
-}
-
-.my-quizzes-cont {
-	background-color: lightblue;
-}
-
-.quizzes-took-cont {
-	background-color: lightgreen;
+.profile-sub-row > .profile-note:last-child {
+	border: none;
 }
 
 .profile-note ul {
@@ -326,4 +317,8 @@
 
 .about-me-edit {
 	font-size: 1rem;
+}
+
+.btn-round {
+	border-radius: 30px;
 }

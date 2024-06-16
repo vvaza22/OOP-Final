@@ -12,8 +12,8 @@
             <div class="col">
                 <div class="user-profile">
                     <div class="user-action">
-                        <button id="add_friend" class="btn btn-primary">Add Friend</button>
-                        <button id="rem_friend" class="btn btn-danger">Unfriend</button>
+                        <button id="add_friend" class="btn btn-round btn-outline-primary">Add Friend</button>
+                        <button id="rem_friend" class="btn btn-round btn-outline-danger">Unfriend</button>
                     </div>
                     <div class="profile-row">
                         <div class="user-image-cont">
