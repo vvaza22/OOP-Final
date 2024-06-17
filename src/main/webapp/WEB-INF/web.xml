@@ -33,6 +33,10 @@
     <servlet-name>LogoutServlet</servlet-name>
     <servlet-class>Logout.LogoutServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MailServlet</servlet-name>
+    <servlet-class>Mail.MailServlet</servlet-class>
+  </servlet>
   <!-- Servlet Definitions END -->
 
   <!-- Servlet Mapping -->
@@ -55,6 +59,10 @@
   <servlet-mapping>
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MailServlet</servlet-name>
+    <url-pattern>/mail</url-pattern>
   </servlet-mapping>
   <!-- Servlet Mapping END -->
 
