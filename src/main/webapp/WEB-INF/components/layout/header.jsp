@@ -40,14 +40,23 @@
                     Account userAccount = sessionManager.getCurrentUserAccount();
                 %>
                     <div class="account-buttons">
-                        <div id="user-dropdown" class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle">
-                                <%= userAccount.getUserName() %>
+                        <div class="account-button">
+                            <a href="/mail" class="mail-btn">
+                                <div class="fa-solid fa-envelope"></div>
+                                <div class="mail-counter"><span>3</span></div>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/profile?username=<%= userAccount.getUserName() %>">My Profile</a></li>
-                                <li><a id="user-logout" class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
+
+                        </div>
+                        <div class="account-button">
+                            <div id="user-dropdown" class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle">
+                                    <%= userAccount.getUserName() %>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/profile?username=<%= userAccount.getUserName() %>">My Profile</a></li>
+                                    <li><a id="user-logout" class="dropdown-item" href="#">Logout</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 <% } else { %>

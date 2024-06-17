@@ -1,0 +1,46 @@
+.mail-container {
+    margin: 3rem 0;
+}
+
+.mail-tab {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    padding: .5em;
+    cursor: pointer;
+    color: black;
+}
+
+.mail-tab.active {
+    background-color: #0a53be!important;
+    color: #fff;
+}
+
+.mail-tab:hover {
+    background-color: #ddd;
+}
+
+.mail-tabs {
+    border-right: 1px solid #0a53be;
+}
+
+.mail-tab-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: crimson;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: .3em;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.sender-username {
+    color: grey;
+}
