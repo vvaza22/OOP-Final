@@ -86,6 +86,10 @@
 	margin-right: 1rem;
 }
 
+.not-logged-in .account-button {
+	margin-right: .5rem;
+}
+
 .mail-btn {
 	color: #fff!important;
 	font-size: 25px;

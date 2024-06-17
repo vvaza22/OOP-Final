@@ -60,9 +60,13 @@
                         </div>
                     </div>
                 <% } else { %>
-                    <div class="account-buttons">
-                        <a href="/login" class="btn btn-warning">Login</a>
-                        <a href="/register" class="btn btn-warning">Register</a>
+                    <div class="account-buttons not-logged-in">
+                        <div class="account-button">
+                            <a href="/login" class="btn btn-warning">Login</a>
+                        </div>
+                        <div class="account-button">
+                            <a href="/register" class="btn btn-warning">Register</a>
+                        </div>
                     </div>
                 <% } %>
 
