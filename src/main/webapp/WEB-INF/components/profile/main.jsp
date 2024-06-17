@@ -3,6 +3,20 @@
     Account userAccount = (Account) request.getAttribute("userAccount");
 %>
 
+<style>
+    .red-button{
+        color:red;
+    }
+
+    .blue-button{
+        color: blue;
+    }
+
+    .edit-text{
+        width: 100%;
+    }
+</style>
+
 <main class="profile-page">
     <div class="container">
         <div class="row">
@@ -41,8 +55,11 @@
                                 <p><%= userAccount.getUserName() %></p>
                             </div>
                             <div class="about-cont">
-                                <h4>About Me <a class="about-me-edit" href="#">edit</a></h4>
-                                <p>Hi! My name is Tia and I am a professional programmer. I hack websites for fun and I program stuff all day and night.</p>
+                                <h4>About Me <a id="edit-about-me" class="about-me-edit" href="#">edit</a></h4>
+                                <p style="display: block" id="text-about-me" class="original-text"> Hi! My name is Tia and I am a professional programmer. I hack websites for fun and I program stuff all day and night.</p>
+                                <textarea style="display: none" id="write-about-me" class="edit-text">Hi! My name is Tia and I am a professional programmer. I hack websites for fun and I program stuff all day and night.</textarea>
+                                <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
+                                <button style="display: none" id="save-button" class="blue-button" >Save</button>
                             </div>
 
                             <div class="profile-sub-row">
