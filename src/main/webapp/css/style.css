@@ -76,6 +76,39 @@
 	/*background-color: crimson;*/
 }
 
+.account-buttons {
+	display: flex;
+	align-items: center;
+}
+
+.account-button {
+	position: relative;
+	margin-right: 1rem;
+}
+
+.mail-btn {
+	color: #fff!important;
+	font-size: 25px;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+}
+
+.mail-counter {
+	position: absolute;
+	color: white;
+	background-color: crimson;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: .7em;
+	right: -.5em;
+	bottom: -.5em;
+}
+
 /* Footer */
 .page-footer {
 	display: flex;
