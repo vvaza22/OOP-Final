@@ -10,7 +10,7 @@ public class FillBlank extends Question{
 
     @Override
     public int getType() {
-        return 2;
+        return Question.FILL_BLANK;
     }
 
     @Override

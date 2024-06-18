@@ -12,7 +12,7 @@ public class MultipleChoice extends Question{
 
     @Override
     public int getType() {
-        return 3;
+        return Question.MULTIPLE_CHOICE;
     }
     
     public ArrayList<String> getChoices() {

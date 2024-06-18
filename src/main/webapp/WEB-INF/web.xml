@@ -37,6 +37,10 @@
     <servlet-name>MailServlet</servlet-name>
     <servlet-class>Mail.MailServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuizServlet</servlet-name>
+    <servlet-class>Quiz.QuizServlet</servlet-class>
+  </servlet>
   <!-- Servlet Definitions END -->
 
   <!-- Servlet Mapping -->
@@ -63,6 +67,10 @@
   <servlet-mapping>
     <servlet-name>MailServlet</servlet-name>
     <url-pattern>/mail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuizServlet</servlet-name>
+    <url-pattern>/quiz</url-pattern>
   </servlet-mapping>
   <!-- Servlet Mapping END -->
 

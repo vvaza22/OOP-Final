@@ -16,7 +16,7 @@ public class QuestionResponse extends Question{
 
     @Override
     public int getType() {
-        return 1;
+        return Question.QUESTION_RESPONSE;
     }
 
     @Override
