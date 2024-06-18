@@ -36,11 +36,9 @@
 }
 
 .question-cont {
-    padding-top: 1rem;
-}
-
-.question {
-    max-width: 800px;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #ccc;
 }
 
 .answer {
@@ -55,4 +53,17 @@
     display: flex;
     justify-content: space-evenly;
     margin-top: .5rem;
+}
+
+.fill-in-blank {
+    width: 150px;
+}
+
+.question-image-cont {
+    text-align: center;
+}
+
+.question-image-cont > img {
+    width: 200px;
+    height: auto;
 }
