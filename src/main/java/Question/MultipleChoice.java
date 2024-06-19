@@ -40,10 +40,10 @@ public class MultipleChoice extends Question{
     }
 
     @Override
-    public boolean isCorrect(ArrayList<String> userAnswer) {
-        if(userAnswer.isEmpty()) return false;
-        if(answers.isEmpty()) return false;
-        if(userAnswer.get(0).equals(answers.get(0))) return true;
-        return false;
+    public int isCorrect(ArrayList<String> userAnswer) {
+        if(userAnswer.isEmpty()) return 0;
+        if(answers.isEmpty()) return 0;
+        if(userAnswer.get(0).equals(answers.get(0))) return 1;
+        return 0;
     }
 }
