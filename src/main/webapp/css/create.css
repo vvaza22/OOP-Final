@@ -92,6 +92,14 @@
     color: #ccc;
 }
 
+.command-btn {
+    cursor: pointer;
+}
+
+.command-delete:hover {
+    color: red;
+}
+
 .answer-list {
     padding: 1em 0;
 }
