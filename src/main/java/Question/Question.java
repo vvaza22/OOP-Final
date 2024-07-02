@@ -9,19 +9,21 @@ public abstract class Question {
     public static final int MULTIPLE_CHOICE = 3;
     public static final int PICTURE_RESPONSE = 4;
 
-    protected String question;
-    protected boolean caseSensitive;
-    protected ArrayList<String> answers;
-    public Question(String question, boolean caseSensitive, ArrayList<String> answers){
-        this.question = question;
-        this.caseSensitive = caseSensitive;
-        this.answers = answers;
+    protected String questionText;
+    protected int questionType;
+
+    public Question(String questionText, int questionType) {
+        this.questionText = questionText;
+        this.questionType = questionType;
     }
 
-    public abstract String getQuestion();
-    public abstract int getType();
-    public abstract boolean isCaseSensitive();
-    public abstract ArrayList<String> getAnswers();
-    public abstract int isCorrect(ArrayList<String> userAnswer);
-    public abstract int getScore();
+    public String getQuestion() {
+        return questionText;
+    }
+
+    public int getType() {
+        return questionType;
+    }
+
+    public abstract int countPoints();
 }
