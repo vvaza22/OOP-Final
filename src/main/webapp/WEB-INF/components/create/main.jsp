@@ -27,14 +27,12 @@
                 <label for="d_mul_page">Multiple Pages</label>
             </div>
             <div class="option">
-                <p>Users recieve immediate feedback: </p>
                 <input id="immediate" type="checkbox" />
-                <label for="immediate">Immediate Correction</label>
+                <label for="immediate">Immediate Correction <i>(users receive immediate feedback)</i></label>
             </div>
             <div class="option">
-                <p>Allow users to run quiz in a practice mode: </p>
                 <input id="practice_mode" type="checkbox" />
-                <label for="practice_mode">Practice Mode</label>
+                <label for="practice_mode">Practice Mode <i>(allow users to run the quiz in a practice mode)</i></label>
             </div>
         </div>
         <div id="question-wrapper" class="row question-wrapper">

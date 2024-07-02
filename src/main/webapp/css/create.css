@@ -107,3 +107,17 @@
 .picture-input {
     margin-top: 1em;
 }
+
+.option > label > i {
+    color: #aaa;
+}
+
+.option {
+    padding-right: .5em;
+    padding-left: .5em;
+    padding-top: .3em;
+}
+
+.quiz-options {
+    padding-top: .5em;
+}
