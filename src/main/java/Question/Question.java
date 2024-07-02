@@ -22,6 +22,6 @@ public abstract class Question {
     public abstract int getType();
     public abstract boolean isCaseSensitive();
     public abstract ArrayList<String> getAnswers();
-    public abstract boolean isCorrect(ArrayList<String> userAnswer);
+    public abstract int isCorrect(ArrayList<String> userAnswer);
     public abstract int getScore();
 }
