@@ -16,10 +16,10 @@
         "        <span class=\"q-type-label\">Type: Fill in the blank</span>\n" +
         "    </div>\n" +
         "    <p><i>*Type {?} where the blank goes.</i></p>\n" +
-        "    <textarea class=\"form-control\" placeholder=\"e.g. The best heavy metal composer is {?}.\"></textarea>\n" +
+        "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. The best heavy metal composer is {?}.\"></textarea>\n" +
         "    <div class=\"answer-list\">\n" +
-        "        <label for=\"correct\">Correct Answers(Separate with ,): </label>\n" +
-        "        <input id=\"correct\" class=\"form-control\" type=\"text\" placeholder=\"e.g. Mick, Mick Gordon, The guy who did doom music\" />\n" +
+        "        <label for=\"correct_" + uniqueId + "\">Correct Answers(Separate with ,): </label>\n" +
+        "        <input id=\"correct_" + uniqueId + "\" class=\"form-control\" type=\"text\" placeholder=\"e.g. Mick, Mick Gordon, The guy who did doom music\" />\n" +
         "    </div>\n" +
         "</div>\n" +
         "<div class=\"question-command\">\n" +
@@ -43,10 +43,41 @@
         "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
         "        <span class=\"q-type-label\">Type: Question-Response</span>\n" +
         "    </div>\n" +
-        "    <textarea class=\"form-control\" placeholder=\"e.g. Who is the creator of the C Programming Language?\"></textarea>\n" +
+        "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Who is the creator of the C Programming Language?\"></textarea>\n" +
         "    <div class=\"answer-list\">\n" +
-        "        <label for=\"correct\">Correct Answers(Separate with ,): </label>\n" +
-        "        <input id=\"correct\" class=\"form-control\" type=\"text\" placeholder=\"e.g. Dennis Ritchie, Ritchie\" />\n" +
+        "        <label for=\"correct_" + uniqueId + "\">Correct Answers(Separate with ,): </label>\n" +
+        "        <input id=\"correct_" + uniqueId + "\" class=\"form-control\" type=\"text\" placeholder=\"e.g. Dennis Ritchie, Ritchie\" />\n" +
+        "    </div>\n" +
+        "</div>\n" +
+        "<div class=\"question-command\">\n" +
+        "    <div onclick=\"removeQuestion(" + uniqueId + ")\" class=\"command-delete command-btn\"><i class=\"fa-solid fa-xmark\"></i></div>\n" +
+        "    <div class=\"q-move\">\n" +
+        "        <div onclick=\"moveUp(" + uniqueId + ")\" class=\"command-btn\"><i class=\"fa-solid fa-arrow-up\"></i></div>\n" +
+        "        <div onclick=\"moveDown(" + uniqueId + ")\" class=\"command-btn\"><i class=\"fa-solid fa-arrow-down\"></i></div>\n" +
+        "    </div>\n" +
+        "</div>";
+    return container;
+  }
+
+  function genPictureResponse(uniqueId, questionNumber) {
+    let container = document.createElement("div");
+    container.className = "question-cont";
+    container.id = "question_" + uniqueId;
+    container.setAttribute("data-id", uniqueId);
+    container.innerHTML =
+        "<div class=\"question\">\n" +
+        "    <div class=\"q-heading\">\n" +
+        "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
+        "        <span class=\"q-type-label\">Type: Picture-Response</span>\n" +
+        "    </div>\n" +
+        "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Which species of hummingbird do you see in the picture?\"></textarea>\n" +
+        "<div class=\"picture-input\">\n" +
+        "    <label>Picture Link:</label>\n" +
+        "    <input id=\"picture_" + uniqueId + "\" type=\"text\" class=\"form-control\" name=\"picture\" placeholder=\"e.g. https://www.mywebsite.com/path/to/picture.jpg\" />\n" +
+        "</div>" +
+        "    <div class=\"answer-list\">\n" +
+        "        <label for=\"correct_" + uniqueId + "\">Correct Answers(Separate with ,): </label>\n" +
+        "        <input id=\"correct_" + uniqueId + "\" class=\"form-control\" type=\"text\" placeholder=\"e.g. Anna's Hummingbird\" />\n" +
         "    </div>\n" +
         "</div>\n" +
         "<div class=\"question-command\">\n" +
@@ -74,6 +105,9 @@
         break;
       case "q_type_2":
         appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber));
+        break;
+      case "q_type_4":
+        appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber));
         break;
     }
     uniqueIdCounter++;
