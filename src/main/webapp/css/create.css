@@ -121,3 +121,35 @@
 .quiz-options {
     padding-top: .5em;
 }
+
+.choice-cont > * {
+    display: inline-block;
+}
+
+.choice-cont {
+    display: flex;
+    align-items: center;
+    margin-bottom: .4em;
+}
+
+.choice-cont > input[type=text] {
+    margin-left: 1em;
+}
+
+.choice-wrapper {
+    margin-bottom: 1em;
+}
+
+.remove-choice {
+    margin-left: 1em;
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.choice-inst {
+    font-style: italic;
+    color: #2b3035;
+}

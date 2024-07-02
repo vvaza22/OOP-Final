@@ -90,6 +90,47 @@
     return container;
   }
 
+  function genChoice() {
+    let choiceCont = document.createElement("div");
+
+    choiceCont.className = "choice-cont";
+    choiceCont.innerHTML =
+        "<input type=\"radio\" name=\"choice\" />\n" +
+        "<input class=\"form-control\" type=\"text\" placeholder=\"Type possible choice here...\" />\n" +
+        "<div onclick=\"removeChoice(this)\" class=\"btn btn-outline-danger btn-round remove-choice\">Remove</div>";
+
+    return choiceCont;
+  }
+
+  function genMultipleChoice(uniqueId, questionNumber) {
+    let container = document.createElement("div");
+    container.className = "question-cont";
+    container.id = "question_" + uniqueId;
+    container.setAttribute("data-id", uniqueId);
+    container.innerHTML =
+        "<div class=\"question\">\n" +
+        "    <div class=\"q-heading\">\n" +
+        "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
+        "        <span class=\"q-type-label\">Type: Multiple Choice</span>\n" +
+        "    </div>\n" +
+        "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Which species of hummingbird do you see in the picture?\"></textarea>\n" +
+        "    <div class=\"answer-list\">\n" +
+        "<p class=\"choice-inst\">Add choices and then mark the correct one.</p>\n" +
+        "<div id=\"choice_wrapper_" + uniqueId + "\" class=\"choice-wrapper\">" +
+        "</div>" +
+        "<div onclick=\"addChoice(" + uniqueId + ")\" class=\"btn btn-round btn-outline-secondary\">Add Choice</div>\n" +
+        "    </div>\n" +
+        "</div>\n" +
+        "<div class=\"question-command\">\n" +
+        "    <div onclick=\"removeQuestion(" + uniqueId + ")\" class=\"command-delete command-btn\"><i class=\"fa-solid fa-xmark\"></i></div>\n" +
+        "    <div class=\"q-move\">\n" +
+        "        <div onclick=\"moveUp(" + uniqueId + ")\" class=\"command-btn\"><i class=\"fa-solid fa-arrow-up\"></i></div>\n" +
+        "        <div onclick=\"moveDown(" + uniqueId + ")\" class=\"command-btn\"><i class=\"fa-solid fa-arrow-down\"></i></div>\n" +
+        "    </div>\n" +
+        "</div>";
+    return container;
+  }
+
   function appendQuestion(uniqueId, questionElem) {
     const questionWrapper = document.getElementById("question-wrapper");
     questionWrapper.append(questionElem);
@@ -105,6 +146,9 @@
         break;
       case "q_type_2":
         appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber));
+        break;
+      case "q_type_3":
+        appendQuestion(uniqueIdCounter, genMultipleChoice(uniqueIdCounter, questionNumber));
         break;
       case "q_type_4":
         appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber));
@@ -167,6 +211,19 @@
 
       reNumberQuestions();
     }
+
+    window.removeChoice = function(elem) {
+      if(elem != null) {
+        let choiceCont = elem.parentNode;
+        choiceCont.parentNode.removeChild(choiceCont);
+      }
+    }
+
+    window.addChoice = function(uniqueId) {
+      const elemContainer = document.getElementById("choice_wrapper_" + uniqueId);
+      elemContainer.appendChild(genChoice());
+    }
+
   }
 
   hook();
