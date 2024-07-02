@@ -14,7 +14,7 @@
             <div class="collapse navbar-collapse justify-content-between">
                 <ul class="navbar-nav">
                     <li class="navbar-item menu-item">
-                        <a href="#" class="nav-link">Create</a>
+                        <a href="/create" class="nav-link">Create</a>
                     </li>
                     <li class="navbar-item menu-item">
                         <a href="#" class="nav-link">Explore</a>

@@ -1,0 +1,97 @@
+.create-quiz {
+    padding-top: 2em;
+}
+
+.quiz-control {
+    padding: 1em 0;
+    text-align: right;
+}
+
+.option > p {
+    margin: 0;
+}
+
+.option > * {
+    display: inline-block;
+}
+
+.question-control {
+    padding: 2em 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.q-type {
+    display: inline-block;
+    width: 300px;
+}
+
+.question {
+    border-bottom: 1px dashed #ccc;
+}
+
+.q-heading {
+    display: flex;
+    height: 40px;
+    width: 100%;
+    align-items: center;
+}
+
+.q-heading > * {
+    display: inline-block;
+    margin: 0;
+}
+
+.q-type-label {
+    background: blueviolet;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-left: 1em;
+}
+
+.question-cont {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.question {
+    flex-grow: 1;
+}
+
+.question-command {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+.q-move {
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.question-cont {
+    padding: 1em 0;
+}
+
+.question-cont:hover .q-move {
+    opacity: 1;
+}
+
+.command-btn {
+    border: none;
+    padding: .5em;
+    background: transparent;
+}
+
+.command-delete {
+    color: #ccc;
+}
+
+.answer-list {
+    padding: 1em 0;
+}

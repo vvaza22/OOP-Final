@@ -41,6 +41,10 @@
     <servlet-name>QuizServlet</servlet-name>
     <servlet-class>Quiz.QuizServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CreateServlet</servlet-name>
+    <servlet-class>Create.CreateServlet</servlet-class>
+  </servlet>
   <!-- Servlet Definitions END -->
 
   <!-- Servlet Mapping -->
@@ -71,6 +75,10 @@
   <servlet-mapping>
     <servlet-name>QuizServlet</servlet-name>
     <url-pattern>/quiz</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CreateServlet</servlet-name>
+    <url-pattern>/create</url-pattern>
   </servlet-mapping>
   <!-- Servlet Mapping END -->
 
