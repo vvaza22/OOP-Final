@@ -79,10 +79,10 @@ public class QuizServlet extends HttpServlet {
 
         String text4 = "Mark the true sentence that we know for sure";
         ArrayList<Choice> choice4 = new ArrayList<Choice>();
-        choice4.add(new Choice("P = NP", 1));
-        choice4.add(new Choice("P != NP", 2));
-        choice4.add(new Choice("HALTING is NP-HARD", 100));
-        choice4.add(new Choice("ignorance is bliss", 123));
+        choice4.add(new Choice("P = NP", 1, false));
+        choice4.add(new Choice("P != NP", 2, false));
+        choice4.add(new Choice("HALTING is NP-HARD", 100, true));
+        choice4.add(new Choice("ignorance is bliss", 123, false));
         int answer4 = 100;
         Question q4 = new MultipleChoice(text4, choice4, answer4);
 

@@ -1,2 +1,5 @@
-package Quiz;public class QuizManager {
+package Quiz;
+
+public class QuizManager {
+
 }
