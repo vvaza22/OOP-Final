@@ -29,6 +29,7 @@ create table questions
     question_text text not null,
     question_type int  not null,
     picture nvarchar(512) null,
+    question_order int not null,
     constraint questions_pk
         primary key (question_id),
     constraint questions_pk_2
@@ -75,90 +76,96 @@ insert into quiz(
     immediate_correction,
     display_type
 ) values(
-    'Random Knowledge Test',
-    1,
-    1,
-    0,
-    'MULTIPLE_PAGES'
-);
+            'Random Knowledge Test',
+            1,
+            1,
+            0,
+            'MULTIPLE_PAGES'
+        );
 
 -- Question 1
 insert into questions(
     quiz_id,
     question_text,
-    question_type
+    question_type,
+    question_order
 ) values(
-    1,
-    'Who is the creator of the C++ Programming Language?',
-    1
-);
+            1,
+            'Who is the creator of the C++ Programming Language?',
+            1,
+            1
+        );
 
 -- Possible Answer 1
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-    1,
-    'Bjarne Stroustrup'
-);
+             1,
+             'Bjarne Stroustrup'
+         );
 
 -- Possible Answer 2
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-     1,
-     'Stroustrup'
- );
+             1,
+             'Stroustrup'
+         );
 
 -- Question 2
 insert into questions(
     quiz_id,
     question_text,
-    question_type
+    question_type,
+    question_order
 ) values(
-    1,
-    'In 2020 {?} created the best heavy metal OST for DOOM Eternal and shocked the world.',
-    2
-);
+            1,
+            'In 2020 {?} created the best heavy metal OST for DOOM Eternal and shocked the world.',
+            2,
+            3
+        );
 
 -- Possible Answer 1
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-     2,
-     'Mick Gordon'
- );
+             2,
+             'Mick Gordon'
+         );
 
 -- Possible Answer 2
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-     2,
-     'Mick'
- );
+             2,
+             'Mick'
+         );
 
 -- Possible Answer 3
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-     2,
-     'Gordon'
- );
+             2,
+             'Gordon'
+         );
 
 -- Question 3
 insert into questions(
     quiz_id,
     question_text,
-    question_type
+    question_type,
+    question_order
 ) values(
-    1,
-    'Mark the correct sentence.',
-    3
-);
+            1,
+            'Mark the correct sentence.',
+            3,
+            2
+        );
 
 -- Choice 1(Correct)
 insert into choices(
@@ -166,10 +173,10 @@ insert into choices(
     choice_text,
     is_correct
 ) values(
-    3,
-    'If P=NP, everything in NP is NP-HARD',
-    1
-);
+            3,
+            'If P=NP, everything in NP is NP-HARD',
+            1
+        );
 
 -- Choice 2
 insert into choices(
@@ -177,10 +184,10 @@ insert into choices(
     choice_text,
     is_correct
 ) values(
-    3,
-    'P != Co-NP',
-    0
-);
+            3,
+            'P != Co-NP',
+            0
+        );
 
 -- Choice 3
 insert into choices(
@@ -188,32 +195,34 @@ insert into choices(
     choice_text,
     is_correct
 ) values(
-    3,
-    'It is possible that P=EXPTIME',
-    0
-);
+            3,
+            'It is possible that P=EXPTIME',
+            0
+        );
 
 -- Question 4
 insert into questions(
     quiz_id,
     question_text,
     question_type,
-    picture
+    picture,
+    question_order
 ) values(
-    1,
-    'What is depicted in the picture?',
-    4,
-    'https://upload.wikimedia.org/wikipedia/commons/2/21/Mandel_zoom_00_mandelbrot_set.jpg'
-);
+            1,
+            'What is depicted in the picture?',
+            4,
+            'https://upload.wikimedia.org/wikipedia/commons/2/21/Mandel_zoom_00_mandelbrot_set.jpg',
+            4
+        );
 
 -- Possible Answer 1
 insert into text_answers(
     question_id,
     answer_value
 ) values (
-     4,
-     'Mandelbrot Set'
- );
+             4,
+             'Mandelbrot Set'
+         );
 
 -- Example Quiz 2
 insert into quiz(
@@ -223,9 +232,9 @@ insert into quiz(
     immediate_correction,
     display_type
 ) values(
-    'Theoretical Computer Science',
-    1,
-    1,
-    0,
-    'ONE_PAGE'
-);
+            'Theoretical Computer Science',
+            1,
+            1,
+            0,
+            'ONE_PAGE'
+        );
