@@ -165,6 +165,115 @@
     uniqueIdCounter++;
   }
 
+  function dataQuestionResponse(elemNode) {
+    let questionObj = {};
+
+    const questionId = elemNode.dataset["id"];
+    const typeId = parseInt(elemNode.getAttribute("data-type-id"));
+
+    questionObj["type"] = typeId;
+
+    const questionText =
+        document.getElementById("text_" + questionId);
+    questionObj["question"] = questionText.value;
+
+    const answerText =
+        document.getElementById("correct_" + questionId);
+    questionObj["answer"] = answerText.value;
+
+    return questionObj;
+  }
+
+  function dataFillBlank(elemNode) {
+    let questionObj = {};
+
+    const questionId = elemNode.dataset["id"];
+    const typeId = parseInt(elemNode.getAttribute("data-type-id"));
+
+    questionObj["type"] = typeId;
+
+    const questionText =
+        document.getElementById("text_" + questionId);
+    questionObj["question"] = questionText.value;
+
+    const answerText =
+        document.getElementById("correct_" + questionId);
+    questionObj["answer"] = answerText.value;
+
+    return questionObj;
+  }
+
+  function dataMultipleChoice(elemNode) {
+    let questionObj = {};
+
+    const questionId = elemNode.dataset["id"];
+    const typeId = parseInt(elemNode.getAttribute("data-type-id"));
+
+    questionObj["type"] = typeId;
+
+    const questionText =
+        document.getElementById("text_" + questionId);
+    questionObj["question"] = questionText.value;
+    questionObj["choices"] = [];
+
+    const choices =
+        elemNode.querySelectorAll(".choice-wrapper .choice-cont");
+
+    for(let i=0; i<choices.length; i++) {
+      let choiceObj = {};
+
+      let curChoice = choices[i];
+      let textInput = curChoice.querySelector("input[type=text]");
+      let choiceRadio = curChoice.querySelector("input[type=radio]");
+      choiceObj["text"] = textInput.value;
+      choiceObj["isCorrect"] = choiceRadio.checked;
+
+      questionObj["choices"].push(choiceObj);
+    }
+
+    return questionObj;
+  }
+
+  function dataPictureResponse(elemNode) {
+    let questionObj = {};
+
+    const questionId = elemNode.dataset["id"];
+    const typeId = parseInt(elemNode.getAttribute("data-type-id"));
+
+    questionObj["type"] = typeId;
+
+    const questionText =
+        document.getElementById("text_" + questionId);
+    questionObj["question"] = questionText.value;
+
+    const pictureLink =
+        document.getElementById("picture_" + questionId);
+    questionObj["picture"] = pictureLink.value;
+
+    const answerText =
+        document.getElementById("correct_" + questionId);
+    questionObj["answer"] = answerText.value;
+
+    return questionObj;
+  }
+
+  function getQuestionData(elemNode) {
+    const typeName = elemNode.dataset["type"];
+
+    switch(typeName) {
+      case "QUESTION_RESPONSE":
+        return dataQuestionResponse(elemNode);
+      case "FILL_BLANK":
+        return dataFillBlank(elemNode);
+      case "MULTIPLE_CHOICE":
+        return dataMultipleChoice(elemNode);
+      case "PICTURE_RESPONSE":
+        return dataPictureResponse(elemNode);
+    }
+
+    return null;
+  }
+
   function reNumberQuestions() {
     let questionContList = document.querySelectorAll("#question-wrapper > div");
     let counter = 1;
@@ -176,9 +285,48 @@
     }
   }
 
+  function grabQuizData() {
+    let quizData = {};
+
+    const quizName = document.getElementById("quiz-name");
+    quizData["quizName"] = quizName.value;
+
+    const randCheckbox = document.getElementById("randomize");
+    quizData["randomizeOrder"] = randCheckbox.checked;
+
+    const practiceCheckbox = document.getElementById("practice_mode");
+    quizData["practiceMode"] = practiceCheckbox.checked;
+
+    const immediateCheckbox = document.getElementById("practice_mode");
+    quizData["immediateCorrection"] = immediateCheckbox.checked;
+
+    let mulPageRadio = document.getElementById("d_mul_page");
+    if(mulPageRadio.checked) {
+      quizData["displayMode"] = "MULTIPLE_PAGE";
+    } else {
+      quizData["displayMode"] = "ONE_PAGE";
+    }
+
+    // Array for questions
+    quizData["questions"] = [];
+
+    let questionContList = document.querySelectorAll("#question-wrapper > div.question-cont");
+    for(let i=0; i<questionContList.length; i++) {
+      quizData["questions"].push(getQuestionData(questionContList[i]));
+    }
+
+    return quizData;
+  }
+
   function hook() {
     const questionType = document.getElementById("q-type");
     const addButton = document.getElementById("add-question");
+    const publishButton = document.getElementById("publish");
+
+    publishButton.onclick = function(e) {
+      e.preventDefault();
+      sendRequest(grabQuizData());
+    }
 
     addButton.onclick = function(e) {
       e.preventDefault();
@@ -243,6 +391,30 @@
       }
     }
 
+  }
+
+  function sendRequest(quizData) {
+    // Create XHR object
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", "/create", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    // Listen for the state change
+    xhr.onreadystatechange = function() {
+      if(this.readyState === 4 && this.status === 200) {
+        // Read the server response
+        let response = JSON.parse(xhr.responseText);
+        if(response.status === "success") {
+          alert("Quiz was created!");
+        } else {
+          alert(response.errorMsg);
+        }
+      }
+    }
+
+    // Finally, send the request
+    xhr.send("data=" + JSON.stringify(quizData));
   }
 
   hook();
