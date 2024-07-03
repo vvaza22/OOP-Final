@@ -58,7 +58,8 @@ public class RegisterServlet extends HttpServlet {
         JSONObject responseObj = new JSONObject();
 
         if(!acm.accountExists(username)) {
-            Account acc = new Account(firstName, lastName, username, Constants.NO_IMAGE, Hash.hashPassword(password), "user");
+            String defaultAboutMe = "Hello everyone, I am " + username + ", hope we get along well.";
+            Account acc = new Account(firstName, lastName, username, Constants.NO_IMAGE, Hash.hashPassword(password), defaultAboutMe,"user");
             // Register account
             acm.registerAccount(acc);
 

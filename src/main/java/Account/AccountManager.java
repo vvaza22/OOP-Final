@@ -37,6 +37,7 @@ public class AccountManager {
                                         rs.getString("user_name"),
                                         rs.getString("image"),
                                         rs.getString("password_hash"),
+                                        rs.getString("about"),
                                         rs.getString("type")
                 );
                 stmt.close();
@@ -56,13 +57,15 @@ public class AccountManager {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
                     "insert into users (user_name, " +
-                                            "first_name, " +
-                                            "last_name, " +
-                                            "password_hash, " +
-                                            "image, " +
-                                            "type) " +
-                                            "values (?,?,?,?,?,?)"
+                            "first_name, " +
+                            "last_name, " +
+                            "password_hash, " +
+                            "image, " +
+                            "about, " +
+                            "type) " +
+                            "values (?,?,?,?,?,?,?)"
             );
+
 
 
             stmt.setString(1,acc.getUserName());
@@ -70,7 +73,8 @@ public class AccountManager {
             stmt.setString(3,acc.getLastName());
             stmt.setString(4,acc.getPassHash());
             stmt.setString(5,acc.getImage());
-            stmt.setString(6,acc.getUserType());
+            stmt.setString(6, acc.getAboutMe());
+            stmt.setString(7,acc.getUserType());
 
             stmt.executeUpdate();
             stmt.close();
@@ -97,4 +101,24 @@ public class AccountManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void updateAccount(Account acc) {
+        try {
+            Connection con = db.openConnection();
+
+            PreparedStatement stmt = con.prepareStatement(
+                    "update users set about=? where user_name=?"
+            );
+            stmt.setString(1, acc.getAboutMe());
+            stmt.setString(2, acc.getUserName());
+
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

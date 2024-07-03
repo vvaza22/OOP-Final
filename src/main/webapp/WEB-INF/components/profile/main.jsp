@@ -12,6 +12,11 @@
         color: blue;
     }
 
+    .buttons{
+        display: flex;
+        gap: 10px;
+    }
+
     .edit-text{
         width: 100%;
     }
@@ -54,14 +59,18 @@
                             <div class="username-cont">
                                 <p><%= userAccount.getUserName() %></p>
                             </div>
-                            <div class="about-cont">
-                                <h4>About Me <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a></h4>
-                                <p style="display: block" id="text-about-me" class="original-text"> Hi! My name is <%=userAccount.getFirstName()%> and I am a professional programmer. I hack websites for fun and I program stuff all day and night.</p>
-                                <textarea style="display: none" id="write-about-me" class="edit-text">Hi! My name is <%=userAccount.getFirstName()%> and I am a professional programmer. I hack websites for fun and I program stuff all day and night.</textarea>
-                                <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
-                                <button style="display: none" id="save-button" class="blue-button" >Save</button>
-                            </div>
-
+                            <form id="profile-form" action="/profile" method="post">
+                                <div class="about-cont">
+                                    <h4>About Me <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a></h4>
+                                    <p style="display: block" id="text-about-me" class="original-text"> <%=userAccount.getAboutMe()%></p>
+                                    <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
+                                    <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
+                                    <div class="buttons">
+                                        <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
+                                        <button style="display: none" id="save-button" class="blue-button" >Save</button>
+                                    </div>
+                                </div>
+                            </form>
                             <div class="profile-sub-row">
                                 <div class="profile-note friends-cont">
                                     <h4>My Friends <span class="num-friends">(3)</span></h4>

@@ -14,6 +14,7 @@ class AccountTest {
                 "g.pirveli",
                 "link1",
                 Hash.hashPassword("g.pirveli"),
+                "Hi, I hate Boston Celtics",
                 "admin"
         );
         assertTrue(ac1.checkPassword("g.pirveli"));
