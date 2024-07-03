@@ -4,12 +4,13 @@
   let questionList = [];
   let uniqueIdCounter = 1;
 
-  function genFillBlank(uniqueId, questionNumber, typeText, typeName) {
+  function genFillBlank(uniqueId, questionNumber, typeText, typeId, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
     container.setAttribute("data-type", typeName);
+    container.setAttribute("data-type-id", typeId);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
@@ -33,12 +34,13 @@
     return container;
   }
 
-  function genQuestionResponse(uniqueId, questionNumber, typeText, typeName) {
+  function genQuestionResponse(uniqueId, questionNumber, typeText, typeId, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
     container.setAttribute("data-type", typeName);
+    container.setAttribute("data-type-id", typeId);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
@@ -61,12 +63,13 @@
     return container;
   }
 
-  function genPictureResponse(uniqueId, questionNumber, typeText, typeName) {
+  function genPictureResponse(uniqueId, questionNumber, typeText, typeId, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
     container.setAttribute("data-type", typeName);
+    container.setAttribute("data-type-id", typeId);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
@@ -105,12 +108,13 @@
     return choiceCont;
   }
 
-  function genMultipleChoice(uniqueId, questionNumber, typeText, typeName) {
+  function genMultipleChoice(uniqueId, questionNumber, typeText, typeId, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
     container.setAttribute("data-type", typeName);
+    container.setAttribute("data-type-id", typeId);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
@@ -146,16 +150,16 @@
     let questionNumber = questionList.length + 1;
     switch(selectedTypeName) {
       case "QUESTION_RESPONSE":
-        appendQuestion(uniqueIdCounter, genQuestionResponse(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
+        appendQuestion(uniqueIdCounter, genQuestionResponse(uniqueIdCounter, questionNumber, qTypeText, qType, selectedTypeName));
         break;
       case "FILL_BLANK":
-        appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
+        appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber, qTypeText, qType, selectedTypeName));
         break;
       case "MULTIPLE_CHOICE":
-        appendQuestion(uniqueIdCounter, genMultipleChoice(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
+        appendQuestion(uniqueIdCounter, genMultipleChoice(uniqueIdCounter, questionNumber, qTypeText, qType, selectedTypeName));
         break;
       case "PICTURE_RESPONSE":
-        appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
+        appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber, qTypeText, qType, selectedTypeName));
         break;
     }
     uniqueIdCounter++;
