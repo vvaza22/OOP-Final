@@ -16,19 +16,19 @@
                 <p>Randomize Questions: </p>
                 <input id="rand_yes" name="rand" type="radio" />
                 <label for="rand_yes">Yes</label>
-                <input id="rand_no" name="rand" type="radio" />
+                <input id="rand_no" name="rand" type="radio" checked />
                 <label for="rand_no">No</label>
             </div>
             <div class="option">
                 <p>Display questions in: </p>
-                <input id="d_one_page" name="display" type="radio" />
+                <input onchange="pageChange(this)" id="d_one_page" name="display" type="radio" checked />
                 <label for="d_one_page">One Page</label>
-                <input id="d_mul_page" name="display" type="radio" />
+                <input onchange="pageChange(this)" id="d_mul_page" name="display" type="radio" />
                 <label for="d_mul_page">Multiple Pages</label>
             </div>
             <div class="option">
-                <input id="immediate" type="checkbox" />
-                <label for="immediate">Immediate Correction <i>(users receive immediate feedback)</i></label>
+                <input id="immediate" type="checkbox" disabled />
+                <label for="immediate">Immediate Correction <i>(users receive immediate feedback, only for multiple pages)</i></label>
             </div>
             <div class="option">
                 <input id="practice_mode" type="checkbox" />

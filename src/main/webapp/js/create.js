@@ -224,6 +224,16 @@
       elemContainer.appendChild(genChoice());
     }
 
+    window.pageChange = function(elem) {
+      const immediate = document.getElementById("immediate");
+      if(elem.id === "d_one_page") {
+        immediate.checked = false;
+        immediate.disabled = true;
+      } else {
+        immediate.disabled = false;
+      }
+    }
+
   }
 
   hook();
