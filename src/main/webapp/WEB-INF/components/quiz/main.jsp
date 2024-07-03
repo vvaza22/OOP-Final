@@ -38,18 +38,18 @@
             request.setAttribute("currentQuestion", curQuestion);
 
             switch(curQuestion.getType()) {
-                case Question.QUESTION_RESPONSE:
+                case QuestionType.QUESTION_RESPONSE:
                 %><jsp:include page="question_response.jsp" /><%
                 break;
 
-                case Question.FILL_BLANK:
+                case QuestionType.FILL_BLANK:
                 %><jsp:include page="fill_blank.jsp" /><%
                 break;
 
-                case Question.MULTIPLE_CHOICE:
+                case QuestionType.MULTIPLE_CHOICE:
                 %><jsp:include page="multiple_choice.jsp" /><% break;
 
-                case Question.PICTURE_RESPONSE:
+                case QuestionType.PICTURE_RESPONSE:
                 %><jsp:include page="picture_response.jsp" /><%
                 break;
             }

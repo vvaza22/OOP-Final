@@ -14,7 +14,7 @@ public class MultipleChoice extends Question {
             ArrayList<Choice> choiceList,
             int correctAnswerIndex
     ) {
-        super(questionText, MULTIPLE_CHOICE);
+        super(questionText, QuestionType.MULTIPLE_CHOICE);
         this.choiceList = choiceList;
         this.correctAnswerIndex = correctAnswerIndex;
     }

@@ -8,7 +8,7 @@ public class PictureResponse extends TextQuestion {
     private final String pictureLink;
 
     public PictureResponse(String questionText, String pictureLink, ArrayList<String> correctAnswerList) {
-        super(questionText, PICTURE_RESPONSE, correctAnswerList);
+        super(questionText, QuestionType.PICTURE_RESPONSE, correctAnswerList);
         this.pictureLink = pictureLink;
     }
 

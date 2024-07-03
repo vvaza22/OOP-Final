@@ -1,8 +1,9 @@
 <%@ page import="java.util.HashMap" %>
+<%@ page import="Question.QuestionType" %>
 <link rel="stylesheet" href="/css/create.css" />
 
 <%
-    HashMap<Integer, String> qTypes = (HashMap<Integer, String>) request.getAttribute("qTypes");
+    HashMap<Integer, QuestionType> qTypes = (HashMap<Integer, QuestionType>) request.getAttribute("qTypes");
 %>
 
 <div class="container create-quiz">
@@ -42,14 +43,13 @@
                 <label for="q-type">Question Type: </label>
                 <select class="form-select q-type" id="q-type" name="q-type">
                     <% for(Integer typeId : qTypes.keySet()) { %>
-                    <option value="q_type_<%= typeId %>"><%= qTypes.get(typeId) %></option>
+                    <option data-name="<%= qTypes.get(typeId).getTypeName() %>" value="<%= typeId %>"><%= qTypes.get(typeId).getTypeText() %></option>
                     <% } %>
                 </select>
                 <button id="add-question" class="btn btn-primary btn-round">Add Question</button>
             </div>
         </div>
         <div class="quiz-control">
-            <button class="btn btn-round btn-outline-danger">Discard Quiz</button>
             <button class="btn btn-round btn-outline-success">Publish Quiz</button>
         </div>
     </form>

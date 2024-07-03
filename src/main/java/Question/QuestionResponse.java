@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class QuestionResponse extends TextQuestion {
 
     public QuestionResponse(String questionText, ArrayList<String> answerList) {
-        super(questionText, QUESTION_RESPONSE, answerList);
+        super(questionText, QuestionType.QUESTION_RESPONSE, answerList);
     }
 
 }

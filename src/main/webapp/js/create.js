@@ -4,16 +4,17 @@
   let questionList = [];
   let uniqueIdCounter = 1;
 
-  function genFillBlank(uniqueId, questionNumber) {
+  function genFillBlank(uniqueId, questionNumber, typeText, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
+    container.setAttribute("data-type", typeName);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
         "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
-        "        <span class=\"q-type-label\">Type: Fill in the blank</span>\n" +
+        "        <span class=\"q-type-label\">" + typeText + "</span>\n" +
         "    </div>\n" +
         "    <p><i>*Type {?} where the blank goes.</i></p>\n" +
         "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. The best heavy metal composer is {?}.\"></textarea>\n" +
@@ -32,16 +33,17 @@
     return container;
   }
 
-  function genQuestionResponse(uniqueId, questionNumber) {
+  function genQuestionResponse(uniqueId, questionNumber, typeText, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
+    container.setAttribute("data-type", typeName);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
         "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
-        "        <span class=\"q-type-label\">Type: Question-Response</span>\n" +
+        "        <span class=\"q-type-label\">" + typeText + "</span>\n" +
         "    </div>\n" +
         "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Who is the creator of the C Programming Language?\"></textarea>\n" +
         "    <div class=\"answer-list\">\n" +
@@ -59,16 +61,17 @@
     return container;
   }
 
-  function genPictureResponse(uniqueId, questionNumber) {
+  function genPictureResponse(uniqueId, questionNumber, typeText, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
+    container.setAttribute("data-type", typeName);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
         "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
-        "        <span class=\"q-type-label\">Type: Picture-Response</span>\n" +
+        "        <span class=\"q-type-label\">" + typeText + "</span>\n" +
         "    </div>\n" +
         "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Which species of hummingbird do you see in the picture?\"></textarea>\n" +
         "<div class=\"picture-input\">\n" +
@@ -102,16 +105,17 @@
     return choiceCont;
   }
 
-  function genMultipleChoice(uniqueId, questionNumber) {
+  function genMultipleChoice(uniqueId, questionNumber, typeText, typeName) {
     let container = document.createElement("div");
     container.className = "question-cont";
     container.id = "question_" + uniqueId;
     container.setAttribute("data-id", uniqueId);
+    container.setAttribute("data-type", typeName);
     container.innerHTML =
         "<div class=\"question\">\n" +
         "    <div class=\"q-heading\">\n" +
         "        <h5><b>Question #<span id=\"question_header_" + uniqueId + "\">" + questionNumber + "</span></b></h5>\n" +
-        "        <span class=\"q-type-label\">Type: Multiple Choice</span>\n" +
+        "        <span class=\"q-type-label\">" + typeText + "</span>\n" +
         "    </div>\n" +
         "    <textarea id=\"text_" + uniqueId + "\" class=\"form-control\" placeholder=\"e.g. Which species of hummingbird do you see in the picture?\"></textarea>\n" +
         "    <div class=\"answer-list\">\n" +
@@ -137,21 +141,21 @@
     questionList.push(uniqueId);
   }
 
-  function addQuestion(qType, qTypeText) {
+  function addQuestion(qType, selectedTypeName, qTypeText) {
     // Generate Question Number
     let questionNumber = questionList.length + 1;
-    switch(qType) {
-      case "q_type_1":
-        appendQuestion(uniqueIdCounter, genQuestionResponse(uniqueIdCounter, questionNumber));
+    switch(selectedTypeName) {
+      case "QUESTION_RESPONSE":
+        appendQuestion(uniqueIdCounter, genQuestionResponse(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
         break;
-      case "q_type_2":
-        appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber));
+      case "FILL_BLANK":
+        appendQuestion(uniqueIdCounter, genFillBlank(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
         break;
-      case "q_type_3":
-        appendQuestion(uniqueIdCounter, genMultipleChoice(uniqueIdCounter, questionNumber));
+      case "MULTIPLE_CHOICE":
+        appendQuestion(uniqueIdCounter, genMultipleChoice(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
         break;
-      case "q_type_4":
-        appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber));
+      case "PICTURE_RESPONSE":
+        appendQuestion(uniqueIdCounter, genPictureResponse(uniqueIdCounter, questionNumber, qTypeText, selectedTypeName));
         break;
     }
     uniqueIdCounter++;
@@ -176,7 +180,8 @@
       e.preventDefault();
       let selectedValue = questionType.value;
       let selectedIndex = questionType.selectedIndex;
-      addQuestion(selectedValue, questionType.options[selectedIndex].text);
+      let selectedTypeName = questionType.options[selectedIndex].dataset.name;
+      addQuestion(selectedValue, selectedTypeName, questionType.options[selectedIndex].text);
     }
 
     window.removeQuestion = function(questionId) {
