@@ -5,6 +5,7 @@
     var cancelButt = document.getElementById("cancel-button");
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
+    var aboutMeForm = document.getElementById("profile-form");
 
     function cancelButton(){
         cancelButt.onclick = function (e){
@@ -27,17 +28,24 @@
     function saveButton(){
         saveButt.onclick = function (e){
             e.preventDefault();
-            origText.textContent = editText.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/profile", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    origText.textContent = editText.value;
 
-            origText.style.display = "block";
+                    origText.style.display = "block";
 
-            editButt.style.display = "block";
+                    editText.style.display = "none";
 
-            editText.style.display = "none";
+                    editButt.style.display = "block";
 
-            cancelButt.style.display = "none";
+                    cancelButt.style.display = "none";
 
-            saveButt.style.display = "none";
+                    saveButt.style.display = "none";
+                }
+            }
         }
     }
 

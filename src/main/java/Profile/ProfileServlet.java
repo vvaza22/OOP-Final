@@ -2,6 +2,7 @@ package Profile;
 
 import Account.Account;
 import Account.AccountManager;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -54,4 +55,43 @@ public class ProfileServlet extends HttpServlet {
         }
 
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String userName = request.getParameter("username");
+        String aboutMe = request.getParameter("aboutMe");
+
+        if(
+                aboutMe == null ||
+                aboutMe.isEmpty() ||
+                userName == null ||
+                userName.isEmpty()
+        ) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "About me field not supplied");
+            return;
+        }
+
+        response.setContentType("application/json");
+        JSONObject responseObj = new JSONObject();
+        AccountManager acm = ((AccountManager)
+                request.getServletContext().getAttribute("accountManager"));
+        Account userAccount = acm.getAccount(userName);
+
+        if(!Account.isValidUsername(userName)){
+
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+                    "Username is not valid");
+            responseObj.put("status", "fail");
+            responseObj.put("errorMsg", "User \"" + userName + "\" does not exists.");
+
+        }else {
+
+            responseObj.put("status", "success");
+            userAccount.setAboutMe(aboutMe);
+            acm.updateAccount(userAccount);
+
+        }
+        response.getWriter().print(responseObj);
+    }
+
 }

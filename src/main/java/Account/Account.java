@@ -7,6 +7,7 @@ public class Account {
     private String imageLink;
     private String passHash;
     private String userType;
+    private String aboutMe;
 
     public Account(
             String firstName,
@@ -14,6 +15,7 @@ public class Account {
             String userName,
             String imageLink,
             String passHash,
+            String aboutMe,
             String userType
     ) {
         this.firstName = firstName;
@@ -22,23 +24,20 @@ public class Account {
         this.imageLink = imageLink;
         this.passHash = passHash;
         this.userType = userType;
+        this.aboutMe = aboutMe;
     }
 
     public static boolean isValidUsername(String username) {
         return username.matches("^[A-Za-z0-9._-]+$");
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
 
     public String getLastName() {
         return lastName;
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserName() { return userName; }
 
     public String getPassHash() {
         return passHash;
@@ -60,4 +59,7 @@ public class Account {
         return userType.equals("admin");
     }
 
+    public String getAboutMe() { return aboutMe; }
+
+    public String setAboutMe(String aboutMe) { return this.aboutMe = aboutMe; }
 }
