@@ -1,6 +1,7 @@
 package Database;
 
 import Account.AccountManager;
+import Quiz.QuizManager;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.servlet.ServletContextEvent;
@@ -21,6 +22,9 @@ public class DatabaseContextListener implements ServletContextListener {
         // Create Account Manager Object
         AccountManager acm = new AccountManager(db);
         servletContextEvent.getServletContext().setAttribute("accountManager", acm);
+        // Create Quiz Manager Object
+        QuizManager qm = new QuizManager(db);
+        servletContextEvent.getServletContext().setAttribute("quizManager", qm);
     }
 
     @Override
