@@ -4,7 +4,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,7 +91,6 @@ public class CreateServlet extends HttpServlet {
                     message = createQuestionResponse(type, text, answer, questions);
                     break;
                 case QuestionType.PICTURE_RESPONSE:
-                    System.out.println("here too");
                     String picture = questionObj.getString("picture");
                     answer = questionObj.getString("answer");
                     message = createPictureResponse(type, text, picture, answer, questions);

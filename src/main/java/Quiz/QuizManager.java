@@ -235,7 +235,7 @@ public class QuizManager {
                             " values(?, ?, ?, ?, ?)"
             );
             stmt.setLong(1, attemptId);
-            stmt.setString(2, question.getQuestion());
+            stmt.setString(2, question.getQuestionText());
             stmt.setString(3, getUserAnswerFromQuestion(question));
             stmt.setString(4, getCorrectAnswerFromQuestion(question));
             stmt.setInt(5, question.countPoints());
