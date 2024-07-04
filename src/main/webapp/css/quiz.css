@@ -20,6 +20,11 @@
     transition: none;
     color: black;
 }
+.question-link.review {
+    width: auto;
+    height: 25px;
+    padding: 0 1em;
+}
 
 .question-link.active {
     background-color: #198754;

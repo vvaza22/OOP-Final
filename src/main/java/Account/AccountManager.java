@@ -32,6 +32,7 @@ public class AccountManager {
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
                 Account ac = new Account(
+                                        rs.getInt("id"),
                                         rs.getString("first_name"),
                                         rs.getString("last_name"),
                                         rs.getString("user_name"),
