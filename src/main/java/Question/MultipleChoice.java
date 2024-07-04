@@ -25,6 +25,24 @@ public class MultipleChoice extends Question {
         return choiceList;
     }
 
+    public Choice getCorrectChoice() {
+        for(Choice choice : choiceList) {
+            if(choice.isCorrect()) {
+                return choice;
+            }
+        }
+        return null;
+    }
+
+    public Choice getUserChoice() {
+        for(Choice choice : choiceList) {
+            if(choice.getId() == userAnswer) {
+                return choice;
+            }
+        }
+        return null;
+    }
+
     public int getCorrectAnswerIndex() {
         return correctAnswerIndex;
     }

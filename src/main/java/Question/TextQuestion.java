@@ -9,13 +9,13 @@ public abstract class TextQuestion extends Question {
     /* Current user answer */
     protected String userAnswer;
 
-    public TextQuestion(String questionText, int questionType, int questionId, ArrayList<String> correctAnswerList) {
+    public TextQuestion(String questionText, int questionType, int questionId, ArrayList<String> ansList) {
         super(questionText, questionType, questionId);
-        addAnswers(correctAnswerList);
+        addAnswers(ansList);
     }
 
     private void addAnswers(ArrayList<String> answerList) {
-        this.correctAnswerList = new ArrayList<String>(answerList);
+        this.correctAnswerList = new ArrayList<>();
         this.userAnswer = null;
         for(String answer : answerList) {
             this.correctAnswerList.add(answer.toLowerCase());

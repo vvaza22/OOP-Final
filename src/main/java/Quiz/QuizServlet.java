@@ -207,6 +207,8 @@ public class QuizServlet extends HttpServlet {
 
             long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
 
+            sessionManager.endCurrentQuiz();
+
             if(attemptId != -1) {
                 // Print success to the client
                 responseObj.put("status", "success");

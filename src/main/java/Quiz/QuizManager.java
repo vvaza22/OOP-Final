@@ -1,5 +1,6 @@
 package Quiz;
 
+import Account.Account;
 import Database.Database;
 import Question.*;
 import org.json.JSONObject;
@@ -200,6 +201,7 @@ public class QuizManager {
                 ResultSet rs = stmt.getGeneratedKeys();
                 if(rs.next()) {
                     attemptId = rs.getLong(1);
+                    saveUserAnswers(attemptId, quiz, con);
                 }
             }
 
@@ -210,6 +212,177 @@ public class QuizManager {
         }
 
         return attemptId;
+    }
+
+    private void saveUserAnswers(long attemptId, Quiz quiz, Connection con) {
+        ArrayList<Question> questionList = quiz.getQuestions();
+
+        for(Question question : questionList) {
+            saveUserAnswer(attemptId, question, con);
+        }
+
+    }
+
+    private void saveUserAnswer(long attemptId, Question question, Connection con) {
+        try {
+            PreparedStatement stmt = con.prepareStatement(
+                    "insert into user_answers(attempt_id, question, user_answer, correct_answer, points)" +
+                            " values(?, ?, ?, ?, ?)"
+            );
+            stmt.setLong(1, attemptId);
+            stmt.setString(2, question.getQuestion());
+            stmt.setString(3, getUserAnswerFromQuestion(question));
+            stmt.setString(4, getCorrectAnswerFromQuestion(question));
+            stmt.setInt(5, question.countPoints());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getUserAnswerFromQuestion(Question question) {
+        switch (question.getType()) {
+            case QuestionType.QUESTION_RESPONSE:
+            case QuestionType.FILL_BLANK:
+            case QuestionType.PICTURE_RESPONSE:
+                TextQuestion textQuestion = (TextQuestion) question;
+                String userAnswer = textQuestion.getUserAnswer();
+                if(userAnswer == null || userAnswer.isEmpty()) {
+                    userAnswer = "*Not answered";
+                }
+                return userAnswer;
+            case QuestionType.MULTIPLE_CHOICE:
+                MultipleChoice multipleChoice = (MultipleChoice) question;
+                Choice userChoice = multipleChoice.getUserChoice();
+                if(userChoice == null) {
+                    return "*Not answered";
+                }
+                return userChoice.getText();
+        }
+        return "Unknown Question Type";
+    }
+
+    private String getCorrectAnswerFromQuestion(Question question) {
+        switch (question.getType()) {
+            case QuestionType.QUESTION_RESPONSE:
+            case QuestionType.FILL_BLANK:
+            case QuestionType.PICTURE_RESPONSE:
+                TextQuestion textQuestion = (TextQuestion) question;
+                ArrayList<String> correctAnswers = textQuestion.getCorrectAnswers();
+                return String.join(", ", correctAnswers);
+            case QuestionType.MULTIPLE_CHOICE:
+                MultipleChoice multipleChoice = (MultipleChoice) question;
+                Choice correctChoice = multipleChoice.getCorrectChoice();
+                return correctChoice.getText();
+        }
+        return "Unknown Question Type";
+    }
+
+    public ArrayList<UserAnswer> getUserAnswers(int attemptId, Connection con) {
+        ArrayList<UserAnswer> userAnswers = new ArrayList<>();
+        try {
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from user_answers where attempt_id=?"
+            );
+            stmt.setInt(1, attemptId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                UserAnswer userAnswer = new UserAnswer(
+                    attemptId,
+                    rs.getString("question"),
+                    rs.getString("user_answer"),
+                    rs.getString("correct_answer"),
+                    rs.getInt("points")
+                );
+                userAnswers.add(userAnswer);
+            }
+
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return userAnswers;
+    }
+
+    public Attempt getAttempt(int attemptId) {
+        try {
+            Connection con = db.openConnection();
+
+            PreparedStatement stmt = con.prepareStatement(
+                    "select *, date_format(attempt_time, '%M %e, %Y %H:%i') as finish_time from attempts where attempt_id=?"
+            );
+            stmt.setInt(1, attemptId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Attempt attempt = new Attempt(
+                        rs.getInt("attempt_id"),
+                        rs.getInt("quiz_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("max_possible"),
+                        rs.getInt("score"),
+                        rs.getString("finish_time"),
+                        getUserAnswers(attemptId, con)
+                );
+
+                stmt.close();
+                con.close();
+
+                return attempt;
+            }
+
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Attempt object does not exist
+        return null;
+    }
+
+    public ArrayList<Attempt> getAttemptList(int userId, int quizId) {
+        ArrayList<Attempt> attemptList = new ArrayList<Attempt>();
+        try {
+            Connection con = db.openConnection();
+
+            PreparedStatement stmt = con.prepareStatement(
+                    "select *, date_format(attempt_time, '%M %e, %Y %H:%i') as finish_time from attempts where user_id=? and quiz_id=? order by attempt_time desc"
+            );
+            stmt.setInt(1, userId);
+            stmt.setInt(2, quizId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                Attempt attempt = new Attempt(
+                        rs.getInt("attempt_id"),
+                        rs.getInt("quiz_id"),
+                        rs.getInt("user_id"),
+                        rs.getInt("max_possible"),
+                        rs.getInt("score"),
+                        rs.getString("finish_time"),
+                        getUserAnswers(rs.getInt("attempt_id"), con)
+                );
+                attemptList.add(attempt);
+            }
+
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return attemptList;
     }
 
     private int getCorrectIndex(ArrayList<Choice> choiceList) {
