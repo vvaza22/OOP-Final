@@ -20,5 +20,5 @@
         <% } %>
     </ol>
 
-    <button class="btn btn-round btn-primary">Finish and Submit</button>
+    <button onclick="finishAttempt()" class="btn btn-round btn-primary">Finish and Submit</button>
 </div>

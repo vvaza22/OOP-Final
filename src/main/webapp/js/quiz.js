@@ -92,6 +92,8 @@
         if(markedIndex.length > 0) {
             dataObj["answer_index"] = markedIndex;
             sendRequest(questionId, dataObj, callback);
+        } else {
+            callback();
         }
     }
     window.multipleChoicePrev = function(questionId, questionIndex) {
@@ -137,5 +139,35 @@
         })
     }
 
+    function sendFinishAttempt(callback) {
+        // Create XHR object
+        const xhr = new XMLHttpRequest();
+
+        // We need to send POST request to /login
+        xhr.open("POST", "/quiz", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        // Listen for the state change
+        xhr.onreadystatechange = function() {
+            if(this.readyState === 4 && this.status === 200) {
+                // Read the server response
+                let response = JSON.parse(xhr.responseText);
+                if(response.status === "success") {
+                    callback(response.attempt_id);
+                } else {
+                    // Error
+                }
+            }
+        }
+
+        // Finally, send the request
+        xhr.send("action=finish_attempt");
+    }
+
+    window.finishAttempt = function() {
+        sendFinishAttempt(function (attempt_id) {
+            location.href = "/attempt?attempt_id=" + attempt_id;
+        });
+    }
 
 })();

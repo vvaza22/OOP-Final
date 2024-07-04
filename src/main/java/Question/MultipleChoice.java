@@ -42,6 +42,11 @@ public class MultipleChoice extends Question {
     }
 
     @Override
+    public int getMaxScore() {
+        return 1;
+    }
+
+    @Override
     public boolean hasAnswer() {
         return this.userAnswer != -1;
     }

@@ -83,4 +83,20 @@ public class Quiz {
         }
     }
 
+    public int getMaxScore() {
+        int maxScore = 0;
+        for(Question question : questionList) {
+            maxScore += question.getMaxScore();
+        }
+        return maxScore;
+    }
+
+    public int countScore() {
+        int score = 0;
+        for(Question question : questionList) {
+            score += question.countPoints();
+        }
+        return score;
+    }
+
 }

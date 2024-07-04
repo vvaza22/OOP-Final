@@ -26,6 +26,7 @@ public abstract class Question {
         return questionId;
     }
 
+    public abstract int getMaxScore();
     public abstract int countPoints();
     public abstract boolean hasAnswer();
 }

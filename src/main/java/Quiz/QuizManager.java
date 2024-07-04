@@ -2,6 +2,7 @@ package Quiz;
 
 import Database.Database;
 import Question.*;
+import org.json.JSONObject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -161,7 +162,7 @@ public class QuizManager {
                 Choice curChoice = new Choice(
                         rs.getString("choice_text"),
                         rs.getInt("choice_id"),
-                        rs.getBoolean("is_correct")
+                        rs.getInt("is_correct") == 1
                 );
                 choiceList.add(curChoice);
             }
@@ -172,6 +173,43 @@ public class QuizManager {
         }
 
         return choiceList;
+    }
+
+    public long saveAttempt(int userId, Quiz quiz) {
+        int maxScore = quiz.getMaxScore();
+        int userScore = quiz.countScore();
+
+        long attemptId = -1;
+
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "insert into attempts(quiz_id, user_id, max_possible, score) values(?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            stmt.setInt(1, quiz.getId());
+            stmt.setInt(2, userId);
+            stmt.setInt(3, maxScore);
+            stmt.setInt(4, userScore);
+
+            int affectedRows = stmt.executeUpdate();
+            if(affectedRows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if(rs.next()) {
+                    attemptId = rs.getLong(1);
+                }
+            }
+
+            stmt.close();
+            con.close();
+        } catch(SQLException ignore) {
+
+        }
+
+        return attemptId;
     }
 
     private int getCorrectIndex(ArrayList<Choice> choiceList) {

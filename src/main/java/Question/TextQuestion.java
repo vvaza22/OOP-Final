@@ -44,6 +44,11 @@ public abstract class TextQuestion extends Question {
         return isAnswerCorrect() ? 1 : 0;
     }
 
+    @Override
+    public int getMaxScore() {
+        return 1;
+    }
+
     private boolean isAnswerCorrect() {
         return this.correctAnswerList.contains(userAnswer.toLowerCase());
     }

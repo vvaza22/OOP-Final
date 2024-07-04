@@ -89,6 +89,11 @@ public class QuizServlet extends HttpServlet {
             return;
         }
 
+        int curUserId = sessionManager.getCurrentUserAccount().getUserId();
+
+        // Get the quiz manager
+        QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
+
         // Get the action we are performing
         String action = request.getParameter("action");
 
@@ -98,9 +103,6 @@ public class QuizServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to finish the quiz you are taking to take a new one!");
                 return;
             }
-
-            // Get the quiz manager
-            QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
 
             // Which quiz are we taking?
             String quizId = request.getParameter("quiz_id");
@@ -170,12 +172,16 @@ public class QuizServlet extends HttpServlet {
                 case QuestionType.QUESTION_RESPONSE:
                     answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
                     QuestionResponse questionResponse = (QuestionResponse)currentQuestion;
-                    questionResponse.setAnswer(answer);
+                    if(!answer.isEmpty()) {
+                        questionResponse.setAnswer(answer);
+                    }
                     break;
                 case QuestionType.FILL_BLANK:
                     answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
                     FillBlank fillBlank = (FillBlank)currentQuestion;
-                    fillBlank.setAnswer(answer);
+                    if(!answer.isEmpty()) {
+                        fillBlank.setAnswer(answer);
+                    }
                     break;
                 case QuestionType.MULTIPLE_CHOICE:
                     if(dataObj.has("answer_index")) {
@@ -187,12 +193,29 @@ public class QuizServlet extends HttpServlet {
                 case QuestionType.PICTURE_RESPONSE:
                     answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
                     PictureResponse pictureResponse = (PictureResponse)currentQuestion;
-                    pictureResponse.setAnswer(answer);
+                    if(!answer.isEmpty()) {
+                        pictureResponse.setAnswer(answer);
+                    }
                     break;
             }
 
             // Print success to the client
             responseObj.put("status", "success");
+            response.getWriter().print(responseObj);
+
+        } else if(action.equals("finish_attempt")) {
+
+            long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
+
+            if(attemptId != -1) {
+                // Print success to the client
+                responseObj.put("status", "success");
+                responseObj.put("attempt_id", attemptId);
+            } else {
+                // Print success to the client
+                responseObj.put("status", "error");
+            }
+
             response.getWriter().print(responseObj);
 
         } else {
