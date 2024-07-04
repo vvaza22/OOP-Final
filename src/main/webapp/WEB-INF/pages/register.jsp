@@ -7,7 +7,9 @@
 
 <body>
     <jsp:include page="/WEB-INF/components/layout/header.jsp" />
-    <jsp:include page="/WEB-INF/components/register/main.jsp" />
+    <main>
+        <jsp:include page="/WEB-INF/components/register/main.jsp" />
+    </main>
     <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
     <!-- Local Javascript -->

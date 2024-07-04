@@ -5,7 +5,7 @@
 
 <link href="/css/about_quiz.css" rel="stylesheet" />
 
-<div class="container about_quiz">
+<main class="container about_quiz">
     <div class="row">
         <div>
             <h3><%= currentQuiz.getName() %></h3>
@@ -25,4 +25,4 @@
             <button class="btn btn-round btn-primary">Take Quiz</button>
         </div>
     </div>
-</div>
+</main>

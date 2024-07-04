@@ -1,4 +1,4 @@
-<main class="ac-access-page">
+<div class="ac-access-page">
     <div class="form-container">
         <form id="register-form">
             <div class="form-title">
@@ -34,4 +34,4 @@
             <span>Already registered? <a href="/login">Sign In</a>.</span>
         </form>
     </div>
-</main>
+</div>
