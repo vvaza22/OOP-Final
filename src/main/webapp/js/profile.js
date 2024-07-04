@@ -5,7 +5,6 @@
     var cancelButt = document.getElementById("cancel-button");
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
-    var aboutMeForm = document.getElementById("profile-form");
 
     function cancelButton(){
         cancelButt.onclick = function (e){
@@ -28,6 +27,8 @@
     function saveButton(){
         saveButt.onclick = function (e){
             e.preventDefault();
+            var aboutMeText = editText.value;
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/profile", true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -46,6 +47,7 @@
                     saveButt.style.display = "none";
                 }
             }
+            xhr.send("aboutMe="+aboutMeText);
         }
     }
 

@@ -1,6 +1,7 @@
 <%@ page import="Account.Account" %>
 <%
     Account userAccount = (Account) request.getAttribute("userAccount");
+    Integer isMyOwnProfile = (Integer) request.getAttribute("isMyOwnProfile");
 %>
 
 <style>
@@ -20,6 +21,11 @@
     .edit-text{
         width: 100%;
     }
+
+    .original-text{
+        width: 100%;
+    }
+
 </style>
 
 <main class="profile-page">
@@ -30,18 +36,22 @@
 
             <div class="col">
                 <div class="user-profile">
-                    <div class="user-action">
-                        <button id="add_friend" class="btn btn-round btn-outline-primary">Add Friend</button>
-                        <button id="rem_friend" class="btn btn-round btn-outline-danger">Unfriend</button>
-                    </div>
+                    <% if(isMyOwnProfile == 0) { %>
+                        <div class="user-action">
+                            <button id="add_friend" class="btn btn-round btn-outline-primary">Add Friend</button>
+                            <button id="rem_friend" class="btn btn-round btn-outline-danger">Unfriend</button>
+                        </div>
+                    <% } %>
                     <div class="profile-row">
                         <div class="user-image-cont">
                             <img src="/images/profile/sample_1.jpg" width="200" height="200" />
-                            <div class="owner-action">
-                                <div class="btn-action">
-                                    <a href="#">Change Profile Picture</a>
+                            <% if (isMyOwnProfile == 1){ %>
+                                <div class="owner-action">
+                                    <div class="btn-action">
+                                        <a href="#">Change Profile Picture</a>
+                                    </div>
                                 </div>
-                            </div>
+                            <% } %>
                             <div class="achievement-cont">
                                 <h4><i class="fa-solid fa-trophy"></i> My Achievements </h4>
                                 <ul>
@@ -61,14 +71,21 @@
                             </div>
                             <form id="profile-form" action="/profile" method="post">
                                 <div class="about-cont">
-                                    <h4>About Me <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a></h4>
+                                    <h4>About Me
+                                        <% if (isMyOwnProfile == 1) { %>
+                                            <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a>
+                                        <% } %>
+                                    </h4>
                                     <p style="display: block" id="text-about-me" class="original-text"> <%=userAccount.getAboutMe()%></p>
-                                    <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
-                                    <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
-                                    <div class="buttons">
-                                        <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
-                                        <button style="display: none" id="save-button" class="blue-button" >Save</button>
-                                    </div>
+<%--                                    this wont work if edit button isnt clicked but just for insurance--%>
+                                    <% if(isMyOwnProfile == 1) { %>
+                                        <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
+                                        <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
+                                        <div class="buttons">
+                                            <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
+                                            <button style="display: none" id="save-button" class="blue-button" >Save</button>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </form>
                             <div class="profile-sub-row">
