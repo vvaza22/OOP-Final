@@ -17,6 +17,7 @@ create table quiz
     practice_mode        tinyint(1) default 0               not null,
     immediate_correction tinyint(1) default 0               not null,
     display_type         enum ('ONE_PAGE', 'MULTIPLE_PAGES') not null,
+    create_time          datetime default CURRENT_TIMESTAMP not null,
     constraint quiz_pk
         primary key (quiz_id),
     constraint quiz_pk_2
