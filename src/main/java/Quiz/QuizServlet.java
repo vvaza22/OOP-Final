@@ -7,18 +7,44 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Global.SessionManager;
 import Question.*;
+import org.json.JSONObject;
 
 public class QuizServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        String quizId = request.getParameter("id");
+        // Initialize the session manager
+        SessionManager sessionManager =
+                new SessionManager(request.getSession());
+
+        if(!sessionManager.isUserLoggedIn()) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You need to be logged in to take a quiz.");
+            return;
+        }
+
+        if(!sessionManager.isTakingQuiz()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You are not currently taking a quiz.");
+            return;
+        }
+
+        // Get the current quiz we are taking
+        Quiz currentQuiz = sessionManager.getCurrentQuiz();
+
+        // Get which question we are on
         String questionIndex = request.getParameter("q");
 
-        if(quizId == null || quizId.isEmpty() || !isPosNumber(quizId)) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid quiz id.");
+        // Check for review tab
+        if(questionIndex != null && questionIndex.equals("review")) {
+            // Pass the arguments to the client
+            request.setAttribute("currentQuiz", currentQuiz);
+            request.setAttribute("curQuestionIndex", -1);
+            request.setAttribute("reviewFlag", true);
+
+            request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
+                    .forward(request, response);
             return;
         }
 
@@ -27,20 +53,153 @@ public class QuizServlet extends HttpServlet {
             return;
         }
 
-        // Parse the value of the id string
-        Integer id = Integer.parseInt(quizId);
-        request.setAttribute("quizId", id);
-
         // Parse the value of the question index
         Integer qIndex = Integer.parseInt(questionIndex);
-        request.setAttribute("curQuestionIndex", qIndex);
 
-        // TEST
-        ArrayList<Question> questionList = getQuestionList(id);
-        request.setAttribute("questionList", questionList);
+        // Check if the index is inbounds: questionIndex in [1, n]
+        if(qIndex > currentQuiz.getNumberOfQuestions()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Question index out of bounds.");
+            return;
+        }
+
+        // Pass the arguments to the client
+        request.setAttribute("currentQuiz", currentQuiz);
+        request.setAttribute("curQuestionIndex", qIndex);
 
         request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
                 .forward(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+
+        // Output JSON to the client
+        response.setContentType("application/json");
+
+        // Prepare the response object
+        JSONObject responseObj = new JSONObject();
+
+        // Initialize the session manager
+        SessionManager sessionManager =
+                new SessionManager(request.getSession());
+
+        if(!sessionManager.isUserLoggedIn()) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You need to be logged in!");
+            return;
+        }
+
+        // Get the action we are performing
+        String action = request.getParameter("action");
+
+        if(action.equals("take_quiz")) {
+
+            if(sessionManager.isTakingQuiz()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to finish the quiz you are taking to take a new one!");
+                return;
+            }
+
+            // Get the quiz manager
+            QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
+
+            // Which quiz are we taking?
+            String quizId = request.getParameter("quiz_id");
+
+            if(quizId == null || quizId.isEmpty() || !isPosNumber(quizId)) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid quiz id.");
+                return;
+            }
+
+            // Find the quiz
+            Quiz curQuiz = qm.getQuiz(Integer.parseInt(quizId));
+
+            if(curQuiz == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Quiz not found.");
+                return;
+            }
+
+            // Take the quiz
+            sessionManager.setCurrentQuiz(curQuiz);
+
+            // Print success to the client
+            responseObj.put("status", "success");
+            response.getWriter().print(responseObj);
+
+        } else if(action.equals("save_answer")) {
+            if(!sessionManager.isTakingQuiz()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to be taking quiz!");
+                return;
+            }
+
+            // Get the current quiz we are taking
+            Quiz currentQuiz = sessionManager.getCurrentQuiz();
+
+            String questionIdStr = request.getParameter("question_id");
+            if(questionIdStr == null || questionIdStr.isEmpty() || !isPosNumber(questionIdStr)) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid question id.");
+                return;
+            }
+
+            // Check if the question is in the quiz
+            Integer questionId = Integer.parseInt(questionIdStr);
+            if(!currentQuiz.hasQuestion(questionId)) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Quiz does not contain the question.");
+                return;
+            }
+
+            // Get the question object
+            Question currentQuestion = currentQuiz.getQuestionById(questionId);
+
+            // Get data
+            String data = request.getParameter("data");
+            if(data == null || data.isEmpty()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid question id.");
+                return;
+            }
+
+            JSONObject dataObj;
+            try {
+                dataObj = new JSONObject(data);
+            } catch(Exception e) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JSON format.");
+                return;
+            }
+
+            String answer;
+            switch(currentQuestion.getType()) {
+                case QuestionType.QUESTION_RESPONSE:
+                    answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
+                    QuestionResponse questionResponse = (QuestionResponse)currentQuestion;
+                    questionResponse.setAnswer(answer);
+                    break;
+                case QuestionType.FILL_BLANK:
+                    answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
+                    FillBlank fillBlank = (FillBlank)currentQuestion;
+                    fillBlank.setAnswer(answer);
+                    break;
+                case QuestionType.MULTIPLE_CHOICE:
+                    if(dataObj.has("answer_index")) {
+                        int answerIndex = dataObj.getInt("answer_index");
+                        MultipleChoice multipleChoice = (MultipleChoice) currentQuestion;
+                        multipleChoice.setAnswer(answerIndex);
+                    }
+                    break;
+                case QuestionType.PICTURE_RESPONSE:
+                    answer = dataObj.has("answer") ? dataObj.getString("answer") : "";
+                    PictureResponse pictureResponse = (PictureResponse)currentQuestion;
+                    pictureResponse.setAnswer(answer);
+                    break;
+            }
+
+            // Print success to the client
+            responseObj.put("status", "success");
+            response.getWriter().print(responseObj);
+
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action.");
+            return;
+        }
+
     }
 
     private boolean isPosNumber(String s) {
@@ -54,43 +213,4 @@ public class QuizServlet extends HttpServlet {
         return false;
     }
 
-    private ArrayList<Question> getQuestionList(int id) {
-        ArrayList<Question> questionList = new ArrayList<Question>();
-
-        String text1 = "The set of problems that can be solved in polynomial time is called {?}.";
-        ArrayList<String> answer1 = new ArrayList<String>();
-        answer1.add("P");
-        Question q1 = new FillBlank(text1, answer1);
-
-        String text2 = "Who is the most badass heavy metal composer?";
-        ArrayList<String> answer2 = new ArrayList<String>();
-        answer2.add("mick");
-        answer2.add("mick gordon");
-        answer2.add("the guy who did the doom music");
-        Question q2 = new QuestionResponse(text2, answer2);
-
-        String text3 = "What is this?";
-        ArrayList<String> answer3 = new ArrayList<String>();
-        answer3.add("a cat");
-        answer3.add("cat");
-        answer3.add("grumpy cat");
-        String imageLink = "https://upload.wikimedia.org/wikipedia/commons/d/dc/Grumpy_Cat_%2814556024763%29_%28cropped%29.jpg";
-        Question q3 = new PictureResponse(text3, imageLink, answer3);
-
-        String text4 = "Mark the true sentence that we know for sure";
-        ArrayList<Choice> choice4 = new ArrayList<Choice>();
-        choice4.add(new Choice("P = NP", 1, false));
-        choice4.add(new Choice("P != NP", 2, false));
-        choice4.add(new Choice("HALTING is NP-HARD", 100, true));
-        choice4.add(new Choice("ignorance is bliss", 123, false));
-        int answer4 = 100;
-        Question q4 = new MultipleChoice(text4, choice4, answer4);
-
-        questionList.add(q1);
-        questionList.add(q2);
-        questionList.add(q3);
-        questionList.add(q4);
-
-        return questionList;
-    }
 }

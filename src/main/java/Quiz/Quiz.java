@@ -3,6 +3,7 @@ package Quiz;
 import Question.Question;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Quiz {
 
@@ -19,6 +20,7 @@ public class Quiz {
     private final int displayMode;
 
     ArrayList<Question> questionList;
+    HashMap<Integer, Question> questionMap;
 
     Quiz(
             int id,
@@ -38,6 +40,8 @@ public class Quiz {
         this.immediateCorrection = immediateCorrection;
         this.displayMode = displayMode;
         this.questionList = questionList;
+
+        createQuestionMap();
     }
 
     public int getId() {
@@ -58,6 +62,25 @@ public class Quiz {
 
     public int getNumberOfQuestions() {
         return questionList.size();
+    }
+
+    public ArrayList<Question> getQuestions() {
+        return questionList;
+    }
+
+    public boolean hasQuestion(int questionId) {
+        return questionMap.containsKey(questionId);
+    }
+
+    public Question getQuestionById(int questionId) {
+        return questionMap.get(questionId);
+    }
+
+    private void createQuestionMap() {
+        questionMap = new HashMap<Integer, Question>();
+        for(Question question : questionList) {
+            questionMap.put(question.getId(), question);
+        }
     }
 
 }

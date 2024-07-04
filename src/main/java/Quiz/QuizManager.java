@@ -78,6 +78,7 @@ public class QuizManager {
                     case QuestionType.QUESTION_RESPONSE:
                         QuestionResponse questionResponse = new QuestionResponse(
                                 rs.getString("question_text"),
+                                rs.getInt("question_id"),
                                 getTextAnswerList(rs.getInt("question_id"), con)
                         );
                         questionList.add(questionResponse);
@@ -85,6 +86,7 @@ public class QuizManager {
                     case QuestionType.FILL_BLANK:
                         FillBlank fillBlank = new FillBlank(
                                 rs.getString("question_text"),
+                                rs.getInt("question_id"),
                                 getTextAnswerList(rs.getInt("question_id"), con)
                         );
                         questionList.add(fillBlank);
@@ -93,6 +95,7 @@ public class QuizManager {
                         ArrayList<Choice> choiceList = getChoiceList(rs.getInt("question_id"), con);
                         MultipleChoice multipleChoice = new MultipleChoice(
                                 rs.getString("question_text"),
+                                rs.getInt("question_id"),
                                 choiceList,
                                 getCorrectIndex(choiceList)
                         );
@@ -102,8 +105,11 @@ public class QuizManager {
                         PictureResponse pictureResponse = new PictureResponse(
                                 rs.getString("question_text"),
                                 rs.getString("picture"),
+                                rs.getInt("question_id"),
                                 getTextAnswerList(rs.getInt("question_id"), con)
                         );
+                        questionList.add(pictureResponse);
+                        break;
                 }
             }
 

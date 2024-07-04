@@ -2,6 +2,7 @@ package Global;
 
 import javax.servlet.http.HttpSession;
 import Account.Account;
+import Quiz.Quiz;
 
 public class SessionManager {
     private HttpSession session;
@@ -38,6 +39,18 @@ public class SessionManager {
             this.session.setAttribute("user_state", userState);
         }
         return (UserState) this.session.getAttribute("user_state");
+    }
+
+    public Quiz getCurrentQuiz() {
+        return (Quiz) this.session.getAttribute("current_quiz");
+    }
+
+    public void setCurrentQuiz(Quiz quiz) {
+        this.session.setAttribute("current_quiz", quiz);
+    }
+
+    public boolean isTakingQuiz() {
+        return getCurrentQuiz() != null;
     }
 
 }
