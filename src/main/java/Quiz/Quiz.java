@@ -62,9 +62,9 @@ public class Quiz {
     public int getAuthor_id() {
         return author_id;
     }
-    public int isPracticeAllowed() {
-        if (practiceMode) return 1;
-        return 0;
+
+    public boolean isPracticeAllowed() {
+        return practiceMode;
     }
 
     public String getCreate_time() {

@@ -225,7 +225,7 @@ public class CreateServlet extends HttpServlet {
     private String checkFillBlankText(String text) {
         if(text.isEmpty()) {
             return "Please, fill the question field.";
-        }else if(!text.contains("{}")) {
+        }else if(!text.contains("{?}")) {
             return "Please, make sure to add at least one blank field in question.";
         }else {
             boolean isPair = true;
