@@ -177,4 +177,41 @@ public class QuizManager {
         return -1;
     }
 
+    public void addQuiz(Quiz quiz) {
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "insert into quiz (name, " +
+                            "author_id, " +
+                            "description, " +
+                            "randomize, " +
+                            "practice_mode, " +
+                            "immediate_correction, " +
+                            "display_type, " +
+                            "create_time) " +
+                            "values (?,?,?,?,?,?,?,?)"
+            );
+
+            stmt.setString(1, quiz.getName());
+          // to do :  author, stmt.setString(2, );
+            stmt.setString(3, quiz.getDescription());
+            stmt.setString(4, String.valueOf(quiz.isRandomized()));
+            stmt.setString(5, String.valueOf(quiz.isPracticeAllowed()));
+            stmt.setString(6, String.valueOf(quiz.isImmediateCorrectionOn()));
+            stmt.setString(7, (quiz.getDisplayMode()==1) ? "ONE_PAGE" : "MULTIPLE_PAGES");
+          // to do : time,  stmt.setString(8, );
+
+
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
+
 }

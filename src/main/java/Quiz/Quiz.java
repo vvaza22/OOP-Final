@@ -12,6 +12,7 @@ public class Quiz {
     /* Quiz Parameters */
     private final int id;
     private final String name;
+    private final Account author;
     private final String description;
     private final boolean randomize;
     private final boolean practiceMode;
@@ -20,9 +21,10 @@ public class Quiz {
 
     ArrayList<Question> questionList;
 
-    Quiz(
+    public Quiz(
             int id,
             String name,
+            Account author,
             String description,
             boolean randomize,
             boolean practiceMode,
@@ -32,6 +34,7 @@ public class Quiz {
     ) {
         this.id = id;
         this.name = name;
+        this.author = author;
         this.description = description;
         this.randomize = randomize;
         this.practiceMode = practiceMode;
@@ -50,6 +53,22 @@ public class Quiz {
 
     public boolean isPracticeAllowed() {
         return practiceMode;
+    }
+
+    public boolean isRandomized() {
+        return randomize;
+    }
+
+    public boolean isImmediateCorrectionOn() {
+        return immediateCorrection;
+    }
+
+    public int getDisplayMode() {
+        return displayMode;
+    }
+
+    public int getAuthor() {
+        return
     }
 
     public String getDescription() {
