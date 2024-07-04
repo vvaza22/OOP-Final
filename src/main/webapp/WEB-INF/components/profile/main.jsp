@@ -26,6 +26,10 @@
         width: 100%;
     }
 
+    .user-details-cont {
+        flex-grow: 1;
+    }
+
 </style>
 
 <main class="profile-page">
