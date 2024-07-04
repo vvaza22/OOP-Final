@@ -49,6 +49,10 @@ public class SessionManager {
         this.session.setAttribute("current_quiz", quiz);
     }
 
+    public void endCurrentQuiz() {
+        this.session.removeAttribute("current_quiz");
+    }
+
     public boolean isTakingQuiz() {
         return getCurrentQuiz() != null;
     }
