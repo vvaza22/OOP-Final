@@ -11,6 +11,7 @@ create table quiz
 (
     quiz_id              int auto_increment,
     name                 nvarchar(256)                      not null,
+    description          text                               null,
     randomize            tinyint(1) default 0               not null,
     practice_mode        tinyint(1) default 0               not null,
     immediate_correction tinyint(1) default 0               not null,
@@ -71,12 +72,14 @@ create table choices
 -- Example Quiz 1
 insert into quiz(
     name,
+    description,
     randomize,
     practice_mode,
     immediate_correction,
     display_type
 ) values(
             'Random Knowledge Test',
+            'This is my amazing quiz that tests your random knowledge in every single field there exists.',
             1,
             1,
             0,
@@ -234,7 +237,7 @@ insert into quiz(
 ) values(
             'Theoretical Computer Science',
             1,
-            1,
+            0,
             0,
             'ONE_PAGE'
         );

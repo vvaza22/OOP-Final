@@ -33,6 +33,7 @@ public class QuizManager {
                 Quiz quiz = new Quiz(
                         rs.getInt("quiz_id"),
                         rs.getString("name"),
+                        rs.getString("description"),
                         rs.getBoolean("randomize"),
                         rs.getBoolean("practice_mode"),
                         rs.getBoolean("immediate_correction"),
