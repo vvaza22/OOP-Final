@@ -59,7 +59,8 @@ public class RegisterServlet extends HttpServlet {
 
         if(!acm.accountExists(username)) {
             String defaultAboutMe = "Hello everyone, I am " + username + ", hope we get along well.";
-            Account acc = new Account(firstName, lastName, username, Constants.NO_IMAGE, Hash.hashPassword(password), defaultAboutMe,"user");
+            String defaultImageURL = "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
+            Account acc = new Account(firstName, lastName, username, defaultImageURL, Hash.hashPassword(password), defaultAboutMe,"user");
             // Register account
             acm.registerAccount(acc);
 

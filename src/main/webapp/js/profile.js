@@ -6,6 +6,27 @@
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
 
+    function changeProfilePicture() {
+        var changePicButt = document.getElementById("change-profile-pic");
+        var profilePicURL = document.getElementById("profile-picture");
+        changePicButt.onclick = function (e) {
+            e.preventDefault();
+            let imageLink = prompt("please enter your new profile picture link", "");
+            if (imageLink != null) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/profile", true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        profilePicURL.src = imageLink;
+                    }
+                }
+                xhr.send("profilePictureLink=" + imageLink);
+            }
+        }
+    }
+
+
     function cancelButton(){
         cancelButt.onclick = function (e){
             e.preventDefault();
@@ -70,6 +91,7 @@
         editButton();
         saveButton();
         cancelButton();
+        changeProfilePicture()
     }
 
     hook();

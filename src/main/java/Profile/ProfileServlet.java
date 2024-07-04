@@ -19,7 +19,14 @@ public class ProfileServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         SessionManager sessionManager = new SessionManager(session);
-        String currentUserName = sessionManager.getCurrentUserAccount().getUserName();
+        Account currentUserAccount = sessionManager.getCurrentUserAccount();
+
+        String currentUserName = null;
+        if(currentUserAccount != null) {
+            currentUserName = currentUserAccount.getUserName();
+        }
+        session.setAttribute("currentUserName", currentUserName);
+
         String userName = request.getParameter("username");
 
         if(userName == null || userName.isEmpty()) {
@@ -71,10 +78,7 @@ public class ProfileServlet extends HttpServlet {
         String userName = sessionManager.getCurrentUserAccount().getUserName();
         String aboutMe = request.getParameter("aboutMe");
 
-        if(
-                userName == null ||
-                userName.isEmpty()
-        ) {
+        if( userName == null || userName.isEmpty() ) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "User name field not supplied");
             return;
@@ -85,6 +89,7 @@ public class ProfileServlet extends HttpServlet {
         AccountManager acm = ((AccountManager)
                 request.getServletContext().getAttribute("accountManager"));
         Account userAccount = acm.getAccount(userName);
+        String profilePictureLink = request.getParameter("profilePictureLink");
 
         if(!Account.isValidUsername(userName)){
 
@@ -95,9 +100,16 @@ public class ProfileServlet extends HttpServlet {
 
         }else {
 
+            if(profilePictureLink != null) {
+                if(profilePictureLink.isEmpty()) profilePictureLink = "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
+                userAccount.setImage(profilePictureLink);
+            }
+
+            acm.updateProfilePictureAccount(userAccount);
+
+            if(aboutMe != null) userAccount.setAboutMe(aboutMe);
+            acm.updateAboutMeAccount(userAccount);
             responseObj.put("status", "success");
-            userAccount.setAboutMe(aboutMe);
-            acm.updateAccount(userAccount);
 
         }
         response.getWriter().print(responseObj);

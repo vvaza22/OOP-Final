@@ -2,6 +2,7 @@
 <%
     Account userAccount = (Account) request.getAttribute("userAccount");
     Integer isMyOwnProfile = (Integer) request.getAttribute("isMyOwnProfile");
+    String currentUserName = (String) session.getAttribute("currentUserName");
 %>
 
 <style>
@@ -40,7 +41,7 @@
 
             <div class="col">
                 <div class="user-profile">
-                    <% if(isMyOwnProfile == 0) { %>
+                    <% if(isMyOwnProfile == 0 && currentUserName != null) { %>
                         <div class="user-action">
                             <button id="add_friend" class="btn btn-round btn-outline-primary">Add Friend</button>
                             <button id="rem_friend" class="btn btn-round btn-outline-danger">Unfriend</button>
@@ -48,11 +49,11 @@
                     <% } %>
                     <div class="profile-row">
                         <div class="user-image-cont">
-                            <img src="/images/profile/sample_1.jpg" width="200" height="200" />
+                            <img id="profile-picture" src="<%=userAccount.getImage()%>" width="200" height="200" />
                             <% if (isMyOwnProfile == 1){ %>
                                 <div class="owner-action">
                                     <div class="btn-action">
-                                        <a href="#">Change Profile Picture</a>
+                                        <a id="change-profile-pic" class="changed-profile-pic" style="display: block;" href="#">Change Profile Picture</a>
                                     </div>
                                 </div>
                             <% } %>
