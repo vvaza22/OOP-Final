@@ -11,6 +11,11 @@ main {
 	flex-grow: 1;
 }
 
+/* No wrap fix */
+#search-form > .input-group {
+	flex-wrap: nowrap;
+}
+
 /* Navbar */
 
 .title-box span {

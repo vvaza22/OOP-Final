@@ -291,6 +291,9 @@
     const quizName = document.getElementById("quiz-name");
     quizData["quizName"] = quizName.value;
 
+    const quizDescription = document.getElementById("quiz-description");
+    quizData["quizDescription"] = quizDescription.value;
+
     const randCheckbox = document.getElementById("randomize");
     quizData["randomizeOrder"] = randCheckbox.checked;
 
