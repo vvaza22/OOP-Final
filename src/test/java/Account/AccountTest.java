@@ -8,7 +8,7 @@ class AccountTest {
 
     @Test
     public void test1() {
-        Account ac1 = new Account(
+        Account ac1 = new Account(0,
                 "Giorgi",
                 "Pirveli",
                 "g.pirveli",

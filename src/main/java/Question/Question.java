@@ -14,7 +14,7 @@ public abstract class Question {
         this.questionId = questionId;
     }
 
-    public String getQuestion() {
+    public String getQuestionText() {
         return questionText;
     }
 
