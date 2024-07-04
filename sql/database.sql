@@ -11,6 +11,7 @@ create table quiz
 (
     quiz_id              int auto_increment,
     name                 nvarchar(256)                      not null,
+    author_id            int                                not null,
     description          text                               null,
     randomize            tinyint(1) default 0               not null,
     practice_mode        tinyint(1) default 0               not null,
@@ -19,7 +20,9 @@ create table quiz
     constraint quiz_pk
         primary key (quiz_id),
     constraint quiz_pk_2
-        unique (quiz_id)
+        unique (quiz_id),
+    constraint author_id_fk
+        foreign key (author_id) references users (id)
 );
 
 -- Create questions table
@@ -71,6 +74,7 @@ create table choices
 
 -- Example Quiz 1
 insert into quiz(
+    author_id,
     name,
     description,
     randomize,
@@ -78,6 +82,7 @@ insert into quiz(
     immediate_correction,
     display_type
 ) values(
+            2,
             'Random Knowledge Test',
             'This is my amazing quiz that tests your random knowledge in every single field there exists.',
             1,
@@ -229,12 +234,14 @@ insert into text_answers(
 
 -- Example Quiz 2
 insert into quiz(
+    author_id,
     name,
     randomize,
     practice_mode,
     immediate_correction,
     display_type
 ) values(
+            1,
             'Theoretical Computer Science',
             1,
             0,
