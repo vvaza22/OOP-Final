@@ -7,8 +7,9 @@
 
 <main class="container about_quiz">
     <div class="row">
-        <div>
+        <div class="quiz-heading">
             <h3><%= currentQuiz.getName() %></h3>
+            <span class="num-questions"><%= currentQuiz.getNumberOfQuestions() %> Questions</span>
         </div>
         <p>Author: <a href="/profile?username=realtia" class="profile-link"><img class="profile-image" src="/images/profile/sample_1.jpg" width="40" height="40" /> realtia</a></p>
     </div>

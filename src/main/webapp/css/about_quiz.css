@@ -11,3 +11,22 @@
     border-radius: 50%;
     overflow: hidden;
 }
+
+.quiz-heading {
+    display: flex;
+    align-items: center;
+}
+
+.quiz-heading > * {
+    display: inline-block;
+    margin: 0;
+}
+
+.num-questions {
+    margin-left: .5em;
+    background-color: crimson;
+    color: #fff;
+    padding: .3em .5em;
+    border-radius: 10px;
+    font-size: 12px;
+}
