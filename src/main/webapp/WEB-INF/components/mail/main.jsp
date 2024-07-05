@@ -23,12 +23,22 @@
 
     ArrayList<Mail> mails = new ArrayList<Mail>();
     ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(smgr.getCurrentUserAccount().getUserId());
-    mails.addAll(reqs);
+    ArrayList<NoteMail> notes = mmgr.getNotes(smgr.getCurrentUserAccount().getUserId());
 
-    int numMails = mails.size();
     int numFriendReqs = reqs.size();
     int numChallenges = 0;
-    int numNotes = 0;
+    int numNotes = notes.size();
+    int numMails = numFriendReqs + numNotes + numChallenges;
+
+    if(curTab.equals("friend_req")){
+        mails.addAll(reqs);
+    }else if(curTab.equals("notes")){
+        mails.addAll(notes);
+    }else if(curTab.equals("all")){
+        mails.addAll(reqs);
+        mails.addAll(notes);
+    }
+
 
 //    // FOR TEST
 //    int numFriendReqs = 2;
@@ -86,7 +96,6 @@
                             <th>#</th>
                             <th>From</th>
                             <th>Message</th>
-                            <th>Action</th>
                         </tr>
 
                         <%
@@ -116,10 +125,13 @@
                                                 <div class="rejected">
                                                     <h3>Friend Request Rejected.</h3>
                                                 </div>
-                                        <%}%>
-                                    <% } else if(mail.getType() == Mail.CHALLENGE) { %>
+                                        <%}} else if(mail.getType() == Mail.CHALLENGE) { %>
                                         <button class="btn btn-outline-success btn-round">Accept</button>
-                                    <% } %>
+                                        <button class="btn btn-outline-success btn-round">Reject</button>
+                                    <% } else if(mail.getType() == Mail.NOTE) {%>
+                                    <% NoteMail note = (NoteMail)mail; %>
+                                       <h3> <%=note.getMessage()%> </h3>
+                                    <%}%>
                                 </td>
                             </tr>
                         <% } %>
