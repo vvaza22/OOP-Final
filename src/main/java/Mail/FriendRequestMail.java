@@ -5,8 +5,8 @@ import Account.Account;
 public class FriendRequestMail extends Mail {
     private String status;
 
-    public FriendRequestMail(Account from, Account to, String status) {
-        super(from, to);
+    public FriendRequestMail(Account from, Account to, int id, String status) {
+        super(from, to, id);
         this.status = status;
     }
 

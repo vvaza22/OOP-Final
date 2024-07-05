@@ -106,8 +106,8 @@
                                     <% if(mail.getType() == Mail.FRIEND_REQUEST) { %>
                                     <% FriendRequestMail frreq = (FriendRequestMail) mail; %>
                                            <% if (frreq.getStatus().equals("PENDING")) {%>
-                                                <button class="btn btn-outline-success btn-round" > Accept </button >
-                                                <button class="btn btn-outline-danger btn-round" > Decline </button >
+                                                <button class="btn btn-outline-success btn-round" onclick="acceptReq(<%=frreq.getId()%>)"> Accept </button >
+                                                <button class="btn btn-outline-danger btn-round" onclick="rejectReq(<%=frreq.getId()%>)"> Decline </button >
                                            <% } else if(frreq.getStatus().equals("ACCEPTED")){%>
                                                 <div class="accepted">
                                                     <h3>Friend Request Accepted.</h3>

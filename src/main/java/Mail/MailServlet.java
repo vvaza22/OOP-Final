@@ -3,6 +3,7 @@ package Mail;
 import Global.SessionManager;
 import Database.*;
 import Account.*;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,5 +47,38 @@ public class MailServlet extends HttpServlet {
 
         // Show every mail by default
         return "all";
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idString = request.getParameter("request_id");
+        String requestStatus = request.getParameter("status");
+
+        if(idString == null || requestStatus == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Malformed request");
+            return;
+        }
+
+        int requestId = Integer.parseInt(idString);
+
+        // Access the current HTTP session
+        SessionManager sessionManager = new SessionManager(request.getSession());
+
+        // Output JSON to the client
+        response.setContentType("application/json");
+
+        // Prepare the response object
+        JSONObject responseObj = new JSONObject();
+
+        if(requestStatus.equals("ACCEPTED")) {
+            // Logout was successful
+            responseObj.put("status", "friend request accepted");
+        } else {
+            // Logout failed
+            responseObj.put("status", "friend request rejected");
+        }
+
+        // Print the response to the client
+        response.getWriter().print(responseObj);
     }
 }

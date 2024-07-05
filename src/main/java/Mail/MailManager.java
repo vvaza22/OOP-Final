@@ -34,6 +34,7 @@ public class MailManager {
                 FriendRequestMail req = new FriendRequestMail(
                         from,
                         to,
+                        rs.getInt("id"),
                         rs.getString("status")
                 );
 
