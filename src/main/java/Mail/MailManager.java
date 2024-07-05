@@ -2,6 +2,7 @@ package Mail;
 
 import Account.Account;
 import Database.Database;
+import Account.AccountManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,44 +11,38 @@ import java.util.*;
 
 public class MailManager {
     private final Database db;
+    private final AccountManager amgr;
 
-    public MailManager(Database db) {
+    public MailManager(Database db, AccountManager amgr) {
         this.db = db;
+        this.amgr = amgr;
     }
 
-    public ArrayList<Integer> getFriendRequests(int userId){
+    public ArrayList<FriendRequestMail> getFriendRequests(int userId){
+        ArrayList<FriendRequestMail> reqs = new ArrayList<>();
         try{
             Connection con = db.openConnection();
-            ArrayList<Integer> reqs = new ArrayList<>();
             PreparedStatement stmt = con.prepareStatement(
                     "select * from users where to_id = ?"
             );
             stmt.setInt(1,userId);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()){
-//                Account from = new Account(
-//                        rs.get
-//                )
-//                FriendRequestMail req = new FriendRequestMail(
-//                        rs.getInt("from_id"),
-//                        rs.getInt("to_id"),
-//                        rs.getString("status")
-//                );
+            while(rs.next()){
+                Account from = amgr.getAccountById(rs.getInt("from_id"));
+                Account to = amgr.getAccountById(rs.getInt("to_id"));
+                FriendRequestMail req = new FriendRequestMail(
+                        from,
+                        to,
+                        rs.getString("status")
+                );
 
-
-
+                reqs.add(req);
             }
-
-
-
-
-            return reqs;
-
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return null;
+        return reqs;
     }
 
 }
