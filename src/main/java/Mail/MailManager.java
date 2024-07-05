@@ -23,7 +23,7 @@ public class MailManager {
         try{
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from users where to_id = ?"
+                    "select * from frreqs where to_id = ?"
             );
             stmt.setInt(1,userId);
             ResultSet rs = stmt.executeQuery();
@@ -44,5 +44,7 @@ public class MailManager {
         }
         return reqs;
     }
+
+
 
 }

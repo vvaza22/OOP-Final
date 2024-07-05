@@ -2,6 +2,7 @@
 <%@ page import="Mail.*" %>
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Account.Account" %>
+<%@ page import="Global.SessionManager" %>
 
 <link rel="stylesheet" href="/css/mail.css" />
 
@@ -13,22 +14,35 @@
     AccountManager acm = ((AccountManager)
             request.getServletContext().getAttribute("accountManager"));
 
+    // Get Mail Manager
+    MailManager mmgr = ((MailManager)request.getAttribute("mailManager"));
+
+    // Get Session Manager
+    SessionManager smgr =
+            new SessionManager(request.getSession());
 
     ArrayList<Mail> mails = new ArrayList<Mail>();
+    ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(smgr.getCurrentUserAccount().getUserId());
+    mails.addAll(reqs);
 
-    // FOR TEST
-    int numFriendReqs = 2;
+    int numMails = mails.size();
+    int numFriendReqs = reqs.size();
     int numChallenges = 0;
-    int numNotes = 2;
-    int numMails = numFriendReqs + numChallenges + numNotes;
-    if(curTab.equals("all") || curTab.equals("friend_req")) {
-        mails.add(new FriendRequestMail( acm.getAccount("vazzu") ));
-        mails.add(new FriendRequestMail( acm.getAccount("bero") ));
-    }
-    if(curTab.equals("all") || curTab.equals("notes")) {
-        mails.add(new NoteMail( acm.getAccount("realtia"), "Hey! Can you check out my new quiz?" ));
-        mails.add(new NoteMail( acm.getAccount("elene"), "Metallica the best" ));
-    }
+    int numNotes = 0;
+
+//    // FOR TEST
+//    int numFriendReqs = 2;
+//    int numChallenges = 0;
+//    int numNotes = 2;
+//    int numMails = numFriendReqs + numChallenges + numNotes;
+//    if(curTab.equals("all") || curTab.equals("friend_req")) {
+//        mails.add(new FriendRequestMail( acm.getAccount("vazzu") ));
+//        mails.add(new FriendRequestMail( acm.getAccount("bero") ));
+//    }
+//    if(curTab.equals("all") || curTab.equals("notes")) {
+//        mails.add(new NoteMail( acm.getAccount("realtia"), "Hey! Can you check out my new quiz?" ));
+//        mails.add(new NoteMail( acm.getAccount("elene"), "Metallica the best" ));
+//    }
 
 %>
 
@@ -79,6 +93,7 @@
                             for(int i=1; i<=mails.size(); i++) {
                                 Mail mail = mails.get(i - 1);
                                 Account from = mail.getFrom();
+                                Account to = mail.getTo();
                         %>
                             <tr data-mail-type="<%= mail.getType() %>">
                                 <td><%= i %></td>
@@ -89,8 +104,19 @@
                                 <td><%= mail.getMessage() %></td>
                                 <td>
                                     <% if(mail.getType() == Mail.FRIEND_REQUEST) { %>
-                                        <button class="btn btn-outline-success btn-round">Accept</button>
-                                        <button class="btn btn-outline-danger btn-round">Decline</button>
+                                    <% FriendRequestMail frreq = (FriendRequestMail) mail; %>
+                                           <% if (frreq.getStatus().equals("PENDING")) {%>
+                                                <button class="btn btn-outline-success btn-round" > Accept </button >
+                                                <button class="btn btn-outline-danger btn-round" > Decline </button >
+                                           <% } else if(frreq.getStatus().equals("ACCEPTED")){%>
+                                                <div class="accepted">
+                                                    <h3>Friend Request Accepted.</h3>
+                                                </div>
+                                          <% } else if(frreq.getStatus().equals("REJECTED")){%>
+                                                <div class="rejected">
+                                                    <h3>Friend Request Rejected.</h3>
+                                                </div>
+                                        <%}%>
                                     <% } else if(mail.getType() == Mail.CHALLENGE) { %>
                                         <button class="btn btn-outline-success btn-round">Accept</button>
                                     <% } %>

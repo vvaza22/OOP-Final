@@ -27,6 +27,7 @@ public class MailServlet extends HttpServlet {
 
         // Pass the current tab to the JSP file
         request.setAttribute("currentTab", currentTab);
+        request.setAttribute("mailManager", mmgr);
 
         request.getRequestDispatcher("/WEB-INF/pages/mail.jsp")
                 .forward(request, response);
