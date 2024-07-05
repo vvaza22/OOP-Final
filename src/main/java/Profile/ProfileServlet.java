@@ -2,6 +2,8 @@ package Profile;
 
 import Account.Account;
 import Account.AccountManager;
+import Account.FriendRequestManager;
+import Database.Database;
 import Global.SessionManager;
 import org.json.JSONObject;
 
@@ -22,21 +24,21 @@ public class ProfileServlet extends HttpServlet {
         Account currentUserAccount = sessionManager.getCurrentUserAccount();
 
         String currentUserName = null;
-        if(currentUserAccount != null) {
+        if (currentUserAccount != null) {
             currentUserName = currentUserAccount.getUserName();
         }
         session.setAttribute("currentUserName", currentUserName);
 
         String userName = request.getParameter("username");
 
-        if(userName == null || userName.isEmpty()) {
+        if (userName == null || userName.isEmpty()) {
             // response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username must be non-empty.");
             // If the client just clicked the search button, return them to the home page
             response.sendRedirect("/");
             return;
         }
 
-        if(Account.isValidUsername(userName)) {
+        if (Account.isValidUsername(userName)) {
             // Get the Account Manager
             AccountManager acm = ((AccountManager)
                     request.getServletContext().getAttribute("accountManager"));
@@ -53,10 +55,10 @@ public class ProfileServlet extends HttpServlet {
 
             Integer isMyProfile = 0;
 
-            if(currentUserName != null) {
+            if (currentUserName != null) {
                 currentUserName = currentUserName.toLowerCase();
                 userName = userName.toLowerCase();
-                if(currentUserName.equals(userName)) isMyProfile = 1;
+                if (currentUserName.equals(userName)) isMyProfile = 1;
             }
             request.setAttribute("isMyOwnProfile", isMyProfile);
 
@@ -82,8 +84,9 @@ public class ProfileServlet extends HttpServlet {
         SessionManager sessionManager = new SessionManager(session);
         String userName = sessionManager.getCurrentUserAccount().getUserName();
         String aboutMe = request.getParameter("aboutMe");
+        String toWhoFriendRequest = request.getParameter("friendRequestedUser");
 
-        if( userName == null || userName.isEmpty() ) {
+        if (userName == null || userName.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "User name field not supplied");
             return;
@@ -91,29 +94,52 @@ public class ProfileServlet extends HttpServlet {
 
         response.setContentType("application/json");
         JSONObject responseObj = new JSONObject();
-        AccountManager acm = ((AccountManager)
-                request.getServletContext().getAttribute("accountManager"));
+//        Database db = (Database) request.getServletContext().getAttribute("database");
+
+        AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
         Account userAccount = acm.getAccount(userName);
         String profilePictureLink = request.getParameter("profilePictureLink");
 
-        if(!Account.isValidUsername(userName)){
+        // get user and profile users id numbers
+        Account toWhoReqSentAcc = acm.getAccount(toWhoFriendRequest);
+        Account fromWhoReqSentAcc = acm.getAccount(userName);
+
+        if(toWhoReqSentAcc == null || fromWhoReqSentAcc == null){
+            return;
+        }
+
+        int toWhoReqSentId = toWhoReqSentAcc.getUserId();
+        int fromWhoReqSentId = fromWhoReqSentAcc.getUserId();
+
+
+        if (!Account.isValidUsername(userName)) {
 
             response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                     "Username is not valid");
             responseObj.put("status", "fail");
             responseObj.put("errorMsg", "User \"" + userName + "\" does not exists.");
 
-        }else {
+        } else if (toWhoReqSentId == fromWhoReqSentId){
+            responseObj.put("status", "fail");
+            responseObj.put("errorMsg", "User \"" + userName + "\" can not send friend request to himself/herself.");
+        }else if (toWhoReqSentId != fromWhoReqSentId && toWhoFriendRequest != null) {
+            Database db = ((Database) request.getServletContext().getAttribute("database"));
+            FriendRequestManager frm = new FriendRequestManager(db);
+            frm.sendRequest(fromWhoReqSentId, toWhoReqSentId);
+            responseObj.put("status", "success");
+        }else{
 
-            if(profilePictureLink != null) {
-                if(profilePictureLink.isEmpty()) profilePictureLink = "/images/profile/default.jpg";
+            if (profilePictureLink != null) {
+                if (profilePictureLink.isEmpty()) profilePictureLink = "/images/profile/default.jpg";
                 userAccount.setImage(profilePictureLink);
             }
-
             acm.updateProfilePictureAccount(userAccount);
 
-            if(aboutMe != null) userAccount.setAboutMe(aboutMe);
+            if (aboutMe != null) userAccount.setAboutMe(aboutMe);
             acm.updateAboutMeAccount(userAccount);
+
+
+
             responseObj.put("status", "success");
 
         }
@@ -121,3 +147,4 @@ public class ProfileServlet extends HttpServlet {
     }
 
 }
+
