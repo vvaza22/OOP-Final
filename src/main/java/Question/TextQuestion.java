@@ -50,6 +50,9 @@ public abstract class TextQuestion extends Question {
     }
 
     private boolean isAnswerCorrect() {
+        if(userAnswer == null) {
+            return false;
+        }
         return this.correctAnswerList.contains(userAnswer.toLowerCase());
     }
 }

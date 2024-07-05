@@ -9,7 +9,18 @@
     <div class="row">
         <div class="quiz-heading">
             <h3><%= currentQuiz.getName() %></h3>
-            <span class="num-questions"><%= currentQuiz.getNumberOfQuestions() %> Questions</span>
+            <span class="quiz-flag num-questions"><%= currentQuiz.getNumberOfQuestions() %> Questions</span>
+            <% if(currentQuiz.isRandomized()) { %>
+            <span class="quiz-flag randomized">Randomized</span>
+            <% } %>
+            <% if(currentQuiz.getDisplayMode() == Quiz.ONE_PAGE) { %>
+            <span class="quiz-flag page">One Page</span>
+            <% } else { %>
+            <span class="quiz-flag page">Multiple Pages</span>
+            <% } %>
+            <% if(currentQuiz.isImmediateCorrectionOn()) { %>
+            <span class="quiz-flag immediate">Immediate Correction</span>
+            <% } %>
         </div>
         <p>Author: <a href="/profile?username=realtia" class="profile-link"><img class="profile-image" src="/images/profile/sample_1.jpg" width="40" height="40" /> realtia</a></p>
     </div>

@@ -20,22 +20,23 @@
           <img src="<%= qObject.getPicture() %>" alt="<%= qObject.getQuestionText() %>" />
         </div>
       </div>
+
       <div class="answer">
+        <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) { %>
+          <div><span>Your Answer: </span></div>
+          <% if(qObject.countPoints() > 0) { %>
+          <b class="text-ans text-correct"><%= qObject.getUserAnswer() %></b>
+          <% } else { %>
+          <b class="text-ans text-wrong"><%= qObject.getUserAnswer() %></b>
+          <div><span>Correct Answer: </span></div>
+          <b class="text-ans text-correct"><%= String.join(", ", qObject.getCorrectAnswers()) %></b>
+          <% } %>
+        <% } else { %>
         <label class="answer-label" for="text_<%= qObject.getId() %>">Your answer: </label>
         <textarea id="text_<%= qObject.getId() %>" class="form-control answer-text" spellcheck="false" autocomplete="off" autocapitalize="off"><%= userAnswer %></textarea>
-      </div>
-      <div class="action">
-        <% if(curQuestionIndex > 1) { %>
-        <button onclick="pictureResponsePrev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-secondary">Previous</button>
-        <% } else { %>
-        <button class="btn disabled btn-round btn-outline-secondary">Previous</button>
-        <% } %>
-        <% if(curQuestionIndex.equals(numQuestions)) { %>
-        <button onclick="pictureResponseRev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Review</button>
-        <% } else { %>
-        <button onclick="pictureResponseNext(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Next</button>
         <% } %>
       </div>
+
     </div>
   </div>
 </div>

@@ -23,26 +23,50 @@
             String inputName = "multi_choice_" + qObject.getId();
             String inputId = "choice_" + choice.getId() + "_for_" + curQuestionIndex;
         %>
-        <div class="answer-selector-cont">
-          <% if(choice.getId() == qObject.getUserAnswer()) { %>
-          <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked />
-          <% } else { %>
-          <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" />
-          <% } %>
-          <label for="<%= inputId %>"><%= choice.getText() %></label>
-        </div>
-        <% } %>
-      </div>
-      <div class="action">
-        <% if(curQuestionIndex > 1) { %>
-        <button onclick="multipleChoicePrev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-secondary">Previous</button>
+
+        <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) { %>
+          <div class="answer-selector-cont">
+            <% if(choice.getId() == qObject.getUserAnswer()) { %>
+              <% if(choice.getId() == qObject.getCorrectAnswerIndex()) { %>
+                <div class="answer-radio ans-radio-correct">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } else { %>
+                <div class="answer-radio ans-radio-wrong">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } %>
+            <% } else { %>
+              <% if(choice.getId() == qObject.getCorrectAnswerIndex()) { %>
+                <div class="answer-radio ans-radio-correct">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } else { %>
+                <div class="answer-radio">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+
         <% } else { %>
-        <button class="btn disabled btn-round btn-outline-secondary">Previous</button>
+
+          <div class="answer-selector-cont">
+            <% if(choice.getId() == qObject.getUserAnswer()) { %>
+            <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked />
+            <% } else { %>
+            <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" />
+            <% } %>
+            <label for="<%= inputId %>"><%= choice.getText() %></label>
+          </div>
+
         <% } %>
-        <% if(curQuestionIndex.equals(numQuestions)) { %>
-        <button onclick="multipleChoiceRev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Review</button>
-        <% } else { %>
-        <button onclick="multipleChoiceNext(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Next</button>
+
+
         <% } %>
       </div>
     </div>
