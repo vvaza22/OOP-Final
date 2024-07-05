@@ -21,7 +21,7 @@ public class QuizManager {
         this.db = db;
     }
 
-    public ArrayList<Quiz> getPopularQuizes() {
+    public ArrayList<Quiz> getPopularQuizzes() {
         ArrayList<Quiz> list = new ArrayList<>();
         try {
             // Open connection to the database
@@ -55,7 +55,7 @@ public class QuizManager {
         return list;
     }
 
-    public ArrayList<Quiz> getRecentQuizes() {
+    public ArrayList<Quiz> getRecentQuizzes() {
         ArrayList<Quiz> list = new ArrayList<>();
         try {
             // Open connection to the database
@@ -63,9 +63,16 @@ public class QuizManager {
 
             // Retrieve the quiz
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from quiz where quiz_id=?"
+                    "select quiz_id AS ID, create_time " +
+                        "from quiz " +
+                        "order by 2 desc;"
             );
 
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("ID");
+                list.add(getQuiz(id));
+            }
             // Close connection to the database
             stmt.close();
             con.close();
@@ -77,6 +84,71 @@ public class QuizManager {
         return list;
     }
 
+
+    public ArrayList<Quiz> getRecentlyTakenQuizzes(int userId) {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select a.quiz_id AS ID, max(a.attempt_time) AS latest_attempt_time " +
+                        "from attempts a " +
+                        "where a.user_id=? " +
+                        "group by a.quiz_id " +
+                        "order by latest_attempt_time desc;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("ID");
+                System.out.println("here");
+                list.add(getQuiz(id));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public ArrayList<Quiz> getRecentlyCreatedQuizzes(int userId) {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select quiz_id AS ID, create_time " +
+                        "from quiz " +
+                        "where author_id=? " +
+                        "order by 2 desc;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("ID");
+                System.out.println("here");
+                list.add(getQuiz(id));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
 
 
     public Quiz getQuiz(int id) {

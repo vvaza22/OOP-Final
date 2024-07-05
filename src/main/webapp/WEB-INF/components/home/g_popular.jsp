@@ -3,7 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%
     QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
-    ArrayList<Quiz> popularsList = qm.getPopularQuizes();
+    ArrayList<Quiz> popularsList = qm.getPopularQuizzes();
 %>
 
 <section class="group-section g-popular">

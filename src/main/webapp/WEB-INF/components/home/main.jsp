@@ -1,13 +1,14 @@
-<%@ page import="Quiz.QuizManager" %>
+<%@ page import="Global.SessionManager" %>
+<%@ page import="Account.Account" %>
 <%@ page import="Quiz.Quiz" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Global.SessionManager" %>
+<%@ page import="Quiz.QuizManager" %>
+
 <%
-    QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
-    ArrayList<Quiz> popularsList = qm.getPopularQuizes();
-    ArrayList<Quiz> recentsList = qm.getRecentQuizes();
-    String currentUserName = (String) session.getAttribute("currentUserName");
+    Account currentUser = (Account) request.getAttribute("currentUser");
+
 %>
+
 
 <main class="main-content pt-4">
     <div class="container">
@@ -18,6 +19,11 @@
 
                 <!-- Recent Quizzes -->
                 <jsp:include page="g_recent.jsp" />
+
+                <% if(currentUser!=null) { %>
+                    <jsp:include page="g_user_recent_taken.jsp" />
+                    <jsp:include page="g_user_recent_created.jsp" />
+                <% } %>
             </div>
             <div class="col-8">
                 <!-- Admin announcements -->
