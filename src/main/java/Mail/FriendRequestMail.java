@@ -4,8 +4,8 @@ import Account.Account;
 
 public class FriendRequestMail extends Mail {
 
-    public FriendRequestMail(Account from) {
-        super(from);
+    public FriendRequestMail(Account from, Account to) {
+        super(from, to);
     }
 
     @Override
