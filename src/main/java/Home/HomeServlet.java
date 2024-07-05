@@ -13,4 +13,10 @@ public class HomeServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/pages/home.jsp")
                 .forward(request, response);
     }
+
+
+
+
+
+
 }

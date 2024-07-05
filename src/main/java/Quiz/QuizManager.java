@@ -21,6 +21,64 @@ public class QuizManager {
         this.db = db;
     }
 
+    public ArrayList<Quiz> getPopularQuizes() {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select q.quiz_id AS ID, " +
+                            "count(a.attempt_id) AS total_attempts " +
+                            "from quiz q " +
+                            "left outer join attempts a " +
+                            "on(q.quiz_id = a.quiz_id) " +
+                            "group by ID " +
+                            "order by total_attempts desc;"
+            );
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("ID");
+                list.add(getQuiz(id));
+            }
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public ArrayList<Quiz> getRecentQuizes() {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from quiz where quiz_id=?"
+            );
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+
+
     public Quiz getQuiz(int id) {
         try {
             // Open connection to the database
@@ -122,7 +180,9 @@ public class QuizManager {
 
             stmt.close();
 
-        } catch(SQLException ignored) {}
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return questionList;
     }
@@ -145,7 +205,7 @@ public class QuizManager {
 
             stmt.close();
         } catch(SQLException e) {
-
+            throw new RuntimeException(e);
         }
 
         return textAnswerList;
@@ -175,7 +235,7 @@ public class QuizManager {
 
             stmt.close();
         } catch(SQLException e) {
-
+            throw new RuntimeException(e);
         }
 
         return choiceList;
@@ -212,8 +272,8 @@ public class QuizManager {
 
             stmt.close();
             con.close();
-        } catch(SQLException ignore) {
-
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
         }
 
         return attemptId;
@@ -399,7 +459,7 @@ public class QuizManager {
         return -1;
     }
 
-    public void addQuiz(Quiz quiz) {
+    public int addQuiz(Quiz quiz) {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
@@ -432,17 +492,17 @@ public class QuizManager {
             stmt.close();
 
             ArrayList<Question> questions = quiz.getQuestions();
+            System.out.println(questions.size());
             for(int i=0; i<questions.size(); i++) {
                 Question quest = questions.get(i);
                 int questNewId = addQuestion(con, quizNewId, quest, i+1);
                 addAnswers(con, quest, questNewId);
             }
-
             con.close();
+            return quizNewId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void addAnswers(Connection con, Question quest, int questId){

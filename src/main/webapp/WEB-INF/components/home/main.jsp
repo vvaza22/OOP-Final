@@ -1,3 +1,14 @@
+<%@ page import="Quiz.QuizManager" %>
+<%@ page import="Quiz.Quiz" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Global.SessionManager" %>
+<%
+    QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
+    ArrayList<Quiz> popularsList = qm.getPopularQuizes();
+    ArrayList<Quiz> recentsList = qm.getRecentQuizes();
+    String currentUserName = (String) session.getAttribute("currentUserName");
+%>
+
 <main class="main-content pt-4">
     <div class="container">
         <div class="row">

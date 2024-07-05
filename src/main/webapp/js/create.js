@@ -248,7 +248,7 @@
 
     const pictureLink =
         document.getElementById("picture_" + questionId);
-    questionObj["picture"] = pictureLink.value;
+    questionObj["picture"] = encodeURIComponent(pictureLink.value);
 
     const answerText =
         document.getElementById("correct_" + questionId);
@@ -409,7 +409,7 @@
         // Read the server response
         let response = JSON.parse(xhr.responseText);
         if(response.status === "success") {
-          alert("Quiz was created!");
+          location.href = "/about_quiz?id=" + response.quiz_id;
         } else {
           alert(response.errorMsg);
         }
