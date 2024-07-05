@@ -22,11 +22,26 @@
     margin: 0;
 }
 
-.num-questions {
+.quiz-flag {
     margin-left: .5em;
-    background-color: crimson;
     color: #fff;
     padding: .3em .5em;
     border-radius: 10px;
     font-size: 12px;
+}
+
+.num-questions {
+    background-color: crimson;
+}
+
+.randomized {
+    background-color: green;
+}
+
+.immediate {
+    background-color: #6f42c1;
+}
+
+.page {
+    background-color: #0b5ed7;
 }

@@ -417,9 +417,9 @@ public class QuizManager {
             stmt.setString(1, quiz.getName());
             stmt.setString(2, String.valueOf(quiz.getAuthor_id()));
             stmt.setString(3, quiz.getDescription());
-            stmt.setInt(4, quiz.isRandomized());
+            stmt.setBoolean(4, quiz.isRandomized());
             stmt.setBoolean(5, quiz.isPracticeAllowed());
-            stmt.setInt(6, quiz.isImmediateCorrectionOn());
+            stmt.setBoolean(6, quiz.isImmediateCorrectionOn());
             stmt.setString(7, (quiz.getDisplayMode()==1) ? "ONE_PAGE" : "MULTIPLE_PAGES");
             stmt.setString(8, quiz.getCreate_time());
 
