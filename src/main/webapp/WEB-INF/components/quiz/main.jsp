@@ -22,16 +22,39 @@
             <div class="col">
                 <div class="question-list">
                     <!-- I use this weird technique to remove Whitespace characters between <a> elements -->
-                    <!--
-                    <% for(int i=1; i<=questionList.size(); i++) { %>
-                        <% if(i == curQuestionIndex)  { %>
-                        --><span class="btn btn-outline-secondary question-link active"><%= i %></span><!--
-                        <% } else if(questionList.get(i-1).hasAnswer()) { %>
-                        --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link answered"><%= i %></a><!--
-                        <% } else { %>
-                        --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link"><%= i %></a><!--
+
+                    <% if(currentQuiz.isImmediateCorrectionOn()) { %>
+
+                        <!--
+                        <% for(int i=1; i<=questionList.size(); i++) { %>
+                            <% if(i == curQuestionIndex)  { %>
+                            --><span class="btn btn-outline-secondary question-link active"><%= i %></span><!--
+                            <% } else if(questionList.get(i-1).hasAnswer()) { %>
+                                <% if(questionList.get(i-1).countPoints() > 0) { %>
+                            --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link answered-correctly"><%= i %></a><!--
+                                <% } else { %>
+                            --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link answered-wrong"><%= i %></a><!--
+                                <% } %>
+                            <% } else { %>
+                            --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link"><%= i %></a><!--
+                            <% } %>
                         <% } %>
+
+                    <% } else { %>
+
+                        <!--
+                        <% for(int i=1; i<=questionList.size(); i++) { %>
+                            <% if(i == curQuestionIndex)  { %>
+                            --><span class="btn btn-outline-secondary question-link active"><%= i %></span><!--
+                            <% } else if(questionList.get(i-1).hasAnswer()) { %>
+                            --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link answered"><%= i %></a><!--
+                            <% } else { %>
+                            --><a href="/quiz?q=<%= i %>" class="btn btn-outline-secondary question-link"><%= i %></a><!--
+                            <% } %>
+                        <% } %>
+
                     <% } %>
+
                     <% if(!reviewFlag) { %>
                     --><a href="/quiz?q=review" class="btn btn-outline-secondary question-link review">review</a>
                     <% } else { %>

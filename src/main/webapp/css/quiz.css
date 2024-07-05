@@ -27,8 +27,8 @@
 }
 
 .question-link.active {
-    background-color: #198754;
-    border-color: #198754;
+    background-color: darkblue;
+    border-color: transparent;
     color: white;
 }
 
@@ -119,4 +119,12 @@
 
 .ans-radio-wrong > label {
     color: crimson;
+}
+
+.answered-correctly {
+    background: #54ff54;
+}
+
+.answered-wrong {
+    background: #f46381;
 }
