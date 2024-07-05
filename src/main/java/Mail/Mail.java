@@ -11,12 +11,19 @@ public abstract class Mail {
     /* Who sent the mail */
     protected Account from;
 
-    public Mail(Account from) {
+    protected Account to;
+
+    public Mail(Account from, Account to) {
         this.from = from;
+        this.to = to;
     }
 
     public Account getFrom() {
         return this.from;
+    }
+
+    public Account getTo(){
+        return this.to;
     }
 
     public abstract String getMessage();

@@ -23,6 +23,7 @@
                 }
                 xhr.send("profilePictureLink=" + imageLink);
             }
+            location.reload();
         }
     }
 

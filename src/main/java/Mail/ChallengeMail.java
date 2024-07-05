@@ -4,13 +4,13 @@ import Account.Account;
 
 public class ChallengeMail extends Mail {
 
-    public ChallengeMail(Account from) {
-        super(from);
+    public ChallengeMail(Account from, Account to) {
+        super(from, to);
     }
 
     @Override
     public String getMessage() {
-        return "";
+        return from.getUserName() + " challenged you";
     }
 
     @Override

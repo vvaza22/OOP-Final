@@ -106,7 +106,7 @@ public class ProfileServlet extends HttpServlet {
         }else {
 
             if(profilePictureLink != null) {
-                if(profilePictureLink.isEmpty()) profilePictureLink = "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
+                if(profilePictureLink.isEmpty()) profilePictureLink = "/images/profile/default.jpg";
                 userAccount.setImage(profilePictureLink);
             }
 
