@@ -21,8 +21,8 @@ public class FriendRequestManager {
                     "insert into frreqs (from_id, to_id, status) values (?, ?, ?)"
             );
 
-            stmt.setString(1, String.valueOf(from));
-            stmt.setString(2, String.valueOf(to));
+            stmt.setInt(1, from);
+            stmt.setInt(2, to);
             stmt.setString(3, "PENDING");
             stmt.executeUpdate();
             stmt.close();

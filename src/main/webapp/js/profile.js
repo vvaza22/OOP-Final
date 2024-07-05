@@ -12,7 +12,7 @@
     function addFriend(){
         if(addFriendButt && requestButt){
             addFriendButt.onclick = function (e) {
-                var toWhichUserReqSent = document.getElementById("username");
+                var toWhichUserReqSent = this.dataset.username;
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/profile", true);
                 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -23,7 +23,7 @@
                         requestButt.style.display = "block";
                     }
                 }
-                xhr.send("friendRequestedUser="+ toWhichUserReqSent);
+                xhr.send("action=addFriend&friendRequestedUser="+ toWhichUserReqSent);
             }
         }
     }
@@ -44,7 +44,7 @@
                             profilePicURL.src = imageLink;
                         }
                     }
-                    xhr.send("profilePictureLink=" + encodeURI(imageLink));
+                    xhr.send("action=changePic&profilePictureLink=" + encodeURI(imageLink));
                 }
             }
         }
@@ -85,7 +85,7 @@
                         saveButt.style.display = "none";
                     }
                 }
-                xhr.send("aboutMe=" + aboutMeText);
+                xhr.send("action=edited&aboutMe=" + aboutMeText);
             }
         }
     }
