@@ -1,3 +1,11 @@
+<%@ page import="Quiz.QuizManager" %>
+<%@ page import="Quiz.Quiz" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+    QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
+    ArrayList<Quiz> popularsList = qm.getPopularQuizzes();
+%>
+
 <section class="group-section g-popular">
     <div class="g-content">
         <div class="g-title-cont">
@@ -7,11 +15,9 @@
         </div>
         <div class="g-list pt-4">
             <ol>
-                <li><a href="#">Programming nerd quiz</a></li>
-                <li><a href="#">Complex Geometries</a></li>
-                <li><a href="#">Meme 5.0</a></li>
-                <li><a href="#">Banach-Tarsky and more</a></li>
-                <li><a href="#">Meme 2.0</a></li>
+                <%for(int i=0; i<Math.min(5, popularsList.size()); i++) { %>
+                    <li><a href=<%="/about_quiz?id="+String.valueOf(popularsList.get(i).getId())%>><%=popularsList.get(i).getName()%></a></li>
+                <% } %>
             </ol>
         </div>
     </div>

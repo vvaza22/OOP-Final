@@ -21,8 +21,8 @@ public class FriendRequestManager {
                     "insert into frreqs (from_id, to_id, status) values (?, ?, ?)"
             );
 
-            stmt.setString(1, String.valueOf(from));
-            stmt.setString(2, String.valueOf(to));
+            stmt.setInt(1, from);
+            stmt.setInt(2, to);
             stmt.setString(3, "PENDING");
             stmt.executeUpdate();
             stmt.close();
@@ -51,25 +51,29 @@ public class FriendRequestManager {
         }
     }
 
-//    public void requestResponse(int from, int to) {
-//        try {
-//            Connection con = db.openConnection();
-//            PreparedStatement stmt = con.prepareStatement(
-//                    "update frreqs set from_id=?, to_id=?, status=? where id=?"
-//            );
-//
-//            stmt.setString(1, String.valueOf(from));
-//            stmt.setString(2, String.valueOf(to));
-//            stmt.setString(3, "PENDING");
-//            stmt.setString(4, String.valueOf(from));
-//
-//            stmt.executeUpdate();
-//            stmt.close();
-//            con.close();
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public String getStatusById(int fromId, int toId){
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select status from frreqs where from_id=? and to_id=?"
+            );
+            stmt.setInt(1, fromId);
+            stmt.setInt(2, toId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                String status = rs.getString("status");
 
+                stmt.close();
+                con.close();
+
+                return status;
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

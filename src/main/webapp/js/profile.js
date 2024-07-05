@@ -9,23 +9,16 @@
     var remoFriendButt = document.getElementById("rem_friend");
     var requestButt = document.getElementById("request");
 
-    function addFriend(){
-        if(addFriendButt && requestButt){
-            addFriendButt.onclick = function (e) {
-                var toWhichUserReqSent = document.getElementById("username");
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "/profile", true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        addFriendButt.style.display = "none";
-                        remoFriendButt.style.display = "none";
-                        requestButt.style.display = "block";
-                    }
-                }
-                xhr.send("friendRequestedUser="+ toWhichUserReqSent);
+    window.addFriend = function(toWhichUserReqSent){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/profile", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                location.reload();
             }
         }
+        xhr.send("action=addFriend&friendRequestedUser="+ toWhichUserReqSent);
     }
 
     function changeProfilePicture() {
@@ -42,9 +35,10 @@
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4 && xhr.status === 200) {
                             profilePicURL.src = imageLink;
+                            location.reload();
                         }
                     }
-                    xhr.send("profilePictureLink=" + encodeURI(imageLink));
+                    xhr.send("action=changePic&profilePictureLink=" + encodeURI(imageLink));
                 }
             }
         }
@@ -85,7 +79,7 @@
                         saveButt.style.display = "none";
                     }
                 }
-                xhr.send("aboutMe=" + aboutMeText);
+                xhr.send("action=edited&aboutMe=" + aboutMeText);
             }
         }
     }
@@ -110,7 +104,6 @@
         saveButton();
         cancelButton();
         changeProfilePicture();
-        addFriend();
     }
 
     hook();
