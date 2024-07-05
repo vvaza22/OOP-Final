@@ -10,6 +10,9 @@
     <jsp:include page="/WEB-INF/components/home/main.jsp" />
     <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
+    <!-- Local Javascript -->
+    <script src="/js/anno.js" type="text/javascript"></script>
+
     <!-- Global Javascript -->
     <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>

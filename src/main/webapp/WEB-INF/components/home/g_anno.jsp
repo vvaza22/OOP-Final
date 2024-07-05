@@ -1,5 +1,18 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Announcements.Announcement" %>
+<%@ page import="Account.Account" %>
+
+
+<%
+    Account currentUser = (Account) request.getAttribute("currentUser");
+%>
+
+<% if(currentUser!=null && currentUser.isAdmin()) { %>
+        <textarea id="anno_text" class="form-control"> </textarea>
+        <div style="text-align: right">
+            <button id="anno_publish_btn" class="btn btn-round btn-primary mt-2">Publish</button>
+        </div>
+<% } %>
 
 <%
     ArrayList<Announcement> data = new ArrayList<Announcement>();

@@ -53,6 +53,10 @@
     <servlet-name>QuizAttemptServlet</servlet-name>
     <servlet-class>QuizAttempt.QuizAttemptServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PublishAnnoServlet</servlet-name>
+    <servlet-class>PublishAnno.PublishAnnoServlet</servlet-class>
+  </servlet>
   <!-- Servlet Definitions END -->
 
   <!-- Servlet Mapping -->
@@ -96,6 +100,11 @@
     <servlet-name>QuizAttemptServlet</servlet-name>
     <url-pattern>/attempt</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PublishAnnoServlet</servlet-name>
+    <url-pattern>/publish</url-pattern>
+  </servlet-mapping>
+
   <!-- Servlet Mapping END -->
 
 </web-app>

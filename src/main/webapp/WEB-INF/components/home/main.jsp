@@ -1,14 +1,8 @@
-<%@ page import="Global.SessionManager" %>
 <%@ page import="Account.Account" %>
-<%@ page import="Quiz.Quiz" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="Quiz.QuizManager" %>
 
 <%
     Account currentUser = (Account) request.getAttribute("currentUser");
-
 %>
-
 
 <main class="main-content pt-4">
     <div class="container">

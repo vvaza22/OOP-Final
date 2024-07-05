@@ -78,6 +78,9 @@ public class CreateServlet extends HttpServlet {
             return;
         }
 
+        // Output JSON to the client
+        response.setContentType("application/json");
+
         // Prepare the response object
         JSONObject responseObj = new JSONObject();
 
