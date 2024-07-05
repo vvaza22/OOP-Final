@@ -1,16 +1,15 @@
-package Account;
+package Mail;
 
 import Database.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class FriendRequestManager {
+public class ChallengeManager {
     private final Database db;
 
-    public FriendRequestManager(Database db) {
+    public ChallengeManager(Database db) {
         this.db = db;
     }
 
@@ -18,7 +17,7 @@ public class FriendRequestManager {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "insert into frreqs (from_id, to_id, status) values (?, ?, ?)"
+                    "insert into challenges (from_id, to_id, status) values (?, ?, ?)"
             );
 
             stmt.setInt(1, from);
@@ -37,7 +36,7 @@ public class FriendRequestManager {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "update frreqs set status=? where id=?"
+                    "update challenges set status=? where id=?"
             );
 
             stmt.setInt(2, id);
@@ -49,31 +48,5 @@ public class FriendRequestManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String getStatusById(int fromId, int toId){
-        try {
-            Connection con = db.openConnection();
-            PreparedStatement stmt = con.prepareStatement(
-                    "select status from frreqs where from_id=? and to_id=?"
-            );
-            stmt.setInt(1, fromId);
-            stmt.setInt(2, toId);
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()) {
-                String status = rs.getString("status");
-
-                stmt.close();
-                con.close();
-
-                return status;
-            }
-            stmt.close();
-            con.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
     }
 }

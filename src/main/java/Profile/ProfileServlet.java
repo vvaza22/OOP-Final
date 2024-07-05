@@ -53,15 +53,6 @@ public class ProfileServlet extends HttpServlet {
             // Also pass the requested username
             request.setAttribute("reqUsername", userName);
 
-            Integer isMyProfile = 0;
-
-            if (currentUserName != null) {
-                currentUserName = currentUserName.toLowerCase();
-                userName = userName.toLowerCase();
-                if (currentUserName.equals(userName)) isMyProfile = 1;
-            }
-            request.setAttribute("isMyOwnProfile", isMyProfile);
-
             // Display the page
             request.getRequestDispatcher("/WEB-INF/pages/profile.jsp")
                     .forward(request, response);

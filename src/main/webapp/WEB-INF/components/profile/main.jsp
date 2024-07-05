@@ -1,8 +1,15 @@
 <%@ page import="Account.Account" %>
+<%@ page import="Global.SessionManager" %>
+<%@ page import="Database.Database" %>
+<%@ page import="Account.FriendRequestManager" %>
+
 <%
     Account userAccount = (Account) request.getAttribute("userAccount");
-    Integer isMyOwnProfile = (Integer) request.getAttribute("isMyOwnProfile");
-    String currentUserName = (String) session.getAttribute("currentUserName");
+    SessionManager sessionManager = new SessionManager(request.getSession());
+    Account myAccount = sessionManager.getCurrentUserAccount();
+    Database db = ((Database) request.getServletContext().getAttribute("database"));
+    FriendRequestManager frm = new FriendRequestManager(db);
+    String status = "";
 %>
 
 <style>
@@ -41,17 +48,25 @@
 
             <div class="col">
                 <div class="user-profile">
-                    <% if(isMyOwnProfile == 0 && currentUserName != null) { %>
-                        <div class="user-action">
-                            <button data-username="<%=userAccount.getUserName()%>" id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
-                            <button id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
-                            <button id="request" class="btn btn-round btn-outline-danger" style="display: none";>request sent</button>
-                        </div>
+
+                    <%if(myAccount != null && userAccount != null){
+                        status = frm.getStatusById(myAccount.getUserId(), userAccount.getUserId());
+                        if(sessionManager.isUserLoggedIn() && myAccount.getUserId() != userAccount.getUserId()) { %>
+                            <div class="user-action">
+                                <% if(status == null || status.equals("REJECTED")){ %>
+                                    <button onclick="addFriend('<%=userAccount.getUserName()%>')" id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
+                                <%} else if (status.equals("PENDING")){%>
+                                    <button id="request" class="btn btn-round btn-outline-success" style="display: block">request sent</button>
+                                <%} else if (status.equals("ACCEPTED")){%>
+                                    <button id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
+                                <%} %>
+                            </div>
+                        <% } %>
                     <% } %>
                     <div class="profile-row">
                         <div class="user-image-cont">
                             <img id="profile-picture" src="<%=userAccount.getImage()%>" width="200" height="200" />
-                            <% if (isMyOwnProfile == 1){ %>
+                            <% if (myAccount != null && myAccount.getUserId() == userAccount.getUserId()){ %>
                                 <div class="owner-action">
                                     <div class="btn-action">
                                         <a id="change-profile-pic" class="changed-profile-pic" style="display: block;" href="#">Change Profile Picture</a>
@@ -78,13 +93,13 @@
                             <form id="profile-form" action="/profile" method="post">
                                 <div class="about-cont">
                                     <h4>About Me
-                                        <% if (isMyOwnProfile == 1) { %>
+                                        <% if (myAccount != null && myAccount.getUserId() == userAccount.getUserId()) { %>
                                             <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a>
                                         <% } %>
                                     </h4>
                                     <p style="display: block" id="text-about-me" class="original-text"> <%=userAccount.getAboutMe()%></p>
 <%--                                    this wont work if edit button isnt clicked but just for insurance--%>
-                                    <% if(isMyOwnProfile == 1) { %>
+                                    <% if(myAccount != null && myAccount.getUserId() == userAccount.getUserId()) { %>
                                         <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
                                         <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
                                         <div class="buttons">

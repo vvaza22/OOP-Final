@@ -3,6 +3,7 @@ package Quiz;
 import Question.Question;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -49,6 +50,10 @@ public class Quiz {
         this.questionList = questionList;
 
         createQuestionMap();
+
+        if(isRandomized()) {
+            shuffleQuestions();
+        }
     }
 
     public int getId() {
@@ -63,6 +68,10 @@ public class Quiz {
         return author_id;
     }
 
+    private void shuffleQuestions() {
+        Collections.shuffle(questionList);
+    }
+
     public boolean isPracticeAllowed() {
         return practiceMode;
     }
@@ -71,14 +80,12 @@ public class Quiz {
         return this.create_time;
     }
 
-    public int isRandomized() {
-        if(randomize) return 1;
-        return 0;
+    public boolean isRandomized() {
+        return randomize;
     }
 
-    public int isImmediateCorrectionOn() {
-        if(immediateCorrection) return 1;
-        return 0;
+    public boolean isImmediateCorrectionOn() {
+        return immediateCorrection;
     }
 
     public int getDisplayMode() {

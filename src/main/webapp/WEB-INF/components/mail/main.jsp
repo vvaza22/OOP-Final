@@ -23,12 +23,25 @@
 
     ArrayList<Mail> mails = new ArrayList<Mail>();
     ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(smgr.getCurrentUserAccount().getUserId());
-    mails.addAll(reqs);
+    ArrayList<NoteMail> notes = mmgr.getNotes(smgr.getCurrentUserAccount().getUserId());
+    ArrayList<ChallengeMail> challenges = mmgr.getChallenges(smgr.getCurrentUserAccount().getUserId());
 
-    int numMails = mails.size();
     int numFriendReqs = reqs.size();
-    int numChallenges = 0;
-    int numNotes = 0;
+    int numChallenges = challenges.size();
+    int numNotes = notes.size();
+    int numMails = numFriendReqs + numNotes + numChallenges;
+
+    if(curTab.equals("friend_req")){
+        mails.addAll(reqs);
+    }else if(curTab.equals("notes")){
+        mails.addAll(notes);
+    }else if(curTab.equals("challenges")){
+        mails.addAll(challenges);
+    }else if(curTab.equals("all")){
+        mails.addAll(reqs);
+        mails.addAll(notes);
+        mails.addAll(challenges);
+    }
 
 //    // FOR TEST
 //    int numFriendReqs = 2;
@@ -86,7 +99,6 @@
                             <th>#</th>
                             <th>From</th>
                             <th>Message</th>
-                            <th>Action</th>
                         </tr>
 
                         <%
@@ -116,10 +128,23 @@
                                                 <div class="rejected">
                                                     <h3>Friend Request Rejected.</h3>
                                                 </div>
-                                        <%}%>
-                                    <% } else if(mail.getType() == Mail.CHALLENGE) { %>
-                                        <button class="btn btn-outline-success btn-round">Accept</button>
-                                    <% } %>
+                                        <%}} else if(mail.getType() == Mail.CHALLENGE) { %>
+                                            <% ChallengeMail chall = (ChallengeMail)mail; %>
+                                            <% if (chall.getStatus().equals("PENDING")) {%>
+                                            <button class="btn btn-outline-success btn-round" onclick="acceptChal(<%=chall.getId()%>)"> Accept </button >
+                                            <button class="btn btn-outline-danger btn-round" onclick="rejectChal(<%=chall.getId()%>)"> Decline </button >
+                                            <% } else if(chall.getStatus().equals("CHL_ACCEPTED")){%>
+                                            <div class="challenge_accepted">
+                                                <h3>Challenge Accepted.</h3>
+                                            </div>
+                                            <% } else if(chall.getStatus().equals("CHL_REJECTED")){%>
+                                            <div class="challenge_rejected">
+                                                <h3>Challenge Rejected.</h3>
+                                            </div>
+                                    <% }} else if(mail.getType() == Mail.NOTE) {%>
+                                    <% NoteMail note = (NoteMail)mail; %>
+                                       <h3> <%=note.getMessage()%> </h3>
+                                    <%}%>
                                 </td>
                             </tr>
                         <% } %>
