@@ -198,6 +198,11 @@ main {
 	margin-bottom: 1.2rem;
 }
 
+.g-list {
+	position: relative;
+	z-index: 100;
+}
+
 .g-content {
 	border: 1px solid #ccc;
 	border-radius: 7px;

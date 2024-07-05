@@ -10,7 +10,7 @@
     <div class="g-content">
         <div class="g-title-cont">
             <div class="g-title-bg">
-                <h4 class="g-title">Your Recently Taken Quizzes</h4>
+                <h4 class="g-title">Recently Taken</h4>
             </div>
         </div>
         <div class="g-list pt-4">
