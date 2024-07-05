@@ -58,55 +58,53 @@
         }
     }
 
-    window.goToPrev = function(questionId, questionIndex, questionType) {
+    function sendAnswerToServlet(questionId, questionIndex, questionType, callback) {
         switch(questionType) {
             case 'QUESTION_RESPONSE':
             case 'PICTURE_RESPONSE':
             case 'FILL_BLANK':
-                sendText(questionId, function() {
-                    location.href = "/quiz?q="+(questionIndex - 1);
-                });
+                sendText(questionId, callback);
                 break;
             case 'MULTIPLE_CHOICE':
-                sendMultipleChoice(questionId, function() {
-                    location.href = "/quiz?q="+(questionIndex - 1);
-                })
+                sendMultipleChoice(questionId, callback)
                 break;
         }
+    }
+
+    window.goToPrev = function(questionId, questionIndex, questionType) {
+        sendAnswerToServlet(questionId, questionIndex, questionType,function() {
+            location.href = "/quiz?q="+(questionIndex - 1);
+        })
     }
 
     window.goToNext = function(questionId, questionIndex, questionType) {
-        switch(questionType) {
-            case 'QUESTION_RESPONSE':
-            case 'PICTURE_RESPONSE':
-            case 'FILL_BLANK':
-                sendText(questionId,function() {
-                    location.href = "/quiz?q="+(questionIndex + 1);
-                });
-                break;
-            case 'MULTIPLE_CHOICE':
-                sendMultipleChoice(questionId,function() {
-                    location.href = "/quiz?q="+(questionIndex + 1);
-                })
-                break;
-        }
+        sendAnswerToServlet(questionId, questionIndex, questionType,function() {
+            location.href = "/quiz?q="+(questionIndex + 1);
+        })
     }
 
     window.goToReview = function(questionId, questionIndex, questionType) {
-        switch(questionType) {
-            case 'QUESTION_RESPONSE':
-            case 'PICTURE_RESPONSE':
-            case 'FILL_BLANK':
-                sendText(questionId, function() {
-                    location.href = "/quiz?q=review";
-                });
-                break;
-            case 'MULTIPLE_CHOICE':
-                sendMultipleChoice(questionId, function() {
-                    location.href = "/quiz?q=review";
-                })
-                break;
-        }
+        sendAnswerToServlet(questionId, questionIndex, questionType,function() {
+            location.href = "/quiz?q=review";
+        })
+    }
+
+    window.checkAnswer = function(questionId, questionIndex, questionType) {
+        sendAnswerToServlet(questionId, questionIndex, questionType,function() {
+            location.reload();
+        })
+    }
+
+    window.goToPrevPage = function(questionId, questionIndex, questionType) {
+        location.href = "/quiz?q="+(questionIndex - 1);
+    }
+
+    window.goToNextPage = function(questionId, questionIndex, questionType) {
+        location.href = "/quiz?q="+(questionIndex + 1);
+    }
+
+    window.goToReviewPage = function(questionId, questionIndex, questionType) {
+        location.href = "/quiz?q=review";
     }
 
     function sendFinishAttempt(callback) {

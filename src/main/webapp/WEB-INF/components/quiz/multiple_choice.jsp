@@ -23,14 +23,50 @@
             String inputName = "multi_choice_" + qObject.getId();
             String inputId = "choice_" + choice.getId() + "_for_" + curQuestionIndex;
         %>
-        <div class="answer-selector-cont">
-          <% if(choice.getId() == qObject.getUserAnswer()) { %>
-          <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked />
-          <% } else { %>
-          <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" />
-          <% } %>
-          <label for="<%= inputId %>"><%= choice.getText() %></label>
-        </div>
+
+        <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) { %>
+          <div class="answer-selector-cont">
+            <% if(choice.getId() == qObject.getUserAnswer()) { %>
+              <% if(choice.getId() == qObject.getCorrectAnswerIndex()) { %>
+                <div class="answer-radio ans-radio-correct">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } else { %>
+                <div class="answer-radio ans-radio-wrong">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } %>
+            <% } else { %>
+              <% if(choice.getId() == qObject.getCorrectAnswerIndex()) { %>
+                <div class="answer-radio ans-radio-correct">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } else { %>
+                <div class="answer-radio">
+                  <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" disabled />
+                  <label for="<%= inputId %>"><%= choice.getText() %></label>
+                </div>
+              <% } %>
+            <% } %>
+          </div>
+
+        <% } else { %>
+
+          <div class="answer-selector-cont">
+            <% if(choice.getId() == qObject.getUserAnswer()) { %>
+            <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" checked />
+            <% } else { %>
+            <input id="<%= inputId %>" name="<%= inputName %>" type="radio" value="<%= choice.getId() %>" />
+            <% } %>
+            <label for="<%= inputId %>"><%= choice.getText() %></label>
+          </div>
+
+        <% } %>
+
+
         <% } %>
       </div>
     </div>

@@ -72,3 +72,51 @@
     width: 200px;
     height: auto;
 }
+
+.fill-blank-correct {
+    color: green;
+}
+
+.fill-blank-wrong {
+    color: red;
+}
+
+.answered-box {
+    padding: .5em 1em;
+    margin: .5em 0;
+    border-radius: 16px;
+}
+
+.answer-correct {
+    background-color: green;
+    color: #fff;
+}
+
+.answer-wrong {
+    background-color: crimson;
+    color: #fff;
+}
+
+.text-ans {
+    font-size: 1.2em;
+}
+
+.text-correct {
+    color: green;
+}
+
+.text-wrong {
+    color: crimson;
+}
+
+.answer-radio > label {
+    font-weight: bold;
+}
+
+.ans-radio-correct > label {
+    color: green;
+}
+
+.ans-radio-wrong > label {
+    color: crimson;
+}

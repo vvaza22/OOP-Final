@@ -152,6 +152,14 @@ public class QuizServlet extends HttpServlet {
             // Get the question object
             Question currentQuestion = currentQuiz.getQuestionById(questionId);
 
+            // Do not allow users to answer to the same question multiple times if immediate is on
+            if(currentQuiz.isImmediateCorrectionOn() && currentQuestion.hasAnswer()) {
+                responseObj.put("status", "fail");
+                responseObj.put("errorMsg", "You have already answered this question!");
+                response.getWriter().print(responseObj);
+                return;
+            }
+
             // Get data
             String data = request.getParameter("data");
             if(data == null || data.isEmpty()) {
@@ -201,6 +209,12 @@ public class QuizServlet extends HttpServlet {
 
             // Print success to the client
             responseObj.put("status", "success");
+
+            // Instantly send the answer if immediate correction is on
+            if(currentQuiz.isImmediateCorrectionOn()) {
+                responseObj.put("points", currentQuestion.countPoints());
+            }
+
             response.getWriter().print(responseObj);
 
         } else if(action.equals("finish_attempt")) {
