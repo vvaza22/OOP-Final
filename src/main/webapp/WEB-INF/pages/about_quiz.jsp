@@ -11,7 +11,7 @@
 <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
 <!-- Local Javascript -->
-
+<script type="text/javascript" src="/js/about_quiz.js"></script>
 <!-- Global Javascript -->
 <jsp:include page="/WEB-INF/components/global/append.jsp" />
 </body>

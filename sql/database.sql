@@ -1,6 +1,8 @@
 use oop_final;
 
 -- Reset the database
+drop table if exists user_answers;
+drop table if exists attempts;
 drop table if exists choices;
 drop table if exists text_answers;
 drop table if exists questions;
@@ -70,6 +72,40 @@ create table choices
         unique (choice_id),
     constraint questions_choices_question_id_fk
         foreign key (question_id) references questions (question_id)
+);
+
+
+-- Attempts table
+create table attempts
+(
+    attempt_id   int auto_increment,
+    quiz_id      int                                not null,
+    user_id      int                                not null,
+    max_possible int                                not null,
+    score        int                                not null,
+    attempt_time datetime default CURRENT_TIMESTAMP null,
+    constraint attempts_pk
+        primary key (attempt_id),
+    constraint attempts_pk_2
+        unique (attempt_id),
+    constraint quiz_id_fk
+        foreign key (quiz_id) references quiz (quiz_id),
+    constraint user_id_fk
+        foreign key (user_id) references users (id)
+);
+
+create table user_answers
+(
+    user_answer_id int auto_increment,
+    attempt_id     int                  not null,
+    question       text                 not null,
+    user_answer    text                 not null,
+    correct_answer text                 not null,
+    points    int default 0 not null,
+    constraint user_answers_pk
+        primary key (user_answer_id),
+    constraint attempt_id_fk
+        foreign key (attempt_id) references attempts (attempt_id)
 );
 
 
