@@ -14,9 +14,9 @@
                 // Read the server response
                 var response = JSON.parse(xhr.responseText);
                 if(response.status === "success") {
-                    alert("success");
+                    location.reload();
                 } else {
-                    //
+
                 }
             }
         }

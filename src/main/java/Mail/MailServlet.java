@@ -70,12 +70,16 @@ public class MailServlet extends HttpServlet {
         // Prepare the response object
         JSONObject responseObj = new JSONObject();
 
-        if(requestStatus.equals("ACCEPTED")) {
-            // Logout was successful
-            responseObj.put("status", "friend request accepted");
+        // Connect to database
+        Database db = ((Database) request.getServletContext().getAttribute("database"));
+        FriendRequestManager frm = new FriendRequestManager(db);
+
+        if(requestStatus.equals("ACCEPTED")){
+            frm.changeStatus(requestId, "ACCEPTED");
+            responseObj.put("status", "success");
         } else {
-            // Logout failed
-            responseObj.put("status", "friend request rejected");
+            frm.changeStatus(requestId, "REJECTED");
+            responseObj.put("status", "success");
         }
 
         // Print the response to the client
