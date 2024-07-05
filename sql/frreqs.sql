@@ -18,3 +18,5 @@ INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (1, 2, 'PENDING');
 INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (4, 5, 'PENDING');
 INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (3, 2, 'PENDING');
 INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (2, 3, 'PENDING');
+INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (2, 6, 'PENDING');
+INSERT INTO oop_final.frreqs (from_id, to_id, status) VALUES (3, 6, 'ACCEPTED');

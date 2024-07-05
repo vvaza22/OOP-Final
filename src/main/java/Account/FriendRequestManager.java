@@ -33,6 +33,24 @@ public class FriendRequestManager {
         }
     }
 
+    public void changeStatus(int id, String newStatus){
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "update frreqs set status=? where id=?"
+            );
+
+            stmt.setInt(2, id);
+            stmt.setString(1, newStatus);
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 //    public void requestResponse(int from, int to) {
 //        try {
 //            Connection con = db.openConnection();

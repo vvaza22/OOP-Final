@@ -13,9 +13,12 @@ public abstract class Mail {
 
     protected Account to;
 
-    public Mail(Account from, Account to) {
+    protected int id;
+
+    public Mail(Account from, Account to, int id) {
         this.from = from;
         this.to = to;
+        this.id = id;
     }
 
     public Account getFrom() {
@@ -25,6 +28,8 @@ public abstract class Mail {
     public Account getTo(){
         return this.to;
     }
+
+    public int getId() {return this.id;}
 
     public abstract String getMessage();
     public abstract int getType();

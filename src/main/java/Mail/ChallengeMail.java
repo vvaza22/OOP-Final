@@ -4,8 +4,8 @@ import Account.Account;
 
 public class ChallengeMail extends Mail {
 
-    public ChallengeMail(Account from, Account to) {
-        super(from, to);
+    public ChallengeMail(Account from, Account to, int id) {
+        super(from, to, id);
     }
 
     @Override
