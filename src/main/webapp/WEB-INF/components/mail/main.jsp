@@ -24,9 +24,10 @@
     ArrayList<Mail> mails = new ArrayList<Mail>();
     ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(smgr.getCurrentUserAccount().getUserId());
     ArrayList<NoteMail> notes = mmgr.getNotes(smgr.getCurrentUserAccount().getUserId());
+    ArrayList<ChallengeMail> challenges = mmgr.getChallenges(smgr.getCurrentUserAccount().getUserId());
 
     int numFriendReqs = reqs.size();
-    int numChallenges = 0;
+    int numChallenges = challenges.size();
     int numNotes = notes.size();
     int numMails = numFriendReqs + numNotes + numChallenges;
 
@@ -34,11 +35,13 @@
         mails.addAll(reqs);
     }else if(curTab.equals("notes")){
         mails.addAll(notes);
+    }else if(curTab.equals("challenges")){
+        mails.addAll(challenges);
     }else if(curTab.equals("all")){
         mails.addAll(reqs);
         mails.addAll(notes);
+        mails.addAll(challenges);
     }
-
 
 //    // FOR TEST
 //    int numFriendReqs = 2;

@@ -3,10 +3,16 @@ package Mail;
 import Account.Account;
 
 public class ChallengeMail extends Mail {
+    int quiz_id;
+    String status;
 
-    public ChallengeMail(Account from, Account to, int id) {
+    public ChallengeMail(Account from, Account to, int id, int quiz_id, String status) {
         super(from, to, id);
+        this.quiz_id = quiz_id;
+        this.status = status;
     }
+
+    public int getQuizId(){return this.quiz_id;}
 
     @Override
     public String getMessage() {

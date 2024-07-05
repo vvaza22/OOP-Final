@@ -40,6 +40,8 @@ public class MailManager {
 
                 reqs.add(req);
             }
+            stmt.close();
+            con.close();
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
@@ -68,12 +70,43 @@ public class MailManager {
 
                 txtMsg.add(msg);
             }
+            stmt.close();
+            con.close();
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
         return txtMsg;
     }
 
+    public ArrayList<ChallengeMail> getChallenges(int userId){
+        ArrayList<ChallengeMail> chlg = new ArrayList<ChallengeMail>();
+        try{
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from challenges where to_id = ?"
+            );
+            stmt.setInt(1,userId);
+            ResultSet rs = stmt.executeQuery();
 
+            while(rs.next()){
+                Account from = amgr.getAccountById(rs.getInt("from_id"));
+                Account to = amgr.getAccountById(rs.getInt("to_id"));
+                ChallengeMail chall = new ChallengeMail(
+                        from,
+                        to,
+                        rs.getInt("id"),
+                        rs.getInt("quiz_id"),
+                        rs.getString("status")
+                );
+
+                chlg.add(chall);
+            }
+            stmt.close();
+            con.close();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return chlg;
+    }
 
 }
