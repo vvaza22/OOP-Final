@@ -5,8 +5,8 @@ import Account.Account;
 public class NoteMail extends Mail {
     private String note;
 
-    public NoteMail(Account from, String note) {
-        super(from);
+    public NoteMail(Account from, Account to, String note) {
+        super(from, to);
         this.note = note;
     }
 
