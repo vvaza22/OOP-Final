@@ -1,5 +1,9 @@
 package Mail;
 
+import Global.SessionManager;
+import Database.*;
+import Account.*;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +15,14 @@ public class MailServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        // Initialize the session manager
+        SessionManager sessionManager =
+                new SessionManager(request.getSession());
+
+        Database db = (Database)request.getServletContext().getAttribute("database");
+        AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
+
+        MailManager mmgr = new MailManager(db, amgr);
         String currentTab = getCurrentTab( request.getParameter("tab") );
 
         // Pass the current tab to the JSP file
