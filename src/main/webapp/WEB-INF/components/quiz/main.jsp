@@ -74,14 +74,19 @@
                 request.setAttribute("currentQuestion", curQuestion);
         %>
 
-        <% if(curQuestion.hasAnswer()) { %>
-        <div class="row answer-container">
-        <% if(curQuestion.countPoints() == curQuestion.getMaxScore()) { %>
-            <p class="answered-box answer-correct">Your answer was correct!</p>
-        <% } else if(curQuestion.countPoints() == 0) { %>
-            <p class="answered-box answer-wrong">Your answer was wrong!</p>
-        <% } %>
-        </div>
+
+        <% if(currentQuiz.isImmediateCorrectionOn()) { %>
+
+            <% if(curQuestion.hasAnswer()) { %>
+            <div class="row answer-container">
+            <% if(curQuestion.countPoints() == curQuestion.getMaxScore()) { %>
+                <p class="answered-box answer-correct">Your answer was correct!</p>
+            <% } else if(curQuestion.countPoints() == 0) { %>
+                <p class="answered-box answer-wrong">Your answer was wrong!</p>
+            <% } %>
+            </div>
+            <% } %>
+
         <% } %>
 
         <%
