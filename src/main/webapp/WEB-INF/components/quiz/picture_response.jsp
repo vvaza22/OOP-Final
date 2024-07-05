@@ -15,9 +15,9 @@
     <div class="question-cont">
       <div class="question">
         <h5>Question #<%= curQuestionIndex %></h5>
-        <p><%= qObject.getQuestion() %></p>
+        <p><%= qObject.getQuestionText() %></p>
         <div class="question-image-cont">
-          <img src="<%= qObject.getPicture() %>" alt="<%= qObject.getQuestion() %>" />
+          <img src="<%= qObject.getPicture() %>" alt="<%= qObject.getQuestionText() %>" />
         </div>
       </div>
       <div class="answer">

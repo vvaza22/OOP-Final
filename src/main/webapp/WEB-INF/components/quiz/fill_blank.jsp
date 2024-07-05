@@ -8,7 +8,7 @@
 
     // Replace {?} with an input
     Pattern markerFinder = Pattern.compile("\\{\\?}");
-    Matcher regexMatch = markerFinder.matcher(qObject.getQuestion());
+    Matcher regexMatch = markerFinder.matcher(qObject.getQuestionText());
 
     String userAnswer = qObject.getUserAnswer() == null ? "" : qObject.getUserAnswer();
     String qCode = regexMatch.replaceFirst("<input id=\"inp_"+qObject.getId()+"\" class=\"fill-in-blank\" type=\"text\" value=\""+userAnswer+"\">");

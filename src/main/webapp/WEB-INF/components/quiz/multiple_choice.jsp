@@ -15,7 +15,7 @@
     <div class="question-cont">
       <div class="question">
         <h5>Question #<%= curQuestionIndex %></h5>
-        <p><%= qObject.getQuestion() %></p>
+        <p><%= qObject.getQuestionText() %></p>
       </div>
       <div class="answer answer-multiple">
         <%
