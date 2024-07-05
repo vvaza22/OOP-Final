@@ -43,8 +43,9 @@
                 <div class="user-profile">
                     <% if(isMyOwnProfile == 0 && currentUserName != null) { %>
                         <div class="user-action">
-                            <button id="add_friend" class="btn btn-round btn-outline-primary">Add Friend</button>
-                            <button id="rem_friend" class="btn btn-round btn-outline-danger">Unfriend</button>
+                            <button id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
+                            <button id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
+                            <button id="request" class="btn btn-round btn-outline-danger" style="display: none";>request sent</button>
                         </div>
                     <% } %>
                     <div class="profile-row">
