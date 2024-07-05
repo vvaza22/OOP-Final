@@ -22,6 +22,35 @@ public class AccountManager {
         return this.getAccount(username).checkPassword(password);
     }
 
+    public Account getAccountById(int userId) {
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from users where id=?"
+            );
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Account ac = makeAccountObject(rs);
+
+                stmt.close();
+                con.close();
+
+                return ac;
+            }
+
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Account does not exist
+        return null;
+    }
+
     public Account getAccount(String username) {
         try {
             Connection con = db.openConnection();
@@ -31,26 +60,38 @@ public class AccountManager {
             stmt.setString(1,username);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
-                Account ac = new Account(
-                                        rs.getInt("id"),
-                                        rs.getString("first_name"),
-                                        rs.getString("last_name"),
-                                        rs.getString("user_name"),
-                                        rs.getString("image"),
-                                        rs.getString("password_hash"),
-                                        rs.getString("about"),
-                                        rs.getString("type")
-                );
+
+                Account ac = makeAccountObject(rs);
+
                 stmt.close();
                 con.close();
+
                 return ac;
             }
+
+            stmt.close();
+            con.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        //Account does not exist
+
+        // Account does not exist
         return null;
+    }
+
+    private Account makeAccountObject(ResultSet rs) throws SQLException {
+        Account ac = new Account(
+                rs.getInt("id"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("user_name"),
+                rs.getString("image"),
+                rs.getString("password_hash"),
+                rs.getString("about"),
+                rs.getString("type")
+        );
+        return ac;
     }
 
     public void registerAccount(Account acc) {
