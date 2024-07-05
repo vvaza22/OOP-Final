@@ -14,6 +14,8 @@ public class ChallengeMail extends Mail {
 
     public int getQuizId(){return this.quiz_id;}
 
+    public String getStatus(){return this.status;}
+
     @Override
     public String getMessage() {
         return from.getUserName() + " challenged you";
