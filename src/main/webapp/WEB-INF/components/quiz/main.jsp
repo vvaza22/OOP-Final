@@ -1,6 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Question.*" %>
 <%@ page import="Quiz.*" %>
+<%@ page import="java.util.HashMap" %>
 
 <link rel="stylesheet" href="/css/quiz.css" />
 
@@ -10,6 +11,8 @@
     Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
     Integer quizId = (Integer) request.getAttribute("quizId");
     boolean reviewFlag = request.getAttribute("reviewFlag") != null;
+
+    HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
 %>
 
 <div class="quiz-cont">
@@ -62,9 +65,28 @@
                     case QuestionType.PICTURE_RESPONSE:
                     %><jsp:include page="picture_response.jsp" /><%
                     break;
-                }
-            }
-        %>
+                } %>
+
+        <div class="row">
+            <div class="action">
+                <%
+                    QuestionType questionType = typeMap.get(curQuestion.getType());
+                    String questionTypeStr = questionType == null ? "UNKNOWN" : questionType.getTypeName();
+                %>
+                <% if(curQuestionIndex > 1) { %>
+                <button onclick="goToPrev(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-secondary">Previous</button>
+                <% } else { %>
+                <button class="btn disabled btn-round btn-outline-secondary">Previous</button>
+                <% } %>
+                <% if(curQuestionIndex.equals(questionList.size())) { %>
+                <button onclick="goToReview(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Review</button>
+                <% } else { %>
+                <button onclick="goToNext(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Next</button>
+                <% } %>
+            </div>
+        </div>
+
+        <% } %>
 
     </div>
 </div>

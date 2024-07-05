@@ -33,18 +33,6 @@
         </div>
         <% } %>
       </div>
-      <div class="action">
-        <% if(curQuestionIndex > 1) { %>
-        <button onclick="multipleChoicePrev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-secondary">Previous</button>
-        <% } else { %>
-        <button class="btn disabled btn-round btn-outline-secondary">Previous</button>
-        <% } %>
-        <% if(curQuestionIndex.equals(numQuestions)) { %>
-        <button onclick="multipleChoiceRev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Review</button>
-        <% } else { %>
-        <button onclick="multipleChoiceNext(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Next</button>
-        <% } %>
-      </div>
     </div>
   </div>
 </div>

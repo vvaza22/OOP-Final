@@ -24,57 +24,18 @@
         xhr.send("action=save_answer&question_id="+questionId+"&data="+JSON.stringify(data));
     }
 
-    function sendQuestionResponse(questionId, callback) {
+    /* Text Based */
+    function sendText(questionId, callback) {
         let dataObj = {};
 
         // Get the text answer
-        const textArea = document.getElementById("text_" + questionId);
-        dataObj["answer"] = textArea.value;
-
-        sendRequest(questionId, dataObj, callback);
-    }
-
-    /* Question Response */
-    window.questionResponsePrev = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex - 1);
-        })
-    }
-    window.questionResponseNext = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex + 1);
-        })
-    }
-    window.questionResponseRev = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q=review";
-        })
-    }
-
-    /* Fill Blank */
-    function sendFillBlank(questionId, callback) {
-        let dataObj = {};
-
-        // Get the text answer
-        const input = document.getElementById("inp_" + questionId);
-        dataObj["answer"] = input.value;
-
-        sendRequest(questionId, dataObj, callback);
-    }
-    window.fillBlankPrev = function(questionId, questionIndex) {
-        sendFillBlank(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex - 1);
-        })
-    }
-    window.fillBlankNext = function(questionId, questionIndex) {
-        sendFillBlank(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex + 1);
-        })
-    }
-    window.fillBlankRev = function(questionId, questionIndex) {
-        sendFillBlank(questionId, function() {
-            location.href = "/quiz?q=review";
-        })
+        const textField = document.getElementById("text_" + questionId);
+        if(textField == null || textField.value.length === 0)  {
+            callback();
+        } else {
+            dataObj["answer"] = textField.value;
+            sendRequest(questionId, dataObj, callback);
+        }
     }
 
     /* Multiple Choice */
@@ -96,47 +57,56 @@
             callback();
         }
     }
-    window.multipleChoicePrev = function(questionId, questionIndex) {
-        sendMultipleChoice(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex - 1);
-        })
-    }
-    window.multipleChoiceNext = function(questionId, questionIndex) {
-        sendMultipleChoice(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex + 1);
-        })
-    }
-    window.multipleChoiceRev = function(questionId, questionIndex) {
-        sendMultipleChoice(questionId, function() {
-            location.href = "/quiz?q=review";
-        })
+
+    window.goToPrev = function(questionId, questionIndex, questionType) {
+        switch(questionType) {
+            case 'QUESTION_RESPONSE':
+            case 'PICTURE_RESPONSE':
+            case 'FILL_BLANK':
+                sendText(questionId, function() {
+                    location.href = "/quiz?q="+(questionIndex - 1);
+                });
+                break;
+            case 'MULTIPLE_CHOICE':
+                sendMultipleChoice(questionId, function() {
+                    location.href = "/quiz?q="+(questionIndex - 1);
+                })
+                break;
+        }
     }
 
-    /* Picture Response */
-    function sendPictureResponse(questionId, callback) {
-        let dataObj = {};
-
-        // Get the text answer
-        const textArea = document.getElementById("text_" + questionId);
-        dataObj["answer"] = textArea.value;
-
-        sendRequest(questionId, dataObj, callback);
+    window.goToNext = function(questionId, questionIndex, questionType) {
+        switch(questionType) {
+            case 'QUESTION_RESPONSE':
+            case 'PICTURE_RESPONSE':
+            case 'FILL_BLANK':
+                sendText(questionId,function() {
+                    location.href = "/quiz?q="+(questionIndex + 1);
+                });
+                break;
+            case 'MULTIPLE_CHOICE':
+                sendMultipleChoice(questionId,function() {
+                    location.href = "/quiz?q="+(questionIndex + 1);
+                })
+                break;
+        }
     }
 
-    window.pictureResponsePrev = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex - 1);
-        })
-    }
-    window.pictureResponseNext = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q="+(questionIndex + 1);
-        })
-    }
-    window.pictureResponseRev = function(questionId, questionIndex) {
-        sendQuestionResponse(questionId, function() {
-            location.href = "/quiz?q=review";
-        })
+    window.goToReview = function(questionId, questionIndex, questionType) {
+        switch(questionType) {
+            case 'QUESTION_RESPONSE':
+            case 'PICTURE_RESPONSE':
+            case 'FILL_BLANK':
+                sendText(questionId, function() {
+                    location.href = "/quiz?q=review";
+                });
+                break;
+            case 'MULTIPLE_CHOICE':
+                sendMultipleChoice(questionId, function() {
+                    location.href = "/quiz?q=review";
+                })
+                break;
+        }
     }
 
     function sendFinishAttempt(callback) {

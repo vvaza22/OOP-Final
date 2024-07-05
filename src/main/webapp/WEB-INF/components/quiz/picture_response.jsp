@@ -24,18 +24,6 @@
         <label class="answer-label" for="text_<%= qObject.getId() %>">Your answer: </label>
         <textarea id="text_<%= qObject.getId() %>" class="form-control answer-text" spellcheck="false" autocomplete="off" autocapitalize="off"><%= userAnswer %></textarea>
       </div>
-      <div class="action">
-        <% if(curQuestionIndex > 1) { %>
-        <button onclick="pictureResponsePrev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-secondary">Previous</button>
-        <% } else { %>
-        <button class="btn disabled btn-round btn-outline-secondary">Previous</button>
-        <% } %>
-        <% if(curQuestionIndex.equals(numQuestions)) { %>
-        <button onclick="pictureResponseRev(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Review</button>
-        <% } else { %>
-        <button onclick="pictureResponseNext(<%= qObject.getId() %>, <%= curQuestionIndex %>)" class="btn btn-round btn-outline-success">Next</button>
-        <% } %>
-      </div>
     </div>
   </div>
 </div>
