@@ -60,7 +60,7 @@ public class RegisterServlet extends HttpServlet {
         if(!acm.accountExists(username)) {
             String defaultAboutMe = "Hello everyone, I am " + username + ", hope we get along well.";
             // Give it a dummy id
-            Account acc = new Account(0, firstName, lastName, username, Constants.NO_IMAGE, Hash.hashPassword(password), defaultAboutMe,"user");
+            Account acc = new Account(0, firstName, lastName, username, "/images/profile/default.jpg", Hash.hashPassword(password), defaultAboutMe,"user");
             // Register account
             acm.registerAccount(acc);
 

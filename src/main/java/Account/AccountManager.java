@@ -103,7 +103,7 @@ public class AccountManager {
         }
     }
 
-    public void updateAccount(Account acc) {
+    public void updateAboutMeAccount(Account acc) {
         try {
             Connection con = db.openConnection();
 
@@ -111,6 +111,25 @@ public class AccountManager {
                     "update users set about=? where user_name=?"
             );
             stmt.setString(1, acc.getAboutMe());
+            stmt.setString(2, acc.getUserName());
+
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateProfilePictureAccount(Account acc) {
+        try {
+            Connection con = db.openConnection();
+
+            PreparedStatement stmt = con.prepareStatement(
+                    "update users set image=? where user_name=?"
+            );
+            stmt.setString(1, acc.getImage());
             stmt.setString(2, acc.getUserName());
 
             stmt.executeUpdate();

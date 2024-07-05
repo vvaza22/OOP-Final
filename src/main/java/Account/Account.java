@@ -54,6 +54,10 @@ public class Account {
         return imageLink;
     }
 
+    public String setImage(String imageLink){
+        return this.imageLink = imageLink;
+    }
+
     public boolean checkPassword(String password) {
         return Hash.verifyPassword(password, passHash);
     }
