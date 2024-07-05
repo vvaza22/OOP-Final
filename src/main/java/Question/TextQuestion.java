@@ -9,13 +9,14 @@ public abstract class TextQuestion extends Question {
     /* Current user answer */
     protected String userAnswer;
 
-    public TextQuestion(String questionText, int questionType, ArrayList<String> correctAnswerList) {
-        super(questionText, questionType);
-        addAnswers(correctAnswerList);
+    public TextQuestion(String questionText, int questionType, int questionId, ArrayList<String> ansList) {
+        super(questionText, questionType, questionId);
+        addAnswers(ansList);
     }
 
     private void addAnswers(ArrayList<String> answerList) {
-        this.correctAnswerList = new ArrayList<String>(answerList);
+        this.correctAnswerList = new ArrayList<>();
+        this.userAnswer = null;
         for(String answer : answerList) {
             this.correctAnswerList.add(answer.toLowerCase());
         }
@@ -29,9 +30,23 @@ public abstract class TextQuestion extends Question {
         this.userAnswer = userAnswer;
     }
 
+    public String getUserAnswer() {
+        return userAnswer;
+    }
+
+    @Override
+    public boolean hasAnswer() {
+        return this.userAnswer != null;
+    }
+
     @Override
     public int countPoints() {
         return isAnswerCorrect() ? 1 : 0;
+    }
+
+    @Override
+    public int getMaxScore() {
+        return 1;
     }
 
     private boolean isAnswerCorrect() {

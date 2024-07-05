@@ -1,6 +1,7 @@
 package Account;
 
 public class Account {
+    private int userId;
     private String firstName;
     private String lastName;
     private String userName;
@@ -10,6 +11,7 @@ public class Account {
     private String aboutMe;
 
     public Account(
+            int userId,
             String firstName,
             String lastName,
             String userName,
@@ -18,6 +20,7 @@ public class Account {
             String aboutMe,
             String userType
     ) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -51,6 +54,10 @@ public class Account {
         return imageLink;
     }
 
+    public String setImage(String imageLink){
+        return this.imageLink = imageLink;
+    }
+
     public boolean checkPassword(String password) {
         return Hash.verifyPassword(password, passHash);
     }
@@ -62,4 +69,8 @@ public class Account {
     public String getAboutMe() { return aboutMe; }
 
     public String setAboutMe(String aboutMe) { return this.aboutMe = aboutMe; }
+
+    public int getUserId() {
+        return userId;
+    }
 }

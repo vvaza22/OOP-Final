@@ -23,7 +23,10 @@
             <% if(currentQuiz.isPracticeAllowed()) { %>
             <button class="btn btn-round btn-outline-secondary">Practice</button>
             <% } %>
-            <button class="btn btn-round btn-primary">Take Quiz</button>
+            <button id="take-quiz" class="btn btn-round btn-primary">Take Quiz</button>
+        </div>
+        <div style="display: none">
+            <input id="quiz-id" type="hidden" value="<%= currentQuiz.getId() %>" />
         </div>
     </div>
 </main>
