@@ -104,7 +104,6 @@ public class QuizManager {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 int id = rs.getInt("ID");
-                System.out.println("here");
                 list.add(getQuiz(id));
             }
             // Close connection to the database
@@ -564,7 +563,6 @@ public class QuizManager {
             stmt.close();
 
             ArrayList<Question> questions = quiz.getQuestions();
-            System.out.println(questions.size());
             for(int i=0; i<questions.size(); i++) {
                 Question quest = questions.get(i);
                 int questNewId = addQuestion(con, quizNewId, quest, i+1);
