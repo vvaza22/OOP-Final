@@ -131,14 +131,14 @@
                                         <%}} else if(mail.getType() == Mail.CHALLENGE) { %>
                                             <% ChallengeMail chall = (ChallengeMail)mail; %>
                                             <% if (chall.getStatus().equals("PENDING")) {%>
-                                            <button class="btn btn-outline-success btn-round" onclick="acceptReq(<%=chall.getId()%>)"> Accept </button >
-                                            <button class="btn btn-outline-danger btn-round" onclick="rejectReq(<%=chall.getId()%>)"> Decline </button >
-                                            <% } else if(chall.getStatus().equals("ACCEPTED")){%>
-                                            <div class="accepted">
+                                            <button class="btn btn-outline-success btn-round" onclick="acceptChal(<%=chall.getId()%>)"> Accept </button >
+                                            <button class="btn btn-outline-danger btn-round" onclick="rejectChal(<%=chall.getId()%>)"> Decline </button >
+                                            <% } else if(chall.getStatus().equals("CHL_ACCEPTED")){%>
+                                            <div class="challenge_accepted">
                                                 <h3>Challenge Accepted.</h3>
                                             </div>
-                                            <% } else if(chall.getStatus().equals("REJECTED")){%>
-                                            <div class="rejected">
+                                            <% } else if(chall.getStatus().equals("CHL_REJECTED")){%>
+                                            <div class="challenge_rejected">
                                                 <h3>Challenge Rejected.</h3>
                                             </div>
                                     <% }} else if(mail.getType() == Mail.NOTE) {%>

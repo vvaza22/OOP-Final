@@ -33,4 +33,12 @@
         sendRequest(id, "REJECTED");
     }
 
+    window.acceptChal = function acceptReq(id){
+        sendRequest(id, "CHL_ACCEPTED");
+    }
+
+    window.rejectChal = function acceptReq(id){
+        sendRequest(id, "CHL_ACCEPTED");
+    }
+
 })();

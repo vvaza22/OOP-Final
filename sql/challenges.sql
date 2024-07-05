@@ -7,7 +7,7 @@ create table challenges(
     from_id int not null,
     to_id int not null,
     quiz_id int not null,
-    status enum('PENDING', 'ACCEPTED', 'REJECTED'),
+    status enum('PENDING', 'CHL_ACCEPTED', 'CHL_REJECTED'),
     constraint from_id_frnk
         foreign key (from_id) references users (id),
     constraint to_id_frnk

@@ -73,12 +73,19 @@ public class MailServlet extends HttpServlet {
         // Connect to database
         Database db = ((Database) request.getServletContext().getAttribute("database"));
         FriendRequestManager frm = new FriendRequestManager(db);
+        ChallengeManager cmgr = new ChallengeManager(db);
 
         if(requestStatus.equals("ACCEPTED")){
             frm.changeStatus(requestId, "ACCEPTED");
             responseObj.put("status", "success");
-        } else {
+        } else if(requestStatus.equals("REJECTED")){
             frm.changeStatus(requestId, "REJECTED");
+            responseObj.put("status", "success");
+        }else if(requestStatus.equals("CHL_ACCEPTED")){
+            cmgr.changeStatus(requestId, "CHL_ACCEPTED");
+            responseObj.put("status", "success");
+        }else if(requestStatus.equals("CHL_REJECTED")){
+            cmgr.changeStatus(requestId, "CHL_REJECTED");
             responseObj.put("status", "success");
         }
 
