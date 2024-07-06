@@ -1,4 +1,4 @@
-package Create;
+package Layout;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +28,7 @@ public class CreateServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        // if user is not logged in.
+        // temporary code. user will always be logged in.
         SessionManager sessionManager = new SessionManager(request.getSession());
         AccountManager acm = (AccountManager) (request.getServletContext().getAttribute("accountManager"));
         sessionManager.setCurrentUser(acm.getAccount("realtia"));

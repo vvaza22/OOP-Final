@@ -26,12 +26,11 @@
     }
 
     function grabAnnoData() {
+        var anno_title = document.getElementById("anno_text").value;
         var anno_text = document.getElementById("anno_text").value;
-
         let data = {};
 
-        //TODO:
-        const title = "ATTENTION EVERYONE!";
+        const title = anno_title;
         data["anno_title"] = title;
 
         const text = anno_text;

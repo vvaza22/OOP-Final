@@ -17,10 +17,10 @@
                         <a href="/create" class="nav-link">Create</a>
                     </li>
                     <li class="navbar-item menu-item">
-                        <a href="#" class="nav-link">Explore</a>
+                        <a href="/explore" class="nav-link">Explore</a>
                     </li>
                     <li class="navbar-item menu-item">
-                        <a href="#" class="nav-link">Random</a>
+                        <a href="/random" class="nav-link">Random</a>
                     </li>
                 </ul>
 

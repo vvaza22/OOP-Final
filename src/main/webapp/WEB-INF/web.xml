@@ -43,8 +43,15 @@
   </servlet>
   <servlet>
     <servlet-name>CreateServlet</servlet-name>
-    <servlet-class>Create.CreateServlet</servlet-class>
+    <servlet-class>Layout.CreateServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ExploreServlet</servlet-name>
+    <servlet-class>Layout.ExploreServlet</servlet-class>
+  </servlet><servlet>
+  <servlet-name>RandomServlet</servlet-name>
+  <servlet-class>Layout.RandomServlet</servlet-class>
+</servlet>
   <servlet>
     <servlet-name>AboutQuizServlet</servlet-name>
     <servlet-class>AboutQuiz.AboutQuizServlet</servlet-class>
@@ -96,6 +103,13 @@
     <servlet-name>CreateServlet</servlet-name>
     <url-pattern>/create</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExploreServlet</servlet-name>
+    <url-pattern>/explore</url-pattern>
+  </servlet-mapping><servlet-mapping>
+  <servlet-name>RandomServlet</servlet-name>
+  <url-pattern>/random</url-pattern>
+</servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuizAttemptServlet</servlet-name>
     <url-pattern>/attempt</url-pattern>
