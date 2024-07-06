@@ -10,9 +10,11 @@ public class NoteMail extends Mail {
         this.note = note;
     }
 
+    public String getNote() { return note; }
+
     @Override
     public String getMessage() {
-        return note;
+        return this.from.getUserName() + " sent you a message.";
     }
 
     @Override

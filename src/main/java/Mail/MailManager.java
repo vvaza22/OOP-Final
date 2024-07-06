@@ -83,7 +83,7 @@ public class MailManager {
         try{
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from challenges where to_id = ?"
+                    "select * from challenges c left outer join quiz q on c.quiz_id = q.quiz_id where to_id = ?"
             );
             stmt.setInt(1,userId);
             ResultSet rs = stmt.executeQuery();
@@ -96,6 +96,7 @@ public class MailManager {
                         to,
                         rs.getInt("id"),
                         rs.getInt("quiz_id"),
+                        rs.getString("name"),
                         rs.getString("status")
                 );
 

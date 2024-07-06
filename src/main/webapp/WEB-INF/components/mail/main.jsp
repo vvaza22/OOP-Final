@@ -98,7 +98,7 @@
                         <tr>
                             <th>#</th>
                             <th>From</th>
-                            <th>Message</th>
+                            <th>Notification</th>
                         </tr>
 
                         <%
@@ -143,7 +143,7 @@
                                             </div>
                                     <% }} else if(mail.getType() == Mail.NOTE) {%>
                                     <% NoteMail note = (NoteMail)mail; %>
-                                       <h3> <%=note.getMessage()%> </h3>
+                                       <h3> <%=note.getNote()%> </h3>
                                     <%}%>
                                 </td>
                             </tr>
