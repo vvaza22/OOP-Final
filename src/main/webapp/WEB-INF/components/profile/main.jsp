@@ -2,14 +2,22 @@
 <%@ page import="Global.SessionManager" %>
 <%@ page import="Database.Database" %>
 <%@ page import="Account.FriendRequestManager" %>
+<%@ page import="Account.AccountManager" %>
+<%@ page import="Account.FriendsManager" %>
+<%@ page import="java.util.ArrayList" %>
 
 <%
     Account userAccount = (Account) request.getAttribute("userAccount");
+
     SessionManager sessionManager = new SessionManager(request.getSession());
     Account myAccount = sessionManager.getCurrentUserAccount();
+
     Database db = ((Database) request.getServletContext().getAttribute("database"));
     FriendRequestManager frm = new FriendRequestManager(db);
-    String status = "";
+
+    FriendsManager fm = new FriendsManager(db);
+    AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
+
 %>
 
 <style>
@@ -50,14 +58,20 @@
                 <div class="user-profile">
 
                     <%if(myAccount != null && userAccount != null){
-                        status = frm.getStatusById(myAccount.getUserId(), userAccount.getUserId());
+                        int myId = myAccount.getUserId();
+                        int userId = userAccount.getUserId();
+                        String status = frm.getStatusById(myId, userId);
+                        String reqSent = frm.getStatusById(userId, myId);
+                        boolean areFriends = fm.areFriends(myId, userId);
                         if(sessionManager.isUserLoggedIn() && myAccount.getUserId() != userAccount.getUserId()) { %>
                             <div class="user-action">
-                                <% if(status == null || status.equals("REJECTED")){ %>
-                                    <button onclick="addFriend('<%=userAccount.getUserName()%>')" id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
-                                <%} else if (status.equals("PENDING")){%>
+                                <% if (reqSent != null && reqSent.equals("PENDING")){ %>
+                                    <p>this user sent you a friend request</p>
+                                <%}else  if (status != null && status.equals("PENDING")){%>
                                     <button id="request" class="btn btn-round btn-outline-success" style="display: block">request sent</button>
-                                <%} else if (status.equals("ACCEPTED")){%>
+                                <%} else if(!areFriends){ %>
+                                    <button onclick="addFriend('<%=userAccount.getUserName()%>')" id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
+                                <%} else if (areFriends){%>
                                     <button onclick="removeFriend('<%=userAccount.getUserName()%>')" id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
                                 <%} %>
                             </div>
@@ -113,9 +127,16 @@
                                 <div class="profile-note friends-cont">
                                     <h4>My Friends <span class="num-friends">(3)</span></h4>
                                     <ul>
-                                        <li><a href="#">Elene Kvitsiani</a></li>
-                                        <li><a href="#">Vasiko Vazagaevi</a></li>
-                                        <li><a href="#">Gio Beridze</a></li>
+                                        <%if(myAccount != null){
+                                                ArrayList<Integer> friendsListById = fm.friendsList(myAccount.getUserId());
+                                                for(Integer userId: friendsListById){
+                                                    Account account = acm.getAccountById(userId); %>
+                                                    <li><a href="#"><%=account.getUserName()%></a></li>
+                                                <%}%>
+                                        <%}%>
+<%--                                        <li><a href="#">Elene Kvitsiani</a></li>--%>
+<%--                                        <li><a href="#">Vasiko Vazagaevi</a></li>--%>
+<%--                                        <li><a href="#">Gio Beridze</a></li>--%>
                                     </ul>
                                 </div>
                                 <div class="profile-note my-quizzes-cont">
@@ -136,12 +157,7 @@
                                     </ul>
                                 </div>
                             </div>
-
-
-
                         </div>
-
-
                     </div>
                 </div>
             </div>

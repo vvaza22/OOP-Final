@@ -5,7 +5,7 @@
     var cancelButt = document.getElementById("cancel-button");
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
-    var remoFriendButt = document.getElementById("rem_friend");
+
 
     window.removeFriend = function (toWhichUserRemoveFriend){
         var xhr = new XMLHttpRequest();
