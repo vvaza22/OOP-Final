@@ -3,6 +3,7 @@ package Profile;
 import Account.Account;
 import Account.AccountManager;
 import Account.FriendRequestManager;
+import Account.FriendsManager;
 import Database.Database;
 import Global.SessionManager;
 import org.json.JSONObject;
@@ -74,33 +75,65 @@ public class ProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         SessionManager sessionManager = new SessionManager(session);
         String userName = sessionManager.getCurrentUserAccount().getUserName();
+        AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
 
         response.setContentType("application/json");
         JSONObject responseObj = new JSONObject();
         String action = request.getParameter("action");
 
+
         if(action == null){
             return;
         }else{
             if(action.equals("edited")){
-                editAboutMe(request, response, responseObj, userName);
+                editAboutMe(request, response, responseObj, userName, acm);
             }
             if(action.equals("changePic")){
-                changeProfilePicture(request, response, responseObj, userName);
+                changeProfilePicture(request, response, responseObj, userName, acm);
             }
             if(action.equals("addFriend")){
-                sendFriendRequest(request, response, responseObj, userName);
+                sendFriendRequest(request, response, responseObj, userName, acm);
+            }
+            if(action.equals("remFriend")){
+                removeFriend(request, response, responseObj, userName, acm);
             }
         }
         response.getWriter().print(responseObj);
     }
 
-    private void sendFriendRequest(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName) {
+    private void removeFriend(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
+        String toWhichUserRemoveFriend = request.getParameter("friendRemUser");
+        if (toWhichUserRemoveFriend == null) {
+            responseObj.put("status", "fail");
+        } else {
+            Account whoIsRemovedAcc = acm.getAccount(toWhichUserRemoveFriend);
+            Account whoRemovesACC = acm.getAccount(userName);
+            if(whoIsRemovedAcc == null || whoRemovesACC == null){
+                responseObj.put("status", "fail");
+                return;
+            }
+            int whoIsRemovedID = whoIsRemovedAcc.getUserId();
+            int whoRemovesID = whoRemovesACC.getUserId();
+
+            if (whoIsRemovedID == whoRemovesID){
+                responseObj.put("status", "fail");
+                responseObj.put("errorMsg", "You can not send friend request to yourself.");
+            }
+            Database db = ((Database) request.getServletContext().getAttribute("database"));
+            FriendsManager fm = new FriendsManager(db);
+            // aq menegeris ambebi unda vqna
+
+
+            responseObj.put("status", "success");
+
+        }
+    }
+
+    private void sendFriendRequest(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
         String toWhoFriendRequest = request.getParameter("friendRequestedUser");
         if(toWhoFriendRequest == null){
             responseObj.put("status", "fail");
         }else{
-            AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
             Account toWhoReqSentAcc = acm.getAccount(toWhoFriendRequest);
             Account fromWhoReqSentAcc = acm.getAccount(userName);
             if(toWhoReqSentAcc == null || fromWhoReqSentAcc == null){
@@ -119,16 +152,14 @@ public class ProfileServlet extends HttpServlet {
             FriendRequestManager frm = new FriendRequestManager(db);
             frm.sendRequest(fromWhoReqSentId, toWhoReqSentId);
             responseObj.put("status", "success");
-            System.out.println("success");
         }
     }
 
-    private void changeProfilePicture(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName) {
+    private void changeProfilePicture(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
         String profilePictureLink = request.getParameter("profilePictureLink");
         if(profilePictureLink == null){
             responseObj.put("status", "fail");
         }else {
-            AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
             Account userAccount = acm.getAccount(userName);
             if (profilePictureLink.isEmpty()) profilePictureLink = "/images/profile/default.jpg";
             userAccount.setImage(profilePictureLink);
@@ -137,13 +168,11 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void editAboutMe(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName) {
+    private void editAboutMe(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
         String aboutMe = request.getParameter("aboutMe");
         if (aboutMe == null) {
             responseObj.put("status", "fail");
-//            responseObj.put("errorMsg", "User \"" + userName + "\" does not exists.");
         }else{
-            AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
             Account userAccount = acm.getAccount(userName);
             userAccount.setAboutMe(aboutMe);
             acm.updateAboutMeAccount(userAccount);

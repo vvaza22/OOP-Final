@@ -5,9 +5,19 @@
     var cancelButt = document.getElementById("cancel-button");
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
-    var addFriendButt = document.getElementById("add_friend");
     var remoFriendButt = document.getElementById("rem_friend");
-    var requestButt = document.getElementById("request");
+
+    window.removeFriend = function (toWhichUserRemoveFriend){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/profile", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                location.reload();
+            }
+        }
+        xhr.send("action=remFriend&friendRemUser="+ toWhichUserRemoveFriend);
+    }
 
     window.addFriend = function(toWhichUserReqSent){
         var xhr = new XMLHttpRequest();
