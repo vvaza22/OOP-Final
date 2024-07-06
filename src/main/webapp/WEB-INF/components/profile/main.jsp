@@ -5,6 +5,9 @@
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Account.FriendsManager" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="Quiz.QuizManager" %>
+<%@ page import="Quiz.Quiz" %>
+
 
 <%
     Account userAccount = (Account) request.getAttribute("userAccount");
@@ -18,6 +21,7 @@
     FriendsManager fm = new FriendsManager(db);
     AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
 
+    QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
 %>
 
 <style>
@@ -60,14 +64,14 @@
                     <%if(myAccount != null && userAccount != null){
                         int myId = myAccount.getUserId();
                         int userId = userAccount.getUserId();
-                        String status = frm.getStatusById(myId, userId);
-                        String reqSent = frm.getStatusById(userId, myId);
+                        boolean status = frm.isStatusByIdPen(myId, userId);
+                        boolean reqSent = frm.isStatusByIdPen(userId, myId);
                         boolean areFriends = fm.areFriends(myId, userId);
                         if(sessionManager.isUserLoggedIn() && myAccount.getUserId() != userAccount.getUserId()) { %>
                             <div class="user-action">
-                                <% if (reqSent != null && reqSent.equals("PENDING")){ %>
+                                <% if (reqSent){ %>
                                     <p>this user sent you a friend request</p>
-                                <%}else  if (status != null && status.equals("PENDING")){%>
+                                <%}else  if (status){%>
                                     <button id="request" class="btn btn-round btn-outline-success" style="display: block">request sent</button>
                                 <%} else if(!areFriends){ %>
                                     <button onclick="addFriend('<%=userAccount.getUserName()%>')" id="add_friend" class="btn btn-round btn-outline-primary" style="display: block">Add Friend</button>
@@ -127,33 +131,35 @@
                                 <div class="profile-note friends-cont">
                                     <h4>My Friends <span class="num-friends">(3)</span></h4>
                                     <ul>
-                                        <%if(myAccount != null){
-                                                ArrayList<Integer> friendsListById = fm.friendsList(myAccount.getUserId());
+                                        <%if(userAccount != null){
+                                                ArrayList<Integer> friendsListById = fm.friendsList(userAccount.getUserId());
                                                 for(Integer userId: friendsListById){
                                                     Account account = acm.getAccountById(userId); %>
-                                                    <li><a href="#"><%=account.getUserName()%></a></li>
+                                                    <li><a href=<%="/profile?username="+ account.getUserName()%>><%=account.getUserName()%></a></li>
                                                 <%}%>
                                         <%}%>
-<%--                                        <li><a href="#">Elene Kvitsiani</a></li>--%>
-<%--                                        <li><a href="#">Vasiko Vazagaevi</a></li>--%>
-<%--                                        <li><a href="#">Gio Beridze</a></li>--%>
                                     </ul>
                                 </div>
                                 <div class="profile-note my-quizzes-cont">
                                     <h4>Quizzes I Created</h4>
                                     <ul>
-                                        <li><a href="#">Geography Quiz</a></li>
-                                        <li><a href="#">Astronomy Quiz</a></li>
-                                        <li><a href="#">Cool Exoplanets</a></li>
+                                        <%if(userAccount != null){
+                                            ArrayList<Quiz> createdQuizzes = qm.getRecentlyCreatedQuizzes(userAccount.getUserId());
+                                            for(int i=0; i<createdQuizzes.size(); i++) { %>
+                                                <li><a href=<%="/about_quiz?id="+String.valueOf(createdQuizzes.get(i).getId())%>><%=createdQuizzes.get(i).getName()%></a></li>
+                                            <% } %>
+                                        <%}%>
                                     </ul>
                                 </div>
                                 <div class="profile-note quizzes-took-cont">
                                     <h4>Quizzes I Took</h4>
                                     <ul>
-                                        <li><a href="#">P = EXPTIME?</a></li>
-                                        <li><a href="#">RP = BPP = P???</a></li>
-                                        <li><a href="#">NSPACE is cool</a></li>
-                                        <li><a href="#">Is NP cooler than P?</a></li>
+                                        <%if(userAccount != null){
+                                            ArrayList<Quiz> takenQuizzes = qm.getRecentlyTakenQuizzes(userAccount.getUserId());
+                                            for(int i=0; i<takenQuizzes.size(); i++) { %>
+                                                <li><a href=<%="/about_quiz?id="+String.valueOf(takenQuizzes.get(i).getId())%>><%=takenQuizzes.get(i).getName()%></a></li>
+                                            <% } %>
+                                        <%}%>
                                     </ul>
                                 </div>
                             </div>

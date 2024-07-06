@@ -49,30 +49,28 @@ public class FriendRequestManager {
         }
     }
 
-    public String getStatusById(int fromId, int toId){
+    public boolean isStatusByIdPen(int fromId, int toId){
+        boolean isPending = false;
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "select status from frreqs where from_id=? and to_id=?"
+                    "select count(*) from frreqs where from_id=? and to_id=? and status='PENDING'"
             );
             stmt.setInt(1, fromId);
             stmt.setInt(2, toId);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
-                String status = rs.getString("status");
-
+                isPending = rs.getInt(1) > 0;
                 stmt.close();
                 con.close();
-
-                return status;
+                return isPending;
             }
             stmt.close();
             con.close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
+        return isPending;
     }
 
     public ArrayList<Integer> getUserIdsByReq(int req){
