@@ -15,13 +15,13 @@ public class Quiz {
     /* Quiz Parameters */
     private final int id;
     private final String name;
-    private final int author_id;
+    private final int authorId;
     private final String description;
     private final boolean randomize;
     private final boolean practiceMode;
     private final boolean immediateCorrection;
     private final int displayMode;
-    private final String create_time;
+    private final String createTime;
     private final String quizImage;
 
     ArrayList<Question> questionList;
@@ -30,26 +30,26 @@ public class Quiz {
     public Quiz(
             int id,
             String name,
-            int author_id,
+            int authorId,
             String description,
             String quizImage,
             boolean randomize,
             boolean practiceMode,
             boolean immediateCorrection,
             int displayMode,
-            String create_time,
+            String createTime,
             ArrayList<Question> questionList
     ) {
         this.id = id;
         this.name = name;
-        this.author_id = author_id;
+        this.authorId = authorId;
         this.description = description;
         this.quizImage = quizImage;
         this.randomize = randomize;
         this.practiceMode = practiceMode;
         this.immediateCorrection = immediateCorrection;
         this.displayMode = displayMode;
-        this.create_time = create_time;
+        this.createTime = createTime;
         this.questionList = questionList;
 
         createQuestionMap();
@@ -71,8 +71,8 @@ public class Quiz {
         return name;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public int getAuthorId() {
+        return authorId;
     }
 
     private void shuffleQuestions() {
@@ -83,8 +83,8 @@ public class Quiz {
         return practiceMode;
     }
 
-    public String getCreate_time() {
-        return this.create_time;
+    public String getCreateTime() {
+        return this.createTime;
     }
 
     public boolean isRandomized() {

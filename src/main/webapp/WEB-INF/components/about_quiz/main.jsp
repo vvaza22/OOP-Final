@@ -3,7 +3,7 @@
 <%
     AccountManager acm = (AccountManager) request.getServletContext().getAttribute("accountManager");
     Quiz currentQuiz = (Quiz) request.getAttribute("quizObj");
-    int authorId = currentQuiz.getAuthor_id();
+    int authorId = currentQuiz.getAuthorId();
     Account authorAccount = acm.getAccountById(authorId);
 %>
 

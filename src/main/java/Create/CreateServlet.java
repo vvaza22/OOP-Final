@@ -44,7 +44,6 @@ public class CreateServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-
         // if user is not logged in.
         SessionManager sessionManager = new SessionManager(request.getSession());
         Account currentUser = sessionManager.getCurrentUserAccount();

@@ -2,20 +2,24 @@ package Announcements;
 
 public class Announcement {
 
+    private int id;
     private String title;
     private String date;
     private String text;
-    private String author;
-    private int num_like;
-    private int num_dislikes;
+    private int authorId;
+    private int numLike;
+    private int numDislikes;
+    private String createTime;
 
-    public Announcement(String title, String date, String text, String author, int num_like, int num_dislikes){
+    public Announcement(int id, String title, String date, String text, int authorId, int numLike, int numDislikes){
+        this.id = id;
         this.title = title;
         this.date = date;
         this.text = text;
-        this.author = author;
-        this.num_dislikes = num_dislikes;
-        this.num_like = num_like;
+        this.authorId = authorId;
+        this.numDislikes = numDislikes;
+        this.numLike = numLike;
+        this.createTime = date;
     }
 
     public String getTitle(){
@@ -26,20 +30,25 @@ public class Announcement {
         return date;
     }
 
-    public String getText(){
+    public String getBody(){
         return text;
     }
 
-    public String getAuthor(){
-        return author;
+    public int getAuthorId(){
+        return authorId;
     }
 
     public int getNumLike() {
-        return num_like;
+        return numLike;
     }
 
     public int getNumDislike(){
-        return num_dislikes;
+        return numDislikes;
+    }
+    public int getId() { return id; }
+
+    public String getCreateTime() {
+        return createTime;
     }
 
 }

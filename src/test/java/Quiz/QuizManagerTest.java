@@ -1,7 +1,6 @@
 package Quiz;
 
 import Account.Account;
-import Account.Hash;
 import Account.AccountManager;
 import Database.Database;
 import Database.DatabaseCredentials;
@@ -12,7 +11,6 @@ import Question.QuestionResponse;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
 public class QuizManagerTest {
 
     @Test
@@ -36,8 +34,8 @@ public class QuizManagerTest {
         ArrayList<Question> questions = new ArrayList<Question>();
         questions.add(quest);
 
-        Quiz quiz = new Quiz(0, "quiz1", ac.getUserId(), "first quiz about nothing", false, false, false,
-                1, "2024-04-07", questions);
+        Quiz quiz = new Quiz(0, "quiz1", ac.getUserId(), "first quiz about nothing", " ", false, false,
+                false, 1, "2024-04-07", questions);
 
         qm.addQuiz(quiz);
     }
