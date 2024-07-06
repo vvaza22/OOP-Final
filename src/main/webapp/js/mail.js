@@ -1,6 +1,6 @@
 (function() {
 
-    function sendRequest(id, status) {
+    function sendRequest(id, status, callback) {
         // Create XHR object
         var xhr = new XMLHttpRequest();
 
@@ -14,7 +14,7 @@
                 // Read the server response
                 var response = JSON.parse(xhr.responseText);
                 if(response.status === "success") {
-                    location.reload();
+                    callback();
                 } else {
 
                 }
@@ -25,20 +25,26 @@
         xhr.send("request_id="+id+"&status="+status);
     }
 
+    function reloadPage(){
+        location.reload();
+    }
+
     window.acceptReq = function acceptReq(id){
-        sendRequest(id, "ACCEPTED");
+        sendRequest(id, "ACCEPTED", reloadPage);
     }
 
     window.rejectReq = function rejectReq(id){
-        sendRequest(id, "REJECTED");
+        sendRequest(id, "REJECTED", reloadPage);
     }
 
-    window.acceptChal = function acceptReq(id){
-        sendRequest(id, "CHL_ACCEPTED");
+    window.acceptChal = function acceptChal(id, quiz_id){
+        sendRequest(id, "CHL_ACCEPTED", function(){
+            location.href = "/about_quiz?id=" + quiz_id;
+        });
     }
 
-    window.rejectChal = function acceptReq(id){
-        sendRequest(id, "CHL_ACCEPTED");
+    window.rejectChal = function rejectChal(id){
+        sendRequest(id, "CHL_REJECTED", reloadPage);
     }
 
 })();
