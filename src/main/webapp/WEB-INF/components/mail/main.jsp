@@ -59,7 +59,7 @@
 
 %>
 
-<div class="mail-container">
+<main class="mail-container">
     <div class="container">
         <div class="row">
             <div class="col-3">
@@ -99,6 +99,7 @@
                             <th>#</th>
                             <th>From</th>
                             <th>Notification</th>
+                            <th>Action</th>
                         </tr>
 
                         <%
@@ -122,11 +123,11 @@
                                                 <button class="btn btn-outline-danger btn-round" onclick="rejectReq(<%=frreq.getId()%>)"> Decline </button >
                                            <% } else if(frreq.getStatus().equals("ACCEPTED")){%>
                                                 <div class="accepted">
-                                                    <h3>Friend Request Accepted.</h3>
+                                                    <b>Friend Request Accepted.</b>
                                                 </div>
                                           <% } else if(frreq.getStatus().equals("REJECTED")){%>
                                                 <div class="rejected">
-                                                    <h3>Friend Request Rejected.</h3>
+                                                    <b>Friend Request Rejected.</b>
                                                 </div>
                                         <%}} else if(mail.getType() == Mail.CHALLENGE) { %>
                                             <% ChallengeMail chall = (ChallengeMail)mail; %>
@@ -135,11 +136,11 @@
                                             <button class="btn btn-outline-danger btn-round" onclick="rejectChal(<%=chall.getId()%>)"> Decline </button >
                                             <% } else if(chall.getStatus().equals("CHL_ACCEPTED")){%>
                                             <div class="challenge_accepted">
-                                                <h3>Challenge Accepted.</h3>
+                                                <b>Challenge Accepted.</b>
                                             </div>
                                             <% } else if(chall.getStatus().equals("CHL_REJECTED")){%>
                                             <div class="challenge_rejected">
-                                                <h3>Challenge Rejected.</h3>
+                                                <b>Challenge Rejected.</b>
                                             </div>
                                     <% }} else if(mail.getType() == Mail.NOTE) {%>
                                     <% NoteMail note = (NoteMail)mail; %>
@@ -153,6 +154,6 @@
             </div>
         </div>
     </div>
-</div>
+</main>
 
 

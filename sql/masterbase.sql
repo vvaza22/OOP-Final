@@ -212,10 +212,10 @@ create table user_answers
 -- EXAMPLE Data
 
 -- Sample Users
-INSERT INTO users (user_name, first_name, last_name, password_hash, image, about, type) VALUES ('realtia', 'Tia', 'Alkhazishvili', 'e99a18c428cb38d5f260853678922e03', 'NO_IMAGE', 'My name is Tia and I am a hacker and vigilante.', 'admin');
-INSERT INTO users (user_name, first_name, last_name, password_hash, image, about, type) VALUES ('vazzu', 'Vasiko', 'Vazagaevi', 'a141c47927929bc2d1fb6d336a256df4', 'NO_IMAGE', 'Hello Everyone!', 'user');
-INSERT INTO users (user_name, first_name, last_name, password_hash, image, about, type) VALUES ('bero', 'Gio', 'Beridze', '7a9470ecb8f55cf9f670f88b0743f9a8', 'NO_IMAGE', 'Hello Everyone!', 'user');
-INSERT INTO users (user_name, first_name, last_name, password_hash, image, about, type) VALUES ('elene', 'Elene', 'Kvitsiani', '286876e9fe857d4e8c07c90c2f2de841', 'NO_IMAGE', 'Hello Everyone!', 'user');
+INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('realtia', 'Tia', 'Alkhazishvili', 'e99a18c428cb38d5f260853678922e03', 'My name is Tia and I am a hacker and vigilante.', 'admin');
+INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('vazzu', 'Vasiko', 'Vazagaevi', 'a141c47927929bc2d1fb6d336a256df4', 'Hello Everyone!', 'user');
+INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('bero', 'Gio', 'Beridze', '7a9470ecb8f55cf9f670f88b0743f9a8', 'Hello Everyone!', 'user');
+INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('elene', 'Elene', 'Kvitsiani', '286876e9fe857d4e8c07c90c2f2de841', 'Hello Everyone!', 'user');
 
 
 
