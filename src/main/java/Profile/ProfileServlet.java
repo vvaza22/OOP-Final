@@ -8,12 +8,14 @@ import Database.Database;
 import Global.SessionManager;
 import org.json.JSONObject;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ProfileServlet extends HttpServlet {
     @Override
@@ -117,15 +119,18 @@ public class ProfileServlet extends HttpServlet {
 
             if (whoIsRemovedID == whoRemovesID){
                 responseObj.put("status", "fail");
-                responseObj.put("errorMsg", "You can not send friend request to yourself.");
+                responseObj.put("errorMsg", "You cannot remove yourself.");
             }
             Database db = ((Database) request.getServletContext().getAttribute("database"));
             FriendsManager fm = new FriendsManager(db);
             // aq menegeris ambebi unda vqna
-
-
-            responseObj.put("status", "success");
-
+            if(!fm.areFriends(whoRemovesID, whoIsRemovedID)){
+                responseObj.put("status", "fail");
+                responseObj.put("errorMsg", "You can not remove from friend list since user is not your friend.");
+            }else {
+                fm.deleteFromFriends(whoRemovesID, whoIsRemovedID);
+                responseObj.put("status", "success");
+            }
         }
     }
 

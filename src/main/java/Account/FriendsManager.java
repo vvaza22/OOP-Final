@@ -63,5 +63,60 @@ public class FriendsManager {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean areFriends(int friend1Id, int friend2Id){
+        boolean ifFriends = false;
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select count(*) from friends where " +
+                            "(friend_A=? and friend_B=?)  or " +
+                            "(friend_A=? and friend_B=?) "
+            );
+            stmt.setInt(1, friend1Id);
+            stmt.setInt(2, friend2Id);
+            stmt.setInt(3, friend2Id);
+            stmt.setInt(4, friend1Id);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                ifFriends = rs.getInt(1) == 2;
+                stmt.close();
+                con.close();
+                return ifFriends;
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ifFriends;
+    }
+
+    public void deleteFromFriends(int whoRemovesID, int whoIsRemovedID) {
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt1 = con.prepareStatement(
+                    "delete from friends where friend_A=? and friend_B=?"
+            );
+
+            stmt1.setInt(1,whoRemovesID);
+            stmt1.setInt(2, whoIsRemovedID);
+            stmt1.executeUpdate();
+            stmt1.close();
+
+            PreparedStatement stmt2 = con.prepareStatement(
+                    "delete from friends where friend_A=? and friend_B=?"
+            );
+
+            stmt2.setInt(1,whoIsRemovedID);
+            stmt2.setInt(2, whoRemovesID);
+            stmt2.executeUpdate();
+            stmt2.close();
+
+            con.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
