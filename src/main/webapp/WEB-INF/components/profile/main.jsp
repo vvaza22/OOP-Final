@@ -58,7 +58,7 @@
                                 <%} else if (status.equals("PENDING")){%>
                                     <button id="request" class="btn btn-round btn-outline-success" style="display: block">request sent</button>
                                 <%} else if (status.equals("ACCEPTED")){%>
-                                    <button id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
+                                    <button onclick="removeFriend('<%=userAccount.getUserName()%>')" id="rem_friend" class="btn btn-round btn-outline-danger" style="display: block">Unfriend</button>
                                 <%} %>
                             </div>
                         <% } %>
