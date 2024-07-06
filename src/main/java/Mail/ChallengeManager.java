@@ -13,16 +13,17 @@ public class ChallengeManager {
         this.db = db;
     }
 
-    public void sendRequest(int from, int to) {
+    public void sendRequest(int from, int to, int quiz_id) {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "insert into challenges (from_id, to_id, status) values (?, ?, ?)"
+                    "insert into challenges (from_id, to_id, quiz_id, status) values (?, ?, ?, ?)"
             );
 
             stmt.setInt(1, from);
             stmt.setInt(2, to);
-            stmt.setString(3, "PENDING");
+            stmt.setInt(3, quiz_id);
+            stmt.setString(4, "PENDING");
             stmt.executeUpdate();
             stmt.close();
             con.close();
