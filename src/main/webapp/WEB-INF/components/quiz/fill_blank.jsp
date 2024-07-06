@@ -1,8 +1,9 @@
-<%@ page import="Question.FillBlank" %>
+<%@ page import="Question.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
+<%@ page import="java.util.HashMap" %>
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
     Integer numQuestions = currentQuiz.getNumberOfQuestions();
@@ -27,10 +28,14 @@
         qCode = regexMatch.replaceFirst("<input id=\"text_"+qObject.getId()+"\" class=\"fill-in-blank\" type=\"text\" value=\""+userAnswer+"\">");
 
     }
+
+    HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
+    QuestionType questionType = typeMap.get(qObject.getId());
+    String questionTypeStr = questionType == null ? "UNKNOWN" : questionType.getTypeName();
 %>
 <div class="row">
     <div class="col">
-        <div class="question-cont">
+        <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
             <div class="question">
                 <h5>Question #<%= curQuestionIndex %></h5>
                 <p><%= qCode %></p>

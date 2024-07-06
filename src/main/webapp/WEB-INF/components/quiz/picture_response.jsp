@@ -1,5 +1,7 @@
 <%@ page import="Question.PictureResponse" %>
 <%@ page import="Quiz.*" %>
+<%@ page import="Question.QuestionType" %>
+<%@ page import="java.util.HashMap" %>
 <%
   PictureResponse qObject = (PictureResponse) request.getAttribute("currentQuestion");
   Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
@@ -8,11 +10,16 @@
   Integer numQuestions = currentQuiz.getNumberOfQuestions();
 
   String userAnswer = qObject.getUserAnswer() == null ? "" : qObject.getUserAnswer();
+
+  HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
+  QuestionType questionType = typeMap.get(qObject.getId());
+  String questionTypeStr = questionType == null ? "UNKNOWN" : questionType.getTypeName();
+
 %>
 
 <div class="row">
   <div class="col">
-    <div class="question-cont">
+    <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
       <div class="question">
         <h5>Question #<%= curQuestionIndex %></h5>
         <p><%= qObject.getQuestionText() %></p>

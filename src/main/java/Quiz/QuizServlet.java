@@ -33,38 +33,37 @@ public class QuizServlet extends HttpServlet {
         // Get the current quiz we are taking
         Quiz currentQuiz = sessionManager.getCurrentQuiz();
 
-        // Get which question we are on
-        String questionIndex = request.getParameter("q");
+        // Only pay attention to ?q= parameter if we are taking a Multiple Pages quiz
+        if(currentQuiz.getDisplayMode() == Quiz.MULTIPLE_PAGES) {
+            // Get which question we are on
+            String questionIndex = request.getParameter("q");
 
-        // Check for review tab
-        if(questionIndex != null && questionIndex.equals("review")) {
-            // Pass the arguments to the client
-            request.setAttribute("currentQuiz", currentQuiz);
-            request.setAttribute("curQuestionIndex", -1);
-            request.setAttribute("reviewFlag", true);
+            // Check for review tab
+            if(questionIndex != null && questionIndex.equals("review")) {
+                // Pass the arguments to the client
+                request.setAttribute("currentQuiz", currentQuiz);
+                request.setAttribute("curQuestionIndex", -1);
+                request.setAttribute("reviewFlag", true);
 
-            request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
-                    .forward(request, response);
-            return;
-        }
-
-        if(questionIndex == null || questionIndex.isEmpty() || !isPosNumber(questionIndex)) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid question index.");
-            return;
-        }
-
-        // Parse the value of the question index
-        Integer qIndex = Integer.parseInt(questionIndex);
-
-        // Check if the index is inbounds: questionIndex in [1, n]
-        if(qIndex > currentQuiz.getNumberOfQuestions()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Question index out of bounds.");
-            return;
+                request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
+                        .forward(request, response);
+                return;
+            }
+            Integer qIndex = 1;
+            if (questionIndex != null && !questionIndex.isEmpty() && isPosNumber(questionIndex)) {
+                // Parse the value of the question index
+                qIndex = Integer.parseInt(questionIndex);
+            }
+            // Check if the index is inbounds: questionIndex in [1, n]
+            if (qIndex > currentQuiz.getNumberOfQuestions()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Question index out of bounds.");
+                return;
+            }
+            request.setAttribute("curQuestionIndex", qIndex);
         }
 
         // Pass the arguments to the client
         request.setAttribute("currentQuiz", currentQuiz);
-        request.setAttribute("curQuestionIndex", qIndex);
 
         request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
                 .forward(request, response);
