@@ -135,7 +135,6 @@ public class QuizManager {
             ResultSet rs = stmt.executeQuery();
             while(rs.next()) {
                 int id = rs.getInt("ID");
-                System.out.println("here");
                 list.add(getQuiz(id));
             }
             // Close connection to the database
@@ -547,13 +546,13 @@ public class QuizManager {
             );
 
             stmt.setString(1, quiz.getName());
-            stmt.setString(2, String.valueOf(quiz.getAuthor_id()));
+            stmt.setString(2, String.valueOf(quiz.getAuthorId()));
             stmt.setString(3, quiz.getDescription());
             stmt.setBoolean(4, quiz.isRandomized());
             stmt.setBoolean(5, quiz.isPracticeAllowed());
             stmt.setBoolean(6, quiz.isImmediateCorrectionOn());
             stmt.setString(7, (quiz.getDisplayMode()==1) ? "ONE_PAGE" : "MULTIPLE_PAGES");
-            stmt.setString(8, quiz.getCreate_time());
+            stmt.setString(8, quiz.getCreateTime());
 
             stmt.executeUpdate();
             int quizNewId = 0;

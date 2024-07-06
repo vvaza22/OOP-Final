@@ -1,11 +1,5 @@
 (function() {
-
-    function publish(text) {
-
-    }
-
-    function sendRequest(text) {
-
+    function sendRequest(annoData) {
         // Create XHR Object
         const xhr = new XMLHttpRequest();
 
@@ -18,20 +12,41 @@
                 // Parse the server response
                 var response = JSON.parse(this.responseText);
                 // If the request was successful
-                publish(response);
+                if(response.status === "success") {
+                    // TODO: is it correct way?:D works tho.
+                    location.href="/home";
+                } else {
+                    alert(response.errorMsg);
+                }
             }
         }
 
         // Finally send the request
-        xhr.send("text="+text);
+        xhr.send("data="+JSON.stringify(annoData));
     }
+
+    function grabAnnoData() {
+        var anno_text = document.getElementById("anno_text").value;
+
+        let data = {};
+
+        //TODO:
+        const title = "ATTENTION EVERYONE!";
+        data["anno_title"] = title;
+
+        const text = anno_text;
+        data["anno_text"] = text;
+
+        return data;
+    }
+
+
 
     function attachPublish() {
         var publish_btn = document.getElementById("anno_publish_btn");
         if(publish_btn != null) {
             publish_btn.onclick = function (e) {
-                var publish_text = document.getElementById("anno_text");
-                sendRequest(publish_text);
+                sendRequest(grabAnnoData());
             };
         }
     }

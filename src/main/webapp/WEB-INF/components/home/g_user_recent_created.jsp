@@ -3,7 +3,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Account.Account" %>
 <%
-    ArrayList<Quiz> userRecentlyCreated = (ArrayList<Quiz>) request.getAttribute("userCreatedQuizzes");
+    Account user = (Account) request.getAttribute("currentUser");
+    QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
+    ArrayList<Quiz> userRecentlyCreated = qm.getRecentlyCreatedQuizzes(user.getUserId());
 %>
 
 <section class="group-section g-recent">
@@ -16,7 +18,7 @@
         <div class="g-list pt-4">
 
             <% if(userRecentlyCreated.isEmpty()) {%>
-                <p>Unlock your creativity and inspire others. Create your first quiz today!</p>
+                <p> Unlock your creativity and inspire others. Create your first quiz today!</p>
             <% } else { %>
                 <ol>
                     <%for(int i=0; i<Math.min(5, userRecentlyCreated.size()); i++) { %>
