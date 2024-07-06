@@ -12,11 +12,7 @@ create table challenges(
         foreign key (from_id) references users (id),
     constraint to_id_frnk
         foreign key (to_id) references users (id),
-<<<<<<< HEAD
     constraint quiz_id_fk
-=======
-    constraint quiz_id_frnkg
->>>>>>> origin/master
         foreign key (quiz_id) references quiz (quiz_id)
 );
 
