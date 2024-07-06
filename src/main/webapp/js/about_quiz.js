@@ -29,7 +29,7 @@
         const quizId = quizIdInput.value;
         takeQuizBtn.onclick = function() {
             sendTakeQuizRequest(quizId, function() {
-                location.href = "/quiz?q=1"
+                location.href = "/quiz"
             });
         }
     }

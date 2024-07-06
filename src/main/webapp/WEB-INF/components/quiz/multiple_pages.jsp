@@ -3,8 +3,6 @@
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.HashMap" %>
 
-<link rel="stylesheet" href="/css/quiz.css" />
-
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
     ArrayList<Question> questionList = currentQuiz.getQuestions();

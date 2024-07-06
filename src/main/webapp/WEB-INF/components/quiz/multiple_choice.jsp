@@ -1,18 +1,24 @@
 <%@ page import="Question.MultipleChoice" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Question.Choice" %><%
+<%@ page import="Question.Choice" %>
+<%@ page import="Question.QuestionType" %>
+<%@ page import="java.util.HashMap" %><%
   MultipleChoice qObject = (MultipleChoice) request.getAttribute("currentQuestion");
   Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
   ArrayList<Choice> choiceList = qObject.getChoices();
 
   Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
   Integer numQuestions = currentQuiz.getNumberOfQuestions();
+
+  HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
+  QuestionType questionType = typeMap.get(qObject.getId());
+  String questionTypeStr = questionType == null ? "UNKNOWN" : questionType.getTypeName();
 %>
 
 <div class="row">
   <div class="col">
-    <div class="question-cont">
+    <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
       <div class="question">
         <h5>Question #<%= curQuestionIndex %></h5>
         <p><%= qObject.getQuestionText() %></p>

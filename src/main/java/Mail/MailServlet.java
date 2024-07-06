@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MailServlet extends HttpServlet {
     @Override
@@ -74,9 +75,12 @@ public class MailServlet extends HttpServlet {
         Database db = ((Database) request.getServletContext().getAttribute("database"));
         FriendRequestManager frm = new FriendRequestManager(db);
         ChallengeManager cmgr = new ChallengeManager(db);
+        FriendsManager fmgr = new FriendsManager(db);
 
         if(requestStatus.equals("ACCEPTED")){
             frm.changeStatus(requestId, "ACCEPTED");
+            ArrayList<Integer> friends = frm.getUserIdsByReq(requestId);
+            fmgr.addFriend(friends.get(0), friends.get(1));
             responseObj.put("status", "success");
         } else if(requestStatus.equals("REJECTED")){
             frm.changeStatus(requestId, "REJECTED");

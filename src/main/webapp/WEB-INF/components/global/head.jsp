@@ -13,4 +13,12 @@
 
     <!-- Main Style File -->
     <link href="/css/style.css" rel="stylesheet" />
+
+    <%
+        String customStyle = (String) request.getAttribute("customStyle");
+        if(customStyle != null) {
+    %>
+    <!-- Page Style File -->
+    <link href="<%= customStyle %>" rel="stylesheet" />
+    <% } %>
 </head>

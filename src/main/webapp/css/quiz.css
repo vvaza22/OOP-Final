@@ -128,3 +128,8 @@
 .answered-wrong {
     background: #f46381;
 }
+
+.one-page-action {
+    padding: 1em;
+    text-align: right;
+}

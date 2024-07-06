@@ -5,11 +5,13 @@ import Account.Account;
 public class ChallengeMail extends Mail {
     int quiz_id;
     String status;
+    String quiz_name;
 
-    public ChallengeMail(Account from, Account to, int id, int quiz_id, String status) {
+    public ChallengeMail(Account from, Account to, int id, int quiz_id, String quiz_name, String status) {
         super(from, to, id);
         this.quiz_id = quiz_id;
         this.status = status;
+        this.quiz_name = quiz_name;
     }
 
     public int getQuizId(){return this.quiz_id;}
@@ -18,7 +20,7 @@ public class ChallengeMail extends Mail {
 
     @Override
     public String getMessage() {
-        return from.getUserName() + " challenged you";
+        return from.getUserName() + " challenged you with \"" + quiz_name + "\"";
     }
 
     @Override

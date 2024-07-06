@@ -1,5 +1,5 @@
 (function() {
-    function sendRequest(questionId, data, callback) {
+    function sendRequest(questionId, questionIndex, data, callback) {
         // Create XHR object
         const xhr = new XMLHttpRequest();
 
@@ -13,7 +13,7 @@
                 // Read the server response
                 let response = JSON.parse(xhr.responseText);
                 if(response.status === "success") {
-                    callback();
+                    callback(questionIndex);
                 } else {
                     // Error
                 }
@@ -25,21 +25,21 @@
     }
 
     /* Text Based */
-    function sendText(questionId, callback) {
+    function sendText(questionId, questionIndex, callback) {
         let dataObj = {};
 
         // Get the text answer
         const textField = document.getElementById("text_" + questionId);
         if(textField == null || textField.value.length === 0)  {
-            callback();
+            callback(questionIndex);
         } else {
             dataObj["answer"] = textField.value;
-            sendRequest(questionId, dataObj, callback);
+            sendRequest(questionId, questionIndex, dataObj, callback);
         }
     }
 
     /* Multiple Choice */
-    function sendMultipleChoice(questionId, callback) {
+    function sendMultipleChoice(questionId, questionIndex, callback) {
         let dataObj = {};
 
         // Find correct answer index
@@ -52,7 +52,7 @@
         }
         if(markedIndex.length > 0) {
             dataObj["answer_index"] = markedIndex;
-            sendRequest(questionId, dataObj, callback);
+            sendRequest(questionId, questionIndex, dataObj, callback);
         } else {
             callback();
         }
@@ -63,10 +63,10 @@
             case 'QUESTION_RESPONSE':
             case 'PICTURE_RESPONSE':
             case 'FILL_BLANK':
-                sendText(questionId, callback);
+                sendText(questionId, questionIndex, callback);
                 break;
             case 'MULTIPLE_CHOICE':
-                sendMultipleChoice(questionId, callback)
+                sendMultipleChoice(questionId, questionIndex, callback)
                 break;
         }
     }
@@ -136,6 +136,47 @@
         sendFinishAttempt(function (attempt_id) {
             location.href = "/attempt?attempt_id=" + attempt_id;
         });
+    }
+
+    function checkIfFinished(statusObj) {
+        let questionIndices = Object.keys(statusObj);
+        for(let k=0; k<questionIndices.length; k++) {
+            let qIndex = questionIndices[k];
+            if(!statusObj[qIndex]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    window.finishAttemptForOnePage = function(elem) {
+        elem.disabled = true;
+        const elemList = document.querySelectorAll(".question-cont");
+
+        let statusObj = {};
+        for(let i=0; i<elemList.length; i++) {
+            let questionIndex = elemList[i].getAttribute("data-index");
+            statusObj[questionIndex] = false;
+        }
+
+        for(let i=0; i<elemList.length; i++) {
+            let questionId = elemList[i].getAttribute("data-id");
+            let questionType = elemList[i].getAttribute("data-type");
+            let questionIndex = elemList[i].getAttribute("data-index");
+            sendAnswerToServlet(questionId, questionIndex, questionType, function(qIndex) {
+                statusObj[qIndex] = true;
+            });
+        }
+
+        let waitInterval = setInterval(function() {
+
+            if(checkIfFinished(statusObj)) {
+                clearInterval(waitInterval);
+                finishAttempt();
+            }
+
+        }, 500);
+
     }
 
 })();
