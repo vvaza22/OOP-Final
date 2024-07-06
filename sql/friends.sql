@@ -13,9 +13,9 @@ create table friends
         foreign key (friend_B) references users (id)
 );
 
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (1, 2);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (4, 5);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (3, 2);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (2, 3);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (2, 6);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (3, 6);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (1, 2);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (4, 5);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (3, 2);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (2, 3);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (2, 6);
+# INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (3, 6);

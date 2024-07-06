@@ -2,10 +2,8 @@ package Account;
 
 import Database.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class FriendRequestManager {
     private final Database db;
@@ -75,5 +73,32 @@ public class FriendRequestManager {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    public ArrayList<Integer> getUserIdsByReq(int req){
+        ArrayList<Integer> users = new ArrayList<>();
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from frreqs where id=?"
+            );
+            stmt.setInt(1, req);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                int from = rs.getInt("from_id");
+                int to = rs.getInt("to_id");
+                users.add(from);
+                users.add(to);
+                stmt.close();
+                con.close();
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
     }
 }
