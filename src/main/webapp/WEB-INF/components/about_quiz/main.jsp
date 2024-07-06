@@ -1,6 +1,10 @@
 <%@ page import="Quiz.Quiz" %>
+<%@ page import="Account.*" %>
 <%
+    AccountManager acm = (AccountManager) request.getServletContext().getAttribute("accountManager");
     Quiz currentQuiz = (Quiz) request.getAttribute("quizObj");
+    int authorId = currentQuiz.getAuthor_id();
+    Account authorAccount = acm.getAccountById(authorId);
 %>
 
 <link href="/css/about_quiz.css" rel="stylesheet" />
@@ -22,9 +26,14 @@
             <span class="quiz-flag immediate">Immediate Correction</span>
             <% } %>
         </div>
-        <p>Author: <a href="/profile?username=realtia" class="profile-link"><img class="profile-image" src="/images/profile/sample_1.jpg" width="40" height="40" /> realtia</a></p>
+        <p>Author: <a href="/profile?username=<%= authorAccount.getUserName() %>" class="profile-link"><img class="profile-image" src="<%= authorAccount.getImage() %>" width="40" height="40" /> <%= authorAccount.getUserName() %></a></p>
     </div>
     <div class="row">
+        <% if(currentQuiz.getImage() != null) { %>
+            <div class="about-quiz-image-cont">
+                <img src="<%= currentQuiz.getImage() %>" />
+            </div>
+        <% } %>
         <% if(currentQuiz.getDescription() == null) { %>
         <p><i>The quiz has no description</i></p>
         <% } else { %>

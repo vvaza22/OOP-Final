@@ -22,6 +22,7 @@ public class Quiz {
     private final boolean immediateCorrection;
     private final int displayMode;
     private final String create_time;
+    private final String quizImage;
 
     ArrayList<Question> questionList;
     HashMap<Integer, Question> questionMap;
@@ -31,6 +32,7 @@ public class Quiz {
             String name,
             int author_id,
             String description,
+            String quizImage,
             boolean randomize,
             boolean practiceMode,
             boolean immediateCorrection,
@@ -42,6 +44,7 @@ public class Quiz {
         this.name = name;
         this.author_id = author_id;
         this.description = description;
+        this.quizImage = quizImage;
         this.randomize = randomize;
         this.practiceMode = practiceMode;
         this.immediateCorrection = immediateCorrection;
@@ -54,6 +57,10 @@ public class Quiz {
         if(isRandomized()) {
             shuffleQuestions();
         }
+    }
+
+    public String getImage() {
+        return quizImage;
     }
 
     public int getId() {

@@ -6,11 +6,12 @@
 
 <main class="main-content pt-4">
     <div class="container">
+
+        <!-- Popular Quizzes -->
+        <jsp:include page="showcase_popular.jsp" />
+
         <div class="row">
             <div class="col-4">
-                <!-- Popular Quizzes -->
-                <jsp:include page="g_popular.jsp" />
-
                 <!-- Recent Quizzes -->
                 <jsp:include page="g_recent.jsp" />
 

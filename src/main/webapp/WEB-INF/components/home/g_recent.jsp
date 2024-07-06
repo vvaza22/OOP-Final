@@ -16,7 +16,7 @@
         </div>
         <div class="g-list pt-4">
             <ol>
-                <%for(int i=0; i<Math.min(5, recentsList.size()); i++) { %>
+                <%for(int i=0; i<Math.min(10, recentsList.size()); i++) { %>
                 <li><a href=<%="/about_quiz?id="+String.valueOf(recentsList.get(i).getId())%>><%=recentsList.get(i).getName()%></a></li>
                 <% } %>
             </ol>

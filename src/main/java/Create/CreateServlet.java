@@ -127,7 +127,7 @@ public class CreateServlet extends HttpServlet {
         String createDate = dateFormat.format(new Date(System.currentTimeMillis()));
 
         // Give dummy id.
-        Quiz quiz = new Quiz(0, name, currentUser.getUserId(), description, randomize, practiceMode, immediate, display, createDate, questions);
+        Quiz quiz = new Quiz(0, name, currentUser.getUserId(), description, null, randomize, practiceMode, immediate, display, createDate, questions);
         int quizId = quizm.addQuiz(quiz);
 
         // Tell the client that the register was successful

@@ -15,6 +15,7 @@ create table quiz
     name                 nvarchar(256)                      not null,
     author_id            int                                not null,
     description          text                               null,
+    quiz_image           text                               null,
     randomize            tinyint(1) default 0               not null,
     practice_mode        tinyint(1) default 0               not null,
     immediate_correction tinyint(1) default 0               not null,
@@ -114,6 +115,7 @@ insert into quiz(
     author_id,
     name,
     description,
+    quiz_image,
     randomize,
     practice_mode,
     immediate_correction,
@@ -122,6 +124,7 @@ insert into quiz(
             2,
             'Random Knowledge Test',
             'This is my amazing quiz that tests your random knowledge in every single field there exists.',
+            '/images/sample/1.jpg',
             1,
             1,
             0,
@@ -273,13 +276,80 @@ insert into text_answers(
 insert into quiz(
     author_id,
     name,
+    description,
+    quiz_image,
+    randomize,
+    practice_mode,
+    immediate_correction,
+    display_type
+) values(
+    1,
+    'Cosmos Quiz',
+    'This Quiz tests your knowledge about cool space stuff',
+    '/images/sample/2.jpg',
+    1,
+    0,
+    0,
+    'ONE_PAGE'
+);
+
+-- Example Quiz 3
+insert into quiz(
+    author_id,
+    name,
+    description,
+    quiz_image,
     randomize,
     practice_mode,
     immediate_correction,
     display_type
 ) values(
             1,
-            'Theoretical Computer Science',
+            'Geography Quiz',
+            'Do you know maps?',
+            '/images/sample/3.jpg',
+            1,
+            0,
+            0,
+            'ONE_PAGE'
+        );
+
+-- Example Quiz 4
+insert into quiz(
+    author_id,
+    name,
+    description,
+    quiz_image,
+    randomize,
+    practice_mode,
+    immediate_correction,
+    display_type
+) values(
+    1,
+    'Physics Quiz',
+    'Do some multidimensional calculus.',
+    '/images/sample/4.jpg',
+    1,
+    0,
+    0,
+    'ONE_PAGE'
+);
+
+-- Example Quiz 5
+insert into quiz(
+    author_id,
+    name,
+    description,
+    quiz_image,
+    randomize,
+    practice_mode,
+    immediate_correction,
+    display_type
+) values(
+            1,
+            'Video Games Quiz',
+            'Rise and Shine Doctor Freeman Rise and shine...',
+            '/images/sample/5.jpg',
             1,
             0,
             0,

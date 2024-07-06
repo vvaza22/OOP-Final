@@ -382,3 +382,59 @@ main {
 .btn-round {
 	border-radius: 30px;
 }
+
+.quiz-row {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.quiz-wrap {
+	width: 20%;
+	margin: 0;
+}
+
+.quiz-wrap {
+	padding-right: .25em;
+}
+
+.quiz-wrap:last-child {
+	padding-right: 0;
+}
+
+.quiz-card:hover img {
+	transform: scale3d(1.1, 1.1, 1.1);
+	z-index: 9999;
+}
+
+.quiz-card {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 150px;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	margin: 0;
+	/* https://colorkit.co/gradient/62cff4-2c67f2/ */
+	background: linear-gradient(115deg, #62cff4, #2c67f2);
+}
+
+.quiz-card img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+
+	transition: transform .3s;
+	z-index: 1000;
+}
+
+.quiz-card span {
+	z-index: 10000;
+	text-align: center;
+	background-color: crimson;
+	color: #fff;
+}
+
+.quiz-row {
+	margin-bottom: 2em;
+}

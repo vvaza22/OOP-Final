@@ -45,3 +45,12 @@
 .page {
     background-color: #0b5ed7;
 }
+
+.about-quiz-image-cont {
+    margin-bottom: .5em;
+}
+
+.about-quiz-image-cont > img {
+    width: 400px;
+    height: auto
+}

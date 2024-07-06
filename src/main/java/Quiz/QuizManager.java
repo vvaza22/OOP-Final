@@ -169,6 +169,7 @@ public class QuizManager {
                         rs.getString("name"),
                         rs.getInt("author_id"),
                         rs.getString("description"),
+                        rs.getString("quiz_image"),
                         rs.getBoolean("randomize"),
                         rs.getBoolean("practice_mode"),
                         rs.getBoolean("immediate_correction"),
