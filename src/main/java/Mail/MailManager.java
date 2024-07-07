@@ -110,4 +110,23 @@ public class MailManager {
         return chlg;
     }
 
+    public void addNote(int fromId, int toId, String note){
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "insert into notes (from_id, to_id, note) values (?, ?, ?)"
+            );
+
+            stmt.setInt(1, fromId);
+            stmt.setInt(2, toId);
+            stmt.setString(3, note);
+            stmt.executeUpdate();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

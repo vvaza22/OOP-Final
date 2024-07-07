@@ -6,16 +6,15 @@ import Account.FriendRequestManager;
 import Account.FriendsManager;
 import Database.Database;
 import Global.SessionManager;
+import Mail.MailManager;
 import org.json.JSONObject;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ProfileServlet extends HttpServlet {
     @Override
@@ -99,13 +98,48 @@ public class ProfileServlet extends HttpServlet {
             if(action.equals("remFriend")){
                 removeFriend(request, response, responseObj, userName, acm);
             }
+            if(action.equals("sendNote")){
+                sendNoteToMail(request, response, responseObj, userName, acm);
+            }
         }
         response.getWriter().print(responseObj);
     }
 
+    private void sendNoteToMail(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
+        String toWhichUserNoteSent = request.getParameter("toWhichUserSent");
+        String note = request.getParameter("noteMessage");
+        if (
+            toWhichUserNoteSent == null ||
+            toWhichUserNoteSent.isEmpty() ||
+            note.isEmpty() ||
+            note == null
+        ) {
+            responseObj.put("status", "fail");
+        } else {
+            Account whichAccountSends = acm.getAccount(userName);
+            Account whichAccountRecieves = acm.getAccount(toWhichUserNoteSent);
+
+            if(whichAccountSends == null || whichAccountRecieves == null){
+                responseObj.put("status", "fail");
+                return;
+            }
+            int whichAccSendsId = whichAccountSends.getUserId();
+            int whichAccRecievesId = whichAccountRecieves.getUserId();
+
+            if (whichAccSendsId == whichAccRecievesId){
+                responseObj.put("status", "fail");
+                responseObj.put("errorMsg", "You cannot remove yourself.");
+            }
+
+            Database db = (Database)request.getServletContext().getAttribute("database");
+            MailManager mmgr = new MailManager(db, acm);
+            mmgr.addNote(whichAccSendsId, whichAccRecievesId, note);
+        }
+    }
+
     private void removeFriend(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
         String toWhichUserRemoveFriend = request.getParameter("friendRemUser");
-        if (toWhichUserRemoveFriend == null) {
+        if (toWhichUserRemoveFriend == null || toWhichUserRemoveFriend.isEmpty()) {
             responseObj.put("status", "fail");
         } else {
             Account whoIsRemovedAcc = acm.getAccount(toWhichUserRemoveFriend);
@@ -136,7 +170,7 @@ public class ProfileServlet extends HttpServlet {
 
     private void sendFriendRequest(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String userName, AccountManager acm) {
         String toWhoFriendRequest = request.getParameter("friendRequestedUser");
-        if(toWhoFriendRequest == null){
+        if(toWhoFriendRequest == null || toWhoFriendRequest.isEmpty()){
             responseObj.put("status", "fail");
         }else{
             Account toWhoReqSentAcc = acm.getAccount(toWhoFriendRequest);
