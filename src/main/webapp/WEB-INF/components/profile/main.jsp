@@ -50,6 +50,11 @@
         flex-grow: 1;
     }
 
+    .user-action{
+        display: flex;
+        gap: 10px;
+    }
+
 </style>
 
 <main class="profile-page">
@@ -69,6 +74,7 @@
                         boolean areFriends = fm.areFriends(myId, userId);
                         if(sessionManager.isUserLoggedIn() && myAccount.getUserId() != userAccount.getUserId()) { %>
                             <div class="user-action">
+                                <button onclick="sendNote('<%=userAccount.getUserName()%>')" id="note" class="btn btn-round btn-outline-info" style="display: block">send note</button>
                                 <% if (reqSent){ %>
                                     <p>this user sent you a friend request</p>
                                 <%}else  if (status){%>
@@ -128,11 +134,18 @@
                                 </div>
                             </form>
                             <div class="profile-sub-row">
+                                <%
+                                    int quantityOfFriends = 0;
+                                    ArrayList<Integer> friendsListById = new ArrayList<Integer>();
+                                    if(userAccount != null) {
+                                        friendsListById = fm.friendsList(userAccount.getUserId());
+                                        quantityOfFriends = friendsListById.size();
+                                    }
+                                %>
                                 <div class="profile-note friends-cont">
-                                    <h4>My Friends <span class="num-friends">(3)</span></h4>
+                                    <h4>My Friends <span class="num-friends"><%=quantityOfFriends%></span></h4>
                                     <ul>
-                                        <%if(userAccount != null){
-                                                ArrayList<Integer> friendsListById = fm.friendsList(userAccount.getUserId());
+                                        <%if(quantityOfFriends != 0){
                                                 for(Integer userId: friendsListById){
                                                     Account account = acm.getAccountById(userId); %>
                                                     <li><a href=<%="/profile?username="+ account.getUserName()%>><%=account.getUserName()%></a></li>
