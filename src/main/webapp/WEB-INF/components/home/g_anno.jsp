@@ -3,6 +3,7 @@
 <%@ page import="Account.Account" %>
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Announcements.AnnouncementManager" %>
+<%@ page import="org.owasp.encoder.Encode" %>
 
 
 <%
@@ -13,11 +14,15 @@
 %>
 
 <% if(currentUser!=null && currentUser.isAdmin()) { %>
-        <input type="text" id="anno_title" placeholder="title:" >
-        <textarea id="anno_text" class="form-control mt-2"> </textarea>
+    <div class="anno-post-parent">
+        <div class="anno-post-text">
+            <input type="text" id="anno_title" class="form-control post-title" placeholder="Title:" >
+            <textarea id="anno_text" class="form-control mt-2" placeholder="What's new?"></textarea>
+        </div>
         <div style="text-align: right">
             <button id="anno_publish_btn" class="btn btn-round btn-primary mt-2">Publish</button>
         </div>
+    </div>
 <% } %>
 
 <section class="anno-section">
@@ -28,22 +33,22 @@
             <!-- Item -->
             <div class="anno-item">
                 <div class="anno-header">
-                    <h3><%= announcement.getTitle() %></h3>
+                    <h3><%= Encode.forHtml(announcement.getTitle())%></h3>
                 </div>
                 <div class="anno-meta">
                     <div class="anno-date"><i class="fa-solid fa-calendar-days me-1"></i><%= announcement.getDate() %></div>
                     <div class="ms-1">By <span class="anno-by-admin"><%=acmn.getAccountById(announcement.getAuthorId()).getUserName()%></span></div>
                 </div>
                 <div class="anno-text">
-                    <p><%= announcement.getBody() %></p>
+                    <p><%=Encode.forHtml(announcement.getBody())%></p>
                 </div>
                 <div class="anno-reaction">
                     <div class="anno-loved me-2">
-                        <i class="fa-solid fa-heart"></i>
+                        <span onclick="action_like(<%=announcement.getId()%>)" class="fa-solid fa-heart symbol"></span>
                         <span><%= announcement.getNumLike() %></span>
                     </div>
                     <div class="anno-hated">
-                        <i class="fa-solid fa-thumbs-down"></i>
+                        <span onclick="action_dislike(<%=announcement.getId()%>)" class="fa-solid fa-thumbs-down symbol"></span>
                         <span><%= announcement.getNumDislike() %></span>
                     </div>
                 </div>

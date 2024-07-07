@@ -55,7 +55,7 @@ public class AnnouncementManager {
             // Open connection to the database
             Connection con = db.openConnection();
 
-            // Retrieve the quiz
+            // Retrieve the announcements
             PreparedStatement stmt = con.prepareStatement(
                     "select anno_id AS ID, create_time " +
                             "from anno " +
@@ -78,18 +78,113 @@ public class AnnouncementManager {
         return list;
     }
 
+
+
+    public String getReaction(int userId, int annoId) {
+        String type = null;
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the reaction
+            PreparedStatement stmt = con.prepareStatement(
+                    "select reaction_type " +
+                            "from reaction " +
+                            "where anno_id = ? " +
+                            "and user_id = ?;"
+            );
+            stmt.setInt(1,annoId);
+            stmt.setInt(2,userId);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                type = rs.getString("reaction_type");
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return type;
+    }
+
+    public void reactAnnouncement(int annoId, int userId, String type) {
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // insert the reaction
+            PreparedStatement stmt = con.prepareStatement(
+                    "insert into reaction(anno_id, user_id, reaction_type) " +
+                        "values(?,?,?);"
+            );
+            stmt.setInt(1, annoId);
+            stmt.setInt(2, userId);
+            stmt.setString(3, type);
+
+            stmt.executeUpdate();
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteReaction(int annoId, int userId) {
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            PreparedStatement stmt = con.prepareStatement(
+                    "delete from reaction " +
+                            "where anno_id=? " +
+                            "and user_id=?"
+            );
+            stmt.setInt(1, annoId);
+            stmt.setInt(2, userId);
+
+            // Delete reaction row
+            stmt.executeUpdate();
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Announcement getAnnouncement(int id) {
         try {
             // Open connection to the database
             Connection con = db.openConnection();
 
-            // Retrieve the quiz
+            // Retrieve the announcement
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from anno where anno_id=?"
+                    "select a.anno_id, a.author_id, a.title, a.body, a.create_time, " +
+                            "(select count(*) " +
+                            "from reaction r " +
+                            "where r.anno_id = a.anno_id " +
+                            "and r.reaction_type='LIKE' " +
+                            ") as likes, " +
+                            "(select count(*) " +
+                            "from reaction r " +
+                            "where r.anno_id = a.anno_id " +
+                            "and r.reaction_type='DISLIKE' " +
+                            ") as dislikes "+
+                            "from anno a " +
+                            "where a.anno_id=?"
             );
+
             stmt.setInt(1, id);
 
-            // Create Quiz Object
+            // Create announcement Object
             ResultSet rs = stmt.executeQuery();
             if(rs.next()) {
                 Announcement anno = new Announcement(

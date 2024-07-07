@@ -145,6 +145,15 @@ main {
 
 
 /* Announcements */
+.anno-post-text {
+	border-bottom: 1px dashed #cccccc;
+	padding-bottom: 1em;
+}
+
+
+.post-title {
+	width: 40%;
+}
 
 .anno-meta {
 	margin-bottom: .3em;
@@ -187,8 +196,14 @@ main {
 	color: #4922b7;
 }
 
+.anno-loved:hover, .anno-hated:hover {
+	transform: scale(1.2);
+}
+
 .anno-loved, .anno-hated {
 	font-size: 1.1em;
+	cursor: pointer;
+	transition: transform .3s;
 }
 
 

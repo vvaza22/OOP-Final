@@ -149,6 +149,52 @@ public class QuizManager {
     }
 
 
+    public Quiz getRandomQuiz() {
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from quiz order by rand() LIMIT 1;"
+            );
+            // Create Quiz Object
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                int quizId = rs.getInt("quiz_id");
+                Quiz quiz = new Quiz(
+                        quizId,
+                        rs.getString("name"),
+                        rs.getInt("author_id"),
+                        rs.getString("description"),
+                        rs.getString("quiz_image"),
+                        rs.getBoolean("randomize"),
+                        rs.getBoolean("practice_mode"),
+                        rs.getBoolean("immediate_correction"),
+                        rs.getString("display_type").equals("ONE_PAGE") ? Quiz.ONE_PAGE : Quiz.MULTIPLE_PAGES,
+                        (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(rs.getTimestamp("create_time"))),
+                        getQuestions(quizId, con)
+                );
+
+                // Close connection to the database
+                stmt.close();
+                con.close();
+
+                return quiz;
+            }
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Quiz does not exist
+        return null;
+    }
+
+
     public Quiz getQuiz(int id) {
         try {
             // Open connection to the database

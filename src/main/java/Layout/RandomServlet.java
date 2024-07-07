@@ -3,6 +3,8 @@ package Layout;
 import Account.AccountManager;
 import Global.SessionManager;
 import Question.QuestionType;
+import Quiz.Quiz;
+import Quiz.QuizManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +16,15 @@ public class RandomServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        request.getRequestDispatcher("/WEB-INF/pages/random.jsp")
-                .forward(request, response);
+
+        QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
+        Quiz quiz = qm.getRandomQuiz();
+        if(quiz == null) {
+            response.sendRedirect("/");
+            return;
+        }
+        int quizId = quiz.getId();
+        response.sendRedirect("/about_quiz?id="+quizId);
     }
 
 }
