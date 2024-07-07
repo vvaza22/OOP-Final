@@ -8,25 +8,21 @@
     QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
     ArrayList<Quiz> list = qm.getRecentQuizzes();
 %>
-
-<div class="row">
-
-    <h4>Explore</h4>
-    <div class="quiz-row">
-
-        <%
-            for(int i=0; i<list.size(); i++) {
-                Quiz curQuiz = list.get(i);
-        %>
-        <div class="quiz-wrap">
-            <a href="/about_quiz?id=<%= curQuiz.getId() %>" class="quiz-card">
-                <img class="quiz-card-img" src="<%= curQuiz.getImage() %>" />
-                <span><%= curQuiz.getName() %></span>
-            </a>
+<main>
+    <div class="container">
+        <div class="row">
+            <!-- Popular Quizzes -->
+            <jsp:include page="../home/showcase_popular.jsp" />
         </div>
-        <% } %>
-
+        <div class="row">
+            <h4>Explore More</h4>
+            <ul>
+                <%for(int i=0; i<list.size(); i++) { %>
+                <li><a href=<%="/about_quiz?id="+String.valueOf(list.get(i).getId())%>><%=list.get(i).getName()%></a></li>
+                <% } %>
+            </ul>
+        </div>
     </div>
-</div>
+</main>
 
 

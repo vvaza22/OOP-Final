@@ -16,7 +16,7 @@
 <% if(currentUser!=null && currentUser.isAdmin()) { %>
     <div class="anno-post-parent">
         <div class="anno-post-text">
-            <input type="text" id="anno_title" class="form-control post-title" placeholder="Title:" >
+            <input type="text" id="anno_title" class="form-control post-title" placeholder="Title:" autocomplete="off">
             <textarea id="anno_text" class="form-control mt-2" placeholder="What's new?"></textarea>
         </div>
         <div style="text-align: right">
@@ -37,7 +37,10 @@
                 </div>
                 <div class="anno-meta">
                     <div class="anno-date"><i class="fa-solid fa-calendar-days me-1"></i><%= announcement.getDate() %></div>
-                    <div class="ms-1">By <span class="anno-by-admin"><%=acmn.getAccountById(announcement.getAuthorId()).getUserName()%></span></div>
+                    <%
+                        String userName = acmn.getAccountById(announcement.getAuthorId()).getUserName();
+                    %>
+                    <div class="ms-1">By <a href="/profile?username=<%=userName%>" class="anno-by-admin"><%=userName%></a></div>
                 </div>
                 <div class="anno-text">
                     <p><%=Encode.forHtml(announcement.getBody())%></p>
