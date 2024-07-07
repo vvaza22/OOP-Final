@@ -54,3 +54,12 @@
     width: 400px;
     height: auto
 }
+
+.about-quiz-parent {
+    display: flex;
+}
+
+.about-quiz-right-side {
+    min-width: 300px;
+    padding-top: 2em;
+}

@@ -458,3 +458,8 @@ main {
 	padding-right: 1em;
 	padding-left: 1em;
 }
+
+.friend-quiz-author {
+	color: #f18383;
+	font-weight: BOLD;
+}

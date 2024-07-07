@@ -35,7 +35,7 @@ public class QuizManager {
                             "left outer join attempts a " +
                             "on(q.quiz_id = a.quiz_id) " +
                             "group by ID " +
-                            "order by total_attempts desc;"
+                            "order by total_attempts desc limit 5;"
             );
 
             ResultSet rs = stmt.executeQuery();
@@ -55,6 +55,216 @@ public class QuizManager {
         return list;
     }
 
+    public ArrayList<ScoresStruct> getRecentQuizTakers(int quizId) {
+        ArrayList<ScoresStruct> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the scorers
+            PreparedStatement stmt = con.prepareStatement(
+                    "select u.user_name, a.score " +
+                            "from attempts a " +
+                            "inner join users u on a.user_id = u.id " +
+                            "where quiz_id=? " +
+                            "order by a.attempt_time desc;"
+            );
+
+            stmt.setInt(1, quizId);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                String userName =  rs.getString("user_name");
+                int score = rs.getInt("score");
+                list.add(new ScoresStruct(userName, score));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public ArrayList<Quiz> getFriendCreatedQuizzes(int userId) {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select quiz_id " +
+                            "from quiz " +
+                            "where author_id in (select friend_B " +
+                                            "from friends " +
+                                            "where friend_A=?) limit 10;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("quiz_id");
+                list.add(getQuiz(id));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public ArrayList<Quiz> getFriendTakenQuizzes(int userId) {
+        ArrayList<Quiz> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "select quiz_id " +
+                            "from attempts " +
+                            "where user_id in (select friend_B " +
+                            "                    from friends " +
+                            "                    where friend_A=?) " +
+                            "order by attempt_time desc limit 10;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("quiz_id");
+                list.add(getQuiz(id));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+    public ArrayList<ScoresStruct> getTodaysTopScorers(int quizId) {
+        ArrayList<ScoresStruct> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the scorers
+            PreparedStatement stmt = con.prepareStatement(
+                    "select u.user_name, " +
+                            "    (select max(a.score) " +
+                            "         from attempts a " +
+                            "         where a.user_id = u.id " +
+                            "         and a.quiz_id = ? " +
+                            "         and date(a.attempt_time) = curdate() " +
+                            "    ) as max_score " +
+                            "from users u " +
+                            "having max_score is not null " +
+                            "order by 2 desc limit 5;"
+            );
+
+            stmt.setInt(1, quizId);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                String userName =  rs.getString("user_name");
+                int score = rs.getInt("max_score");
+                list.add(new ScoresStruct(userName, score));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+    public Integer getAverageScore(int quizId) {
+        Integer score = null;
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the scorers
+            PreparedStatement stmt = con.prepareStatement(
+                    "select " +
+                            "    avg((select max(a.score) " +
+                            "         from attempts a " +
+                            "         where a.user_id = u.id " +
+                            "         and quiz_id =? " +
+                            "    )) as avg_score " +
+                            "from users u;"
+            );
+
+            stmt.setInt(1, quizId);
+
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                score = rs.getInt("avg_score");
+
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return score;
+    }
+
+    public ArrayList<ScoresStruct> getTopScorers(int quizId) {
+        ArrayList<ScoresStruct> list = new ArrayList<>();
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Retrieve the scorers
+            PreparedStatement stmt = con.prepareStatement(
+                    "select u.user_name, " +
+                            "(select max(a.score) " +
+                            "   from attempts a " +
+                            "   where a.user_id = u.id " +
+                            "   and quiz_id=?" +
+                            ") as max_score " +
+                            "from users u " +
+                            "having max_score is not null " +
+                            "order by 2 desc limit 5;"
+            );
+
+            stmt.setInt(1, quizId);
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                String userName =  rs.getString("user_name");
+                int score = rs.getInt("max_score");
+                list.add(new ScoresStruct(userName, score));
+            }
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return list;
+    }
+
+
     public ArrayList<Quiz> getRecentQuizzes() {
         ArrayList<Quiz> list = new ArrayList<>();
         try {
@@ -65,7 +275,7 @@ public class QuizManager {
             PreparedStatement stmt = con.prepareStatement(
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
-                        "order by 2 desc;"
+                        "order by 2 desc limit 5;"
             );
 
             ResultSet rs = stmt.executeQuery();
@@ -97,7 +307,7 @@ public class QuizManager {
                         "from attempts a " +
                         "where a.user_id=? " +
                         "group by a.quiz_id " +
-                        "order by latest_attempt_time desc;"
+                        "order by latest_attempt_time desc limit 5;"
             );
 
             stmt.setInt(1, userId);
@@ -128,7 +338,7 @@ public class QuizManager {
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
                         "where author_id=? " +
-                        "order by 2 desc;"
+                        "order by 2 desc limit 5;"
             );
 
             stmt.setInt(1, userId);

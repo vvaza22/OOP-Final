@@ -7,7 +7,9 @@
 
 <body>
 <jsp:include page="/WEB-INF/components/layout/header.jsp" />
+<main class="container">
 <jsp:include page="/WEB-INF/components/about_quiz/main.jsp" />
+</main>
 <jsp:include page="/WEB-INF/components/layout/footer.jsp" />
 
 <!-- Local Javascript -->

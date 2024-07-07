@@ -8,6 +8,7 @@ import Database.Database;
 import Global.SessionManager;
 import Mail.MailManager;
 import org.json.JSONObject;
+import org.owasp.encoder.Encode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -61,9 +62,8 @@ public class ProfileServlet extends HttpServlet {
         } else {
             // response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Username.");
             // Tell the client that such user does not exist.
+            userName = Encode.forHtml(userName);
             request.setAttribute("reqUsername", userName);
-
-            // TODO: FIX XSS VULNERABILITY
 
             // Display the page
             request.getRequestDispatcher("/WEB-INF/pages/profile.jsp")

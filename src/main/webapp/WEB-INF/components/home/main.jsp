@@ -18,6 +18,8 @@
                 <% if(currentUser!=null) { %>
                     <jsp:include page="g_user_recent_taken.jsp" />
                     <jsp:include page="g_user_recent_created.jsp" />
+                    <jsp:include page="g_friend_recent_created.jsp" />
+                    <jsp:include page="g_friend_recent_taken.jsp" />
                 <% } %>
             </div>
             <div class="col-8">
