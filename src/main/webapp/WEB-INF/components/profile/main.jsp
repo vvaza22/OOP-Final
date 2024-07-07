@@ -7,6 +7,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Quiz.QuizManager" %>
 <%@ page import="Quiz.Quiz" %>
+<%@ page import="Achievement.*" %>
 
 
 <%
@@ -20,8 +21,8 @@
 
     FriendsManager fm = new FriendsManager(db);
     AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
-
     QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
+    AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
 %>
 
 <style>
@@ -62,7 +63,6 @@
         <div class="row">
 
             <% if(userAccount != null) { %>
-
             <div class="col">
                 <div class="user-profile">
 
@@ -99,12 +99,32 @@
                             <% } %>
                             <div class="achievement-cont">
                                 <h4><i class="fa-solid fa-trophy"></i> My Achievements </h4>
-                                <ul>
-                                    <li style="color: green">Amateur Author</li>
-                                    <li style="color: purple">Prolific Author</li>
-                                    <li style="color: red">I am the greatest</li>
-                                    <li style="color: blue">Practice Makes Perfect</li>
-                                </ul>
+                                <%  ArrayList<Achievement> achs = achmgr.getAchievements(userAccount.getUserId()); %>
+                                <ol>
+                                <%    for(int i=0; i<achs.size(); i++){
+                                        int achType = achs.get(i).getType();
+                                        switch(achType){
+                                          case 1: %>
+                                        <li style="color: deepskyblue">Rookie Author</li>
+                                        <% break; %>
+                                        <%  case 2: %>
+                                        <li style="color: darkblue">Prolific Author</li>
+                                        <% break; %>
+                                        <%  case 3: %>
+                                        <li style="color: purple">Master Author</li>
+                                        <% break; %>
+                                        <%  case 4: %>
+                                        <li style="color: green">Quiz Slayer</li>
+                                        <% break; %>
+                                        <%  case 5: %>
+                                        <% break; %>
+                                        <li style="color: black">Lord Of The Quizzes</li>
+                                        <%  case 6: %>
+                                        <li style="color: yellow">Practitioner</li>
+                                        <% break; %>
+                                 <%       }
+                                    }%>
+                                </ol>
                             </div>
                         </div>
                         <div class="user-details-cont">

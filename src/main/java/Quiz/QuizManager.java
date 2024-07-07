@@ -703,4 +703,24 @@ public class QuizManager {
             throw new RuntimeException(e);
         }
     }
+
+    public int getQuizCount(int authorId){
+        int count = 0;
+        try{
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from quiz where author_id = ?"
+            );
+            stmt.setInt(1, authorId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                count++;
+            }
+            stmt.close();
+            con.close();
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return count;
+    }
 }
