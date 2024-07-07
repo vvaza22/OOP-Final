@@ -64,8 +64,11 @@ public class ChallengeManager {
             stmt.setInt(3, quizId);
             ResultSet rs = stmt.executeQuery();
 
-            if(rs.next()){
-                return true;
+            while(rs.next()){
+                String status = rs.getString("status");
+                if(status.equals("PENDING") || status.equals("CHL_ACCEPTED")){
+                    return true;
+                }
             }
             stmt.close();
             con.close();
@@ -75,4 +78,5 @@ public class ChallengeManager {
         }
         return false;
     }
+
 }
