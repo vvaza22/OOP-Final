@@ -4,8 +4,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import Account.*;
+import Database.Database;
+import Global.SessionManager;
 import Quiz.*;
+import org.json.JSONObject;
+import Mail.ChallengeManager;
 
 public class AboutQuizServlet extends HttpServlet {
     @Override
@@ -38,6 +46,28 @@ public class AboutQuizServlet extends HttpServlet {
                 .forward(request, response);
     }
 
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        SessionManager sessionManager = new SessionManager(session);
+        String fromAcc = sessionManager.getCurrentUserAccount().getUserName();
+        AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
+        int quizId = Integer.parseInt(request.getParameter("quizId"));
+
+        response.setContentType("application/json");
+        JSONObject responseObj = new JSONObject();
+        String action = request.getParameter("action");
+
+
+        if(action == null){
+            return;
+        }else{
+            if(action.equals("sendChallenge")){
+                sendChallenge(request, response, responseObj, fromAcc, quizId, acm);
+            }
+        }
+        response.getWriter().print(responseObj);
+    }
+
     private boolean isPosNumber(String s) {
         try {
             if(Integer.parseInt(s) >= 1) {
@@ -47,5 +77,48 @@ public class AboutQuizServlet extends HttpServlet {
             return false;
         }
         return false;
+    }
+
+    private void sendChallenge(HttpServletRequest request, HttpServletResponse response, JSONObject responseObj, String fromAcc, int quizId, AccountManager acm) {
+        String challenged = request.getParameter("challenged");
+        if(challenged == null){
+            responseObj.put("status", "fail");
+            return;
+        }
+
+        Account from = acm.getAccount(fromAcc);
+        Account to = acm.getAccount(challenged);
+        if(to == null || from == null){
+            responseObj.put("status", "fail");
+            responseObj.put("errorText", "Account not found");
+            return;
+        }
+
+        int toId = to.getUserId();
+        int fromId = from.getUserId();
+
+        if (toId == fromId){
+            responseObj.put("status", "fail");
+            responseObj.put("errorText", "You can't challenge yourself.");
+            return;
+        }
+        Database db = ((Database) request.getServletContext().getAttribute("database"));
+        ChallengeManager cmgr = new ChallengeManager(db);
+        FriendsManager frmgr = new FriendsManager(db);
+        ArrayList<Integer> friends = frmgr.friendsList(fromId);
+        if(!friends.contains(toId)){
+            responseObj.put("status", "fail");
+            responseObj.put("errorText", "You are not friends with this user.");
+            return;
+        }
+
+        if(cmgr.challengeExists(fromId, toId, quizId)){
+            responseObj.put("status", "fail");
+            responseObj.put("errorText", "You have already sent this challenge to this user.");
+            return;
+        }
+
+        cmgr.sendChallenge(fromId, toId, quizId);
+        responseObj.put("status", "success");
     }
 }

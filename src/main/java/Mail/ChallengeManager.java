@@ -4,6 +4,7 @@ import Database.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ChallengeManager {
@@ -13,7 +14,7 @@ public class ChallengeManager {
         this.db = db;
     }
 
-    public void sendRequest(int from, int to, int quiz_id) {
+    public void sendChallenge(int from, int to, int quiz_id) {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
@@ -49,5 +50,29 @@ public class ChallengeManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean challengeExists(int fromId, int toId, int quizId){
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from challenges where from_id=? and to_id=? and quiz_id=?"
+            );
+
+            stmt.setInt(1, fromId);
+            stmt.setInt(2, toId);
+            stmt.setInt(3, quizId);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()){
+                return true;
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 }
