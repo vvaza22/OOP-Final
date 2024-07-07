@@ -36,7 +36,6 @@ public class HomeServlet extends HttpServlet {
                 .forward(request, response);
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -83,6 +82,4 @@ public class HomeServlet extends HttpServlet {
             anm.reactAnnouncement(annoId, userId, "DISLIKE");
         }
     }
-
-
 }

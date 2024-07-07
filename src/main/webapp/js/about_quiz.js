@@ -23,6 +23,28 @@
         xhr.send("action=take_quiz&quiz_id=" + quizId);
     }
 
+    window.sendChallenge = function sendChallenge(quizId){
+        //var changePicButt = document.getElementById("challenge-friend");
+        let challengedFrnd = prompt("Enter your friends username", "");
+        if(challengedFrnd != null){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/about_quiz", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                let response = JSON.parse(xhr.responseText);
+                if(xhr.readyState === 4){
+                    if(response.status === "success") {
+                        location.reload();
+                    } else {
+                        // Error
+                        alert(response.errorText);
+                    }
+                }
+            }
+            xhr.send("action=sendChallenge&challenged="+challengedFrnd.toString()+"&quizId="+quizId);
+        }
+    }
+
     function hook() {
         const takeQuizBtn = document.getElementById("take-quiz");
         const quizIdInput = document.getElementById("quiz-id");

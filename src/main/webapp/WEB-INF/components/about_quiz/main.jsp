@@ -1,10 +1,17 @@
 <%@ page import="Quiz.Quiz" %>
 <%@ page import="Account.*" %>
+<%@ page import="Database.Database" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Global.SessionManager" %>
 <%
     AccountManager acm = (AccountManager) request.getServletContext().getAttribute("accountManager");
     Quiz currentQuiz = (Quiz) request.getAttribute("quizObj");
     int authorId = currentQuiz.getAuthorId();
     Account authorAccount = acm.getAccountById(authorId);
+
+    Database db = ((Database) request.getServletContext().getAttribute("database"));
+    SessionManager smgr = new SessionManager(request.getSession());
+    Account curr = smgr.getCurrentUserAccount();
 %>
 
 <link href="/css/about_quiz.css" rel="stylesheet" />
@@ -44,6 +51,13 @@
             <button class="btn btn-round btn-outline-secondary">Practice</button>
             <% } %>
             <button id="take-quiz" class="btn btn-round btn-primary">Take Quiz</button>
+            <% if (curr != null){ %>
+            <div>
+                <div class="btn-action">
+                    <button id="challenge-friend" class="btn btn-round btn-primary" onclick="sendChallenge(<%=currentQuiz.getId()%>)">Challenge a friend</button>
+                </div>
+            </div>
+            <%}%>
         </div>
         <div style="display: none">
             <input id="quiz-id" type="hidden" value="<%= currentQuiz.getId() %>" />

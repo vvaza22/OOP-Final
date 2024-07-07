@@ -6,6 +6,19 @@
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
 
+    window.sendNote = function (toWhichUserSendingNote){
+        console.log("here");
+        let noteToSend = prompt("please write down note you want to send");
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/profile", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                location.reload();
+            }
+        }
+        xhr.send("action=sendNote&toWhichUserSent="+ toWhichUserSendingNote + "&noteMessage=" + encodeURI(noteToSend));
+    }
 
     window.removeFriend = function (toWhichUserRemoveFriend){
         var xhr = new XMLHttpRequest();
