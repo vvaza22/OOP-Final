@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import Account.Account;
+import Achievement.AchievementManager;
 import Global.SessionManager;
 import Question.*;
 import Quiz.Quiz;
@@ -127,6 +128,19 @@ public class CreateServlet extends HttpServlet {
         // Give dummy id.
         Quiz quiz = new Quiz(0, name, currentUser.getUserId(), description, null, randomize, practiceMode, immediate, display, createDate, questions);
         int quizId = quizm.addQuiz(quiz);
+
+        AchievementManager achmgr = (AchievementManager)request.getServletContext().getAttribute("achievementManager");
+        int currId = currentUser.getUserId();
+        int quizCount = quizm.getQuizCount(currId);
+        switch(quizCount){
+            case 1: achmgr.addAchievement(currId, 1);
+                break;
+            case 5: achmgr.addAchievement(currId, 2);
+                break;
+            case 10: achmgr.addAchievement(currId, 3);
+                break;
+            default: break;
+        }
 
         // Tell the client that the register was successful
         responseObj.put("status", "success");
