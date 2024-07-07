@@ -3,6 +3,7 @@
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Account.Account" %>
 <%@ page import="Global.SessionManager" %>
+<%@ page import="org.owasp.encoder.Encode" %>
 
 <link rel="stylesheet" href="/css/mail.css" />
 
@@ -144,7 +145,7 @@
                                             </div>
                                     <% }} else if(mail.getType() == Mail.NOTE) {%>
                                     <% NoteMail note = (NoteMail)mail; %>
-                                       <h3> <%=note.getNote()%> </h3>
+                                       <b> <%=Encode.forHtml(note.getNote())%> </b>
                                     <%}%>
                                 </td>
                             </tr>
