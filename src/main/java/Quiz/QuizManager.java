@@ -281,7 +281,7 @@ public class QuizManager {
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
                         "where is_deleted=0 " +
-                        "order by 2 desc limit 5;"
+                        "order by 2 desc;"
             );
 
             ResultSet rs = stmt.executeQuery();
@@ -313,7 +313,7 @@ public class QuizManager {
                         "from attempts a " +
                         "where a.user_id=? " +
                         "group by a.quiz_id " +
-                        "order by latest_attempt_time desc limit 5;"
+                        "order by latest_attempt_time desc;"
             );
 
             stmt.setInt(1, userId);
@@ -344,7 +344,7 @@ public class QuizManager {
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
                         "where author_id=? " +
-                        "order by 2 desc limit 5;"
+                        "order by 2 desc;"
             );
 
             stmt.setInt(1, userId);
@@ -966,15 +966,13 @@ public class QuizManager {
         try{
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "SELECT a.* FROM attempts a JOIN\n" +
-                            " (SELECT quiz_id, MAX(score) AS maxAchieved FROM attempts" +
-                            " WHERE user_id = ? GROUP BY quiz_id) b ON a.quiz_id = b.quiz_id AND a.score = b.maxAchieved\n" +
-                            "WHERE a.user_id = ?"
+                    "select count(quiz_id) as cnt from " +
+                    "(select quiz_id from attempts where user_id=? group by quiz_id) q"
             );
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
-            while(rs.next()){
-                count++;
+            if(rs.next()){
+                count = rs.getInt("cnt");
             }
             stmt.close();
             con.close();

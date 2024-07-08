@@ -181,7 +181,7 @@
                                             if(createdQuizzes.isEmpty()) { %>
                                         <p> Unlock your creativity and inspire others. Create your first quiz today!</p>
                                         <% } else { %>
-                                            <% for(int i=0; i<createdQuizzes.size(); i++) { %>
+                                            <% for(int i=0; i<Math.min(5, createdQuizzes.size()); i++) { %>
                                                 <%
                                                     Quiz quiz = createdQuizzes.get(i);
                                                     if(quiz==null) { %>
@@ -202,7 +202,7 @@
                                             if(takenQuizzes.isEmpty()) { %>
                                                 <p> Challenge yourself and have fun. Take your first quiz today!</p>
                                             <% } else { %>
-                                                 <% for(int i=0; i<takenQuizzes.size(); i++) { %>
+                                                 <% for(int i=0; i<Math.min(5, takenQuizzes.size()); i++) { %>
                                                 <%
                                                     Quiz quiz = takenQuizzes.get(i);
                                                     if(quiz==null) { %>

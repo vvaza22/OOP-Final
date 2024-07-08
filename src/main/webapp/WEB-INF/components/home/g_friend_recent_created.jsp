@@ -24,7 +24,7 @@
             <p> No friends with quizzes:(!</p>
             <% } else { %>
                 <ol>
-                    <% for(int i=0; i<friendsRecentlyCreated.size(); i++) { %>
+                    <% for(int i=0; i<Math.min(5, friendsRecentlyCreated.size()); i++) { %>
                     <%
                         Quiz quiz = friendsRecentlyCreated.get(i);
                         if(quiz == null) { %>

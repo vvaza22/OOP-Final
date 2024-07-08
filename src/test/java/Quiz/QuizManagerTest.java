@@ -11,6 +11,8 @@ import Question.QuestionResponse;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class QuizManagerTest {
 
     @Test
@@ -56,7 +58,41 @@ public class QuizManagerTest {
 
         Account ac = acm.getAccount("realtia");
 
+        assertEquals(10, qm.getRecentlyCreatedQuizzes(ac.getUserId()).size());
+        assertEquals(10, qm.getRecentQuizzes().size());
+        assertEquals(10, qm.getRecentlyTakenQuizzes(ac.getUserId()).size());
+        assertEquals(1, qm.getRecentQuizTakers(1).size());
+    }
 
+    @Test
+    public void test3() {
+        // Connect to the MySQL database
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setUrl("jdbc:mysql://"+ DatabaseCredentials.DB_HOST+"/"+DatabaseCredentials.DB_NAME);
+        dataSource.setUsername(DatabaseCredentials.DB_USER);
+        dataSource.setPassword(DatabaseCredentials.DB_PASS);
+
+        // Create Database Object
+        Database db = new Database(dataSource);
+        QuizManager qm = new QuizManager(db);
+
+        AccountManager acm = new AccountManager(db);
+        Account ac = acm.getAccount("realtia");
+
+        ArrayList<String> answers = new ArrayList<String>();
+        answers.add(0, "answer1");
+        answers.add(1, "answer2");
+        QuestionResponse quest = new QuestionResponse("question1", 0, answers);
+        ArrayList<Question> questions = new ArrayList<Question>();
+        questions.add(quest);
+
+//        for(int i=0; i<10; i++) {
+//            Quiz quiz = new Quiz(0, "quiz"+i, 1, "first quiz about nothing", " ", false, false,
+//                    false, 1, "2024-04-07", questions);
+//            qm.addQuiz(quiz);
+//        }
+
+        assertEquals(3, qm.getQuizCount(ac.getUserId()));
     }
 
 
