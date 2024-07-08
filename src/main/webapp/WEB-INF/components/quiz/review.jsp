@@ -18,9 +18,9 @@
                 Question curQuestion = questionList.get(i-1);
             %>
                 <% if(curQuestion.hasAnswer()) { %>
-                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: green">Answered</span> <i>(<%= curQuestion.countPoints() %> Points)</i></li>
+                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: green">Answered</span> <i>(<%= curQuestion.countPoints() %> Points)</i></li>
                 <% } else { %>
-                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
                 <% } %>
             <% } %>
         </ol>
@@ -29,9 +29,9 @@
         <ol>
             <% for(int i=1; i<=questionList.size(); i++) { %>
                 <% if(questionList.get(i-1).hasAnswer()) { %>
-                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: green">Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: green">Answered</span></li>
                 <% } else { %>
-                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
                 <% } %>
             <% } %>
         </ol>

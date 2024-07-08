@@ -125,7 +125,7 @@
                     <% if(curQuestionIndex.equals(questionList.size())) { %>
                     <button onclick="goToReviewPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Review Page</button>
                     <% } else { %>
-                    <button onclick="goToNextPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Next Quiz.Question</button>
+                    <button onclick="goToNextPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Next Question</button>
                     <% } %>
 
                 <% } else { %>
