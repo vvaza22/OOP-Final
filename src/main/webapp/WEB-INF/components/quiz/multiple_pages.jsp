@@ -1,11 +1,11 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Quiz.Question.*" %>
+<%@ page import="Question.*" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.HashMap" %>
 
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-    ArrayList<Quiz.Question> questionList = currentQuiz.getQuestions();
+    ArrayList<Question> questionList = currentQuiz.getQuestions();
     Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
     Integer quizId = (Integer) request.getAttribute("quizId");
     boolean reviewFlag = request.getAttribute("reviewFlag") != null;
@@ -65,7 +65,7 @@
                 <jsp:include page="review.jsp" />
         <%
             } else {
-                Quiz.Question curQuestion = questionList.get(curQuestionIndex - 1);
+                Question curQuestion = questionList.get(curQuestionIndex - 1);
 
                 // Pass the current question attribute to the component
                 request.setAttribute("currentQuestion", curQuestion);
@@ -113,9 +113,9 @@
                     %>
 
                     <% if(curQuestionIndex > 1) { %>
-                    <button onclick="goToPrevPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-secondary">Jump to Next Quiz.Question</button>
+                    <button onclick="goToPrevPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-secondary">Jump to Next Question</button>
                     <% } else { %>
-                    <button class="btn disabled btn-round btn-outline-secondary">Jump to Previous Quiz.Question</button>
+                    <button class="btn disabled btn-round btn-outline-secondary">Jump to Previous Question</button>
                     <% } %>
 
                     <% if(!curQuestion.hasAnswer()) { %>

@@ -1,7 +1,7 @@
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Account.AccountManager" %>
-<%@ page import="Quiz.Question.UserAnswer" %>
+<%@ page import="Question.UserAnswer" %>
 <%
     Attempt curAttempt = (Attempt) request.getAttribute("attempt");
     QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
@@ -28,7 +28,7 @@
         <table class="table">
             <tr>
                 <th>#</th>
-                <th>Quiz.Question</th>
+                <th>Question</th>
                 <th>Answer</th>
                 <th>Correct Answer</th>
                 <th>Points</th>
