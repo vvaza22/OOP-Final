@@ -47,26 +47,54 @@
         xhr.send("action=start_practice&quiz_id=" + quizId);
     }
 
-    window.sendChallenge = function sendChallenge(quizId){
-        //var changePicButt = document.getElementById("challenge-friend");
-        let challengedFrnd = prompt("Enter your friends username", "");
-        if(challengedFrnd != null){
-            var xhr = new XMLHttpRequest();
+
+    function getChallengePromise(userName, quizId) {
+        return new Promise(function(resolve, reject) {
+            const xhr = new XMLHttpRequest();
             xhr.open("POST", "/about_quiz", true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function () {
-                let response = JSON.parse(xhr.responseText);
-                if(xhr.readyState === 4){
-                    if(response.status === "success") {
-                        location.reload();
-                    } else {
-                        // Error
-                        alert(response.errorText);
-                    }
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    resolve(response);
                 }
             }
-            xhr.send("action=sendChallenge&challenged="+challengedFrnd.toString()+"&quizId="+quizId);
-        }
+            xhr.send("action=sendChallenge&challenged="+userName+"&quizId="+quizId);
+        });
+    }
+
+    window.sendChallenge = function(quizId) {
+        Swal.fire({
+            title: "Enter your friend's username: ",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off",
+                autocomplete: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Challenge",
+            showLoaderOnConfirm: true,
+            preConfirm: (userName) => {
+                return getChallengePromise(userName, quizId);
+            }
+        }).then(function(result) {
+            let response = result.value;
+            if(response.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Challenge Sent!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: response.errorText,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     }
 
     function hook() {
