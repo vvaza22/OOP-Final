@@ -152,7 +152,30 @@ public class AccountManager {
         try {
             // if account exists:
             Connection con = db.openConnection();
+            Account acc = getAccount(username);
+
+            // Delete friend request for this user
             PreparedStatement stmt = con.prepareStatement(
+                    "delete from frreqs where from_id=? or to_id=?"
+            );
+
+            stmt.setInt(1, acc.getUserId());
+            stmt.setInt(2, acc.getUserId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            // Delete friends for this user
+            stmt = con.prepareStatement(
+                    "delete from friends where friend_A=? or friend_B=?"
+            );
+
+            stmt.setInt(1, acc.getUserId());
+            stmt.setInt(2, acc.getUserId());
+            stmt.executeUpdate();
+            stmt.close();
+
+            // Delete this user
+            stmt = con.prepareStatement(
                     "update users set is_deleted=1 where user_name=?"
             );
 

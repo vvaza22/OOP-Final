@@ -71,11 +71,15 @@
                     </tr>
                     <% for(int i=0; i<quizzes.size(); i++) { %>
                     <tr>
+                        <td><a href="/about_quiz?id=<%=quizzes.get(i).getId()%>"><%=quizzes.get(i).getName()%></a></td>
                         <%
-                            String author = acm.getAccountById(quizzes.get(i).getAuthorId()).getUserName();
+                            Account author = acm.getAccountById(quizzes.get(i).getAuthorId());
+                            if(author==null) {
                         %>
-                        <td><a href="/about_quiz?id="<%=String.valueOf(quizzes.get(i).getId())%>><%=quizzes.get(i).getName()%></a></td>
-                        <td><a href="/profile?username=<%=author%>"><%=author%></a></td>
+                            <td><span style="color:black; font-weight: bold ">[deleted user]</span></td>
+                        <% }else { %>
+                        <td><a href="/profile?username=<%=author.getUserName()%>"><%=author.getUserName()%></a></td>
+                        <% } %>
                         <td><button onclick="sendDeleteQuizRequest(<%=quizzes.get(i).getId()%>)" class="btn btn-round btn-danger">Delete</button></td>
                     </tr>
                     <% } %>
