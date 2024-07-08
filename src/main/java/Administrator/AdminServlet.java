@@ -35,7 +35,19 @@ public class AdminServlet extends HttpServlet {
             if(userIdStr == null) {
                 return;
             }
+
+            SessionManager sm = new SessionManager(request.getSession());
+            Account currUser = sm.getCurrentUserAccount();
+            if(currUser==null) {
+                return;
+            }
+            if(!currUser.isAdmin()) {
+                return;
+            }
             int userId = Integer.parseInt(userIdStr);
+            if(currUser.getUserId() == userId) {
+                return;
+            }
             AccountManager acm = (AccountManager) request.getServletContext().getAttribute("accountManager");
             acm.removeAccount(acm.getAccountById(userId).getUserName());
         } else if(actionType.equals("delete_quiz")){
