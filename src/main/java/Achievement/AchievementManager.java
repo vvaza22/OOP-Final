@@ -74,4 +74,29 @@ public class AchievementManager {
         return false;
     }
 
+    public void removeAchievement(int userId, int type){
+        try{
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from achievements where user_id = ? and type = ?"
+            );
+            stmt.setInt(1,userId);
+            stmt.setInt(2,type);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                PreparedStatement stmt2 = con.prepareStatement(
+                        "delete from achievements where user_id = ? and type = ?"
+                );
+                stmt2.setInt(1,userId);
+                stmt2.setInt(2,type);
+                stmt2.executeUpdate();
+                stmt2.close();
+            }
+            stmt.close();
+            con.close();
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }

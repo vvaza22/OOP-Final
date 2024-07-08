@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Account.AccountManager;
+import Achievement.AchievementManager;
 import Global.SessionManager;
 import Question.*;
 import org.json.JSONObject;
@@ -217,15 +219,29 @@ public class QuizServlet extends HttpServlet {
             response.getWriter().print(responseObj);
 
         } else if(action.equals("finish_attempt")) {
+            ArrayList<ScoresStruct> top = qm.getTopScorers(sessionManager.getCurrentQuiz().getId());
+            ScoresStruct topScore = top.get(0);
 
             long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
 
             sessionManager.endCurrentQuiz();
 
             if(attemptId != -1) {
+                AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
+                AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
+                int completed = qm.getDoneQuizzes(curUserId);
+                if(completed == 10) achmgr.addAchievement(curUserId, 4);
+
+                if(topScore.getScore() < sessionManager.getCurrentQuiz().countScore() &&
+                        achmgr.hasAchievement(curUserId, 5)){
+                    achmgr.addAchievement(curUserId, 5);
+                    achmgr.removeAchievement(amgr.getAccount(topScore.getUserName()).getUserId(), 5);
+                }
+
                 // Print success to the client
                 responseObj.put("status", "success");
                 responseObj.put("attempt_id", attemptId);
+
             } else {
                 // Print success to the client
                 responseObj.put("status", "error");
