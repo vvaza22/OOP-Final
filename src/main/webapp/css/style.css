@@ -467,3 +467,7 @@ main {
 .admin-button {
 	background-color: crimson;
 }
+
+.buttons {
+	padding-top: .3em;
+}

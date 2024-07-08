@@ -137,7 +137,7 @@
                 e.preventDefault();
                 editText.value = origText.textContent;
                 origText.style.display = "block";
-                editButt.style.display = "block";
+                editButt.style.display = "inline";
                 editText.style.display = "none";
                 cancelButt.style.display = "none";
                 saveButt.style.display = "none";
@@ -160,7 +160,7 @@
                         origText.textContent = editText.value;
                         origText.style.display = "block";
                         editText.style.display = "none";
-                        editButt.style.display = "block";
+                        editButt.style.display = "inline";
                         cancelButt.style.display = "none";
                         saveButt.style.display = "none";
                     }

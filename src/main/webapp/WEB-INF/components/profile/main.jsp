@@ -138,7 +138,7 @@
                                 <div class="about-cont">
                                     <h4>About Me
                                         <% if (myAccount != null && myAccount.getUserId() == userAccount.getUserId()) { %>
-                                            <a id="edit-about-me" class="about-me-edit" style="display: block;" href="#">edit</a>
+                                            <a id="edit-about-me" class="about-me-edit" style="display: inline;" href="#">edit</a>
                                         <% } %>
                                     </h4>
                                     <p style="display: block" id="text-about-me" class="original-text"> <%=userAccount.getAboutMe()%></p>
@@ -147,8 +147,8 @@
                                         <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
                                         <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
                                         <div class="buttons">
-                                            <button style="display: none" id="cancel-button" class="red-button" >Cancel</button>
-                                            <button style="display: none" id="save-button" class="blue-button" >Save</button>
+                                            <button style="display: none" id="cancel-button" class="btn btn-round btn-danger" >Cancel</button>
+                                            <button style="display: none" id="save-button" class="btn btn-round btn-primary" >Save</button>
                                         </div>
                                     <% } %>
                                 </div>
