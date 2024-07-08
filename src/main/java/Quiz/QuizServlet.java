@@ -221,6 +221,8 @@ public class QuizServlet extends HttpServlet {
         } else if(action.equals("finish_attempt")) {
             ArrayList<ScoresStruct> top = qm.getTopScorers(sessionManager.getCurrentQuiz().getId());
             ScoresStruct topScore = top.get(0);
+            AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
+            int topId = amgr.getAccount(topScore.getUserName()).getUserId();
 
             long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
 
@@ -228,14 +230,18 @@ public class QuizServlet extends HttpServlet {
 
             if(attemptId != -1) {
                 AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
-                AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
-                int completed = qm.getDoneQuizzes(curUserId);
-                if(completed == 10) achmgr.addAchievement(curUserId, 4);
 
-                if(topScore.getScore() < sessionManager.getCurrentQuiz().countScore() &&
-                        achmgr.hasAchievement(curUserId, 5)){
-                    achmgr.addAchievement(curUserId, 5);
-                    achmgr.removeAchievement(amgr.getAccount(topScore.getUserName()).getUserId(), 5);
+                int completed = qm.getDoneQuizzes(curUserId);
+                if(completed == 10 && !achmgr.hasAchievement(curUserId, 4)) achmgr.addAchievement(curUserId, 4);
+
+                if(topScore.getScore() < sessionManager.getCurrentQuiz().countScore()){
+                    if(achmgr.hasAchievement(topId, 5)){
+                        achmgr.removeAchievement(topId, 5);
+                    }
+
+                    if(!achmgr.hasAchievement(curUserId, 5)){
+                        achmgr.addAchievement(curUserId, 5);
+                    }
                 }
 
                 // Print success to the client

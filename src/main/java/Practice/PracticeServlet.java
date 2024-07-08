@@ -1,5 +1,6 @@
 package Practice;
 
+import Achievement.AchievementManager;
 import Global.SessionManager;
 import Question.*;
 import Quiz.Quiz;
@@ -194,6 +195,9 @@ public class PracticeServlet extends HttpServlet {
                 currentPracticeQuiz.getNextQuestion();
                 responseObj.put("practice_status", "continue");
             } else {
+                AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
+                if(!achmgr.hasAchievement(curUserId, 6)) achmgr.addAchievement(curUserId, 6);
+
                 responseObj.put("practice_status", "ended");
                 responseObj.put("return_to", currentQuiz.getId());
                 sessionManager.endCurrentPracticeQuiz();
