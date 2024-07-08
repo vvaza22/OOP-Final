@@ -6,7 +6,7 @@ public class Achievement {
     public static final int MASTER_AUTHOR = 3;
     public static final int QUIZ_SLAYER = 4;
     public static final int LORD_OF_THE_QUIZZES = 5;
-    public static final int PRACTICIONER = 6;
+    public static final int PRACTITIONER = 6;
     private int userId;
     private int type;
 

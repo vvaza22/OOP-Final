@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Account.AccountManager;
+import Achievement.Achievement;
 import Achievement.AchievementManager;
 import Global.SessionManager;
 import Question.*;
@@ -89,6 +90,9 @@ public class QuizServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "You need to be logged in!");
             return;
         }
+
+        // Get the account manager
+        AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
 
         int curUserId = sessionManager.getCurrentUserAccount().getUserId();
 
@@ -219,28 +223,30 @@ public class QuizServlet extends HttpServlet {
             response.getWriter().print(responseObj);
 
         } else if(action.equals("finish_attempt")) {
-            ArrayList<ScoresStruct> top = qm.getTopScorers(sessionManager.getCurrentQuiz().getId());
-            ScoresStruct topScore = top.get(0);
-            AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
-            int topId = amgr.getAccount(topScore.getUserName()).getUserId();
-
             long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
 
+            // Get the Achievement Manager
+            AchievementManager achmgr = (AchievementManager)
+                    request.getServletContext().getAttribute("achievementManager");
+
+            Quiz currentQuiz = sessionManager.getCurrentQuiz();
+
+            // Lord of the Quizzes Achievement
+            if(achmgr.checkLordOfTheQuizzes(currentQuiz.getId(), sessionManager.getCurrentUserAccount(), qm)) {
+                if(!achmgr.hasAchievement(curUserId, Achievement.LORD_OF_THE_QUIZZES)) {
+                    achmgr.addAchievement(curUserId, Achievement.LORD_OF_THE_QUIZZES);
+                }
+            }
+
+            // End the quiz
             sessionManager.endCurrentQuiz();
 
             if(attemptId != -1) {
-                AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
 
-                int completed = qm.getDoneQuizzes(curUserId);
-                if(completed == 10 && !achmgr.hasAchievement(curUserId, 4)) achmgr.addAchievement(curUserId, 4);
-
-                if(topScore.getScore() < sessionManager.getCurrentQuiz().countScore()){
-                    if(achmgr.hasAchievement(topId, 5)){
-                        achmgr.removeAchievement(topId, 5);
-                    }
-
-                    if(!achmgr.hasAchievement(curUserId, 5)){
-                        achmgr.addAchievement(curUserId, 5);
+                // Quiz Slayer Achievement
+                if(achmgr.checkQuizSlayer(curUserId, qm)) {
+                    if(!achmgr.hasAchievement(curUserId, Achievement.QUIZ_SLAYER)) {
+                        achmgr.addAchievement(curUserId, Achievement.QUIZ_SLAYER);
                     }
                 }
 

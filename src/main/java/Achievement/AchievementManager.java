@@ -1,6 +1,9 @@
 package Achievement;
 
 import Database.Database;
+import Quiz.QuizManager;
+import Account.Account;
+import Quiz.ScoresStruct;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +16,18 @@ public class AchievementManager {
 
     public AchievementManager(Database db) {
         this.db = db;
+    }
+
+    public boolean checkLordOfTheQuizzes(int quizId, Account user, QuizManager qm) {
+        ArrayList<ScoresStruct> topScorers = qm.getTopScorers(quizId);
+        if(topScorers.isEmpty()) return false;
+        ScoresStruct topScorer = topScorers.get(0);
+        return topScorer.getUserName().equals(user.getUserName());
+    }
+
+    public boolean checkQuizSlayer(int userId, QuizManager qm) {
+        int completed = qm.getDoneQuizzes(userId);
+        return completed == 10;
     }
 
     public void addAchievement(int userId, int type){
