@@ -6,18 +6,55 @@
     var saveButt = document.getElementById("save-button");
     var editButt = document.getElementById("edit-about-me");
 
-    window.sendNote = function (toWhichUserSendingNote){
-        console.log("here");
-        let noteToSend = prompt("please write down note you want to send");
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/profile", true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                location.reload();
+    function getNotePromise(toWhichUserSendingNote, noteToSend) {
+        return new Promise(function(resolve, reject) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/profile", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    resolve(response);
+                }
             }
-        }
-        xhr.send("action=sendNote&toWhichUserSent="+ toWhichUserSendingNote + "&noteMessage=" + encodeURI(noteToSend));
+            xhr.send("action=sendNote&toWhichUserSent="+ toWhichUserSendingNote + "&noteMessage=" + encodeURIComponent(noteToSend));
+        });
+    }
+
+    window.sendNote = function(toWhichUserSendingNote) {
+        Swal.fire({
+            title: "Enter Message: ",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off",
+                autocomplete: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Send",
+            showLoaderOnConfirm: true,
+            preConfirm: (message) => {
+                return getNotePromise(toWhichUserSendingNote, message);
+            }
+        }).then(function(result) {
+            if(result.isConfirmed) {
+                let response = result.value;
+                if(response.status === "success") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Note Sent!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Could not send the note!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            }
+        });
     }
 
     window.removeFriend = function (toWhichUserRemoveFriend){
@@ -44,29 +81,55 @@
         xhr.send("action=addFriend&friendRequestedUser="+ toWhichUserReqSent);
     }
 
+    function updatePicture(pictureLink) {
+        return new Promise(function(resolve, reject) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/profile", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    let response = JSON.parse(xhr.responseText);
+                    resolve(response);
+                }
+            }
+            xhr.send("action=changePic&profilePictureLink=" + encodeURIComponent(pictureLink));
+        });
+    }
+
     function changeProfilePicture() {
+        Swal.fire({
+            title: "Please enter your new profile picture link: ",
+            input: "text",
+            inputAttributes: {
+                autocapitalize: "off",
+                autocomplete: "off"
+            },
+            showCancelButton: true,
+            confirmButtonText: "Update Picture",
+            showLoaderOnConfirm: true,
+            preConfirm: (pictureLink) => {
+                return updatePicture(pictureLink);
+            }
+        }).then(function(result) {
+            if(result.isConfirmed) {
+                let response = result.value;
+                if(response.status === "success") {
+                    location.reload();
+                }
+            }
+        });
+    }
+
+    function hookChangeProfilePicture() {
         var changePicButt = document.getElementById("change-profile-pic");
         var profilePicURL = document.getElementById("profile-picture");
-        if(changePicButt) {
-            changePicButt.onclick = function (e) {
+        if(changePicButt != null) {
+            changePicButt.onclick = function(e) {
                 e.preventDefault();
-                let imageLink = prompt("please enter your new profile picture link", "");
-                if (imageLink != null) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "/profile", true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            profilePicURL.src = imageLink;
-                            location.reload();
-                        }
-                    }
-                    xhr.send("action=changePic&profilePictureLink=" + encodeURI(imageLink));
-                }
+                changeProfilePicture();
             }
         }
     }
-
 
     function cancelButton(){
         if(cancelButt) {
@@ -126,7 +189,7 @@
         editButton();
         saveButton();
         cancelButton();
-        changeProfilePicture();
+        hookChangeProfilePicture();
     }
 
     hook();

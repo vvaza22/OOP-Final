@@ -78,21 +78,23 @@
                 return getChallengePromise(userName, quizId);
             }
         }).then(function(result) {
-            let response = result.value;
-            if(response.status === "success") {
-                Swal.fire({
-                    icon: "success",
-                    title: "Challenge Sent!",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: response.errorText,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+            if(result.isConfirmed) {
+                let response = result.value;
+                if(response.status === "success") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Challenge Sent!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: response.errorText,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
             }
         });
     }

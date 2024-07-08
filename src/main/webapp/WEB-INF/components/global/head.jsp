@@ -1,5 +1,5 @@
 <head>
-    <title>Page Title</title>
+    <title>MyCoolQuiz</title>
     <meta charset="UTF-8" />
 
     <!-- Tell the browser not to cache pages -->
@@ -14,6 +14,10 @@
     <!-- Custom Fonts -->
     <link href="/css/fonts.css" rel="stylesheet" />
 
+    <!-- Sweet Alert 2 -->
+    <link href="/css/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/js/sweetalert2.all.min.js" type="text/javascript"></script>
+
     <!-- Main Style File -->
     <link href="/css/style.css" rel="stylesheet" />
 
@@ -25,7 +29,4 @@
     <link href="<%= customStyle %>" rel="stylesheet" />
     <% } %>
 
-    <!-- Sweet Alert 2 -->
-    <link href="/css/sweetalert2.min.css" rel="stylesheet" />
-    <script src="/js/sweetalert2.all.min.js" type="text/javascript"></script>
 </head>

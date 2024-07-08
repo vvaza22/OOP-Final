@@ -134,6 +134,8 @@ public class ProfileServlet extends HttpServlet {
             Database db = (Database)request.getServletContext().getAttribute("database");
             MailManager mmgr = new MailManager(db, acm);
             mmgr.addNote(whichAccSendsId, whichAccRecievesId, note);
+
+            responseObj.put("status", "success");
         }
     }
 

@@ -2,7 +2,7 @@
 /* Make the footer stick to the bottom of the screen */
 
 html, body {
-	height: 100%;
+	height: 100%!important;
 	display: flex;
 	flex-direction: column;
 }
@@ -319,8 +319,8 @@ main {
 .profile-note {
 	padding: 1rem;
 	margin-right: .5rem;
-
 	flex-grow: 1;
+	width: 33.3%;
 }
 
 .profile-sub-row > .profile-note {
