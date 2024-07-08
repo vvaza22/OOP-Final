@@ -1,5 +1,10 @@
 <%@ page import="Global.SessionManager" %>
 <%@ page import="Account.Account" %>
+<%@ page import="Mail.MailManager" %>
+<%@ page import="Mail.ChallengeMail" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Mail.NoteMail" %>
+<%@ page import="Mail.FriendRequestMail" %>
 <%
     // Access the current http session
     SessionManager sessionManager = new SessionManager( request.getSession() );
@@ -22,7 +27,6 @@
             <% if(sessionManager.isUserLoggedIn()) {
                 // Get the user account
                 Account userAccount = sessionManager.getCurrentUserAccount();
-
                 if(userAccount.isAdmin()) {
             %>
             <li class="navbar-item menu-item admin-button">
@@ -45,12 +49,19 @@
         <%
             // Get the user account
             Account userAccount = sessionManager.getCurrentUserAccount();
+            int userId = userAccount.getUserId();
+
+            MailManager mmgr = (MailManager) request.getServletContext().getAttribute("mailManager");
+            int numFriendReqs = mmgr.countFriendRequests(userId);
+            int numChallenges = mmgr.countChallenges(userId);
+            int numNotes = mmgr.countNotes(userId);
+            int notificationSize = numFriendReqs + numNotes + numChallenges;
         %>
         <div class="account-buttons">
             <div class="account-button">
                 <a href="/mail" class="mail-btn">
                     <div class="fa-solid fa-envelope"></div>
-                    <div class="mail-counter"><span>3</span></div>
+                    <div class="mail-counter"><span><%=notificationSize%></span></div>
                 </a>
 
             </div>

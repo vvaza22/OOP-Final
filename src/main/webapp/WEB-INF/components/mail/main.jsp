@@ -22,14 +22,15 @@
     SessionManager smgr =
             new SessionManager(request.getSession());
 
+    int currUserId = smgr.getCurrentUserAccount().getUserId();
     ArrayList<Mail> mails = new ArrayList<Mail>();
-    ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(smgr.getCurrentUserAccount().getUserId());
-    ArrayList<NoteMail> notes = mmgr.getNotes(smgr.getCurrentUserAccount().getUserId());
-    ArrayList<ChallengeMail> challenges = mmgr.getChallenges(smgr.getCurrentUserAccount().getUserId());
+    ArrayList<FriendRequestMail> reqs = mmgr.getFriendRequests(currUserId);
+    ArrayList<NoteMail> notes = mmgr.getNotes(currUserId);
+    ArrayList<ChallengeMail> challenges = mmgr.getChallenges(currUserId);
 
-    int numFriendReqs = reqs.size();
-    int numChallenges = challenges.size();
-    int numNotes = notes.size();
+    int numFriendReqs = mmgr.countFriendRequests(currUserId);
+    int numChallenges = mmgr.countChallenges(currUserId);
+    int numNotes = mmgr.countNotes(currUserId);
     int numMails = numFriendReqs + numNotes + numChallenges;
 
     if(curTab.equals("friend_req")){
@@ -43,21 +44,6 @@
         mails.addAll(notes);
         mails.addAll(challenges);
     }
-
-//    // FOR TEST
-//    int numFriendReqs = 2;
-//    int numChallenges = 0;
-//    int numNotes = 2;
-//    int numMails = numFriendReqs + numChallenges + numNotes;
-//    if(curTab.equals("all") || curTab.equals("friend_req")) {
-//        mails.add(new FriendRequestMail( acm.getAccount("vazzu") ));
-//        mails.add(new FriendRequestMail( acm.getAccount("bero") ));
-//    }
-//    if(curTab.equals("all") || curTab.equals("notes")) {
-//        mails.add(new NoteMail( acm.getAccount("realtia"), "Hey! Can you check out my new quiz?" ));
-//        mails.add(new NoteMail( acm.getAccount("elene"), "Metallica the best" ));
-//    }
-
 %>
 
 <main class="mail-container">
@@ -100,7 +86,7 @@
                             <th>#</th>
                             <th>From</th>
                             <th>Notification</th>
-                            <th>Action</th>
+                            <th> </th>
                         </tr>
 
                         <%

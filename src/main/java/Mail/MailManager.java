@@ -129,4 +129,80 @@ public class MailManager {
         }
     }
 
+    public int countChallenges(int userId) {
+        int challenges = 0;
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select count(*) as cnt " +
+                            "from challenges " +
+                            "where status='PENDING' " +
+                            "and to_id =?;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                challenges = rs.getInt("cnt");
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return challenges;
+    }
+
+    public int countNotes(int userId) {
+        int notes = 0;
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select count(*) as cnt " +
+                            "from notes " +
+                            "where to_id =?;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                notes = rs.getInt("cnt");
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return notes;
+    }
+
+    public int countFriendRequests(int userId) {
+        int frreqs = 0;
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select count(*) as cnt " +
+                            "from frreqs " +
+                            "where status='PENDING' " +
+                            "and to_id =?;"
+            );
+
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()) {
+                frreqs = rs.getInt("cnt");
+            }
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return frreqs;
+    }
+
+
+
 }

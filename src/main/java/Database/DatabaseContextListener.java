@@ -3,6 +3,7 @@ package Database;
 import Account.AccountManager;
 import Achievement.AchievementManager;
 import Announcements.AnnouncementManager;
+import Mail.MailManager;
 import Quiz.QuizManager;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -33,6 +34,9 @@ public class DatabaseContextListener implements ServletContextListener {
         // Create Achievement Manager Object
         AchievementManager achmgr = new AchievementManager(db);
         servletContextEvent.getServletContext().setAttribute("achievementManager", achmgr);
+        // Create Mail Manager Object
+        MailManager mm = new MailManager(db, acm);
+        servletContextEvent.getServletContext().setAttribute("mailManager", mm);
     }
 
     @Override

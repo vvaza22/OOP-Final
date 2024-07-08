@@ -17,8 +17,13 @@
             %>
                 <div class="quiz-wrap">
                     <a href="/about_quiz?id=<%= curQuiz.getId() %>" class="quiz-card">
-                        <img class="quiz-card-img" src="<%= curQuiz.getImage() %>" />
-                        <span><%= curQuiz.getName() %></span>
+                        <%
+                            String image = curQuiz.getImage();
+                            if(image!=null) {
+                        %>
+                            <img class="quiz-card-img" src="<%=image%>" />
+                        <% } %>
+                            <span><%= curQuiz.getName() %></span>
                     </a>
                 </div>
             <% } %>
