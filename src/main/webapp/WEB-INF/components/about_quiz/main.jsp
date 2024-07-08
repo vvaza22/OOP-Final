@@ -48,17 +48,13 @@
             <p><%= currentQuiz.getDescription() %></p>
             <% } %>
             <div class="action-control">
+                <% if(smgr.isUserLoggedIn()) { %>
+                <button id="challenge-friend" class="btn btn-round btn-outline-danger" onclick="sendChallenge(<%=currentQuiz.getId()%>)">Challenge a friend</button>
+                <% } %>
                 <% if(currentQuiz.isPracticeAllowed()) { %>
                 <button class="btn btn-round btn-outline-secondary">Practice</button>
                 <% } %>
                 <button id="take-quiz" class="btn btn-round btn-primary">Take Quiz</button>
-                <% if (curr != null){ %>
-                <div>
-                    <div class="btn-action">
-                        <button id="challenge-friend" class="btn btn-round btn-primary" onclick="sendChallenge(<%=currentQuiz.getId()%>)">Challenge a friend</button>
-                    </div>
-                </div>
-                <%}%>
             </div>
             <div style="display: none">
                 <input id="quiz-id" type="hidden" value="<%= currentQuiz.getId() %>" />
