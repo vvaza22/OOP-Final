@@ -9,16 +9,12 @@ drop table if exists questions;
 drop table if exists reaction;
 drop table if exists anno;
 drop table if exists achievements;
-
--- Home Page
-
-
--- Mail
 drop table if exists challenges;
 drop table if exists notes;
 drop table if exists frreqs;
 drop table if exists friends;
 drop table if exists quiz;
+drop table if exists achievements;
 drop table if exists users;
 
 
@@ -228,9 +224,6 @@ create table user_answers
 );
 
 -- Achievements Table
-use oop_final;
-
-drop table if exists achievements;
 
 create table achievements(
                              id int auto_increment primary key,
@@ -249,11 +242,6 @@ INSERT INTO users (user_name, first_name, last_name, password_hash, about, type)
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('vazzu', 'Vasiko', 'Vazagaevi', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('bero', 'Gio', 'Beridze', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('elene', 'Elene', 'Kvitsiani', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
-
--- Sample Friends
-INSERT INTO friends (friend_A, friend_B) VALUES (1, 2);
-INSERT INTO friends (friend_A, friend_B) VALUES (4, 3);
-INSERT INTO friends (friend_A, friend_B) VALUES (3, 2);
 
 -- Example Quiz 1
 insert into quiz(
