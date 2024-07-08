@@ -36,7 +36,7 @@ class AccontManagerTest {
             Statement stmt = con.createStatement();
             stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
             stmt.executeUpdate("truncate table users");
-            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
+            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
