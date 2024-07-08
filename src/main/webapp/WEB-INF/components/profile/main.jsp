@@ -176,22 +176,42 @@
                                 <div class="profile-note my-quizzes-cont">
                                     <h4>Quizzes I Created</h4>
                                     <ul>
-                                        <%if(userAccount != null){
+                                        <% if(userAccount != null){
                                             ArrayList<Quiz> createdQuizzes = qm.getRecentlyCreatedQuizzes(userAccount.getUserId());
-                                            for(int i=0; i<createdQuizzes.size(); i++) { %>
-                                                <li><a href=<%="/about_quiz?id="+String.valueOf(createdQuizzes.get(i).getId())%>><%=createdQuizzes.get(i).getName()%></a></li>
+                                            if(createdQuizzes.isEmpty()) { %>
+                                        <p> Unlock your creativity and inspire others. Create your first quiz today!</p>
+                                        <% } else { %>
+                                            <% for(int i=0; i<createdQuizzes.size(); i++) { %>
+                                                <%
+                                                    Quiz quiz = createdQuizzes.get(i);
+                                                    if(quiz==null) { %>
+                                                        <li><span>[deleted quiz]</span></li>
+                                                    <% } else { %>
+                                                        <li><a href="/about_quiz?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></li>
+                                                    <%}%>
                                             <% } %>
+                                            <%}%>
                                         <%}%>
                                     </ul>
                                 </div>
                                 <div class="profile-note quizzes-took-cont">
                                     <h4>Quizzes I Took</h4>
                                     <ul>
-                                        <%if(userAccount != null){
+                                        <% if(userAccount != null){
                                             ArrayList<Quiz> takenQuizzes = qm.getRecentlyTakenQuizzes(userAccount.getUserId());
-                                            for(int i=0; i<takenQuizzes.size(); i++) { %>
-                                                <li><a href=<%="/about_quiz?id="+String.valueOf(takenQuizzes.get(i).getId())%>><%=takenQuizzes.get(i).getName()%></a></li>
-                                            <% } %>
+                                            if(takenQuizzes.isEmpty()) { %>
+                                                <p> Challenge yourself and have fun. Take your first quiz today!</p>
+                                            <% } else { %>
+                                                 <% for(int i=0; i<takenQuizzes.size(); i++) { %>
+                                                <%
+                                                    Quiz quiz = takenQuizzes.get(i);
+                                                    if(quiz==null) { %>
+                                                        <li><span>[deleted quiz]</span></li>
+                                                    <% } else { %>
+                                                        <li><a href="/about_quiz?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></li>
+                                                    <%}%>
+                                                <% } %>
+                                             <%}%>
                                         <%}%>
                                     </ul>
                                 </div>

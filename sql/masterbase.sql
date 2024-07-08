@@ -8,6 +8,7 @@ drop table if exists text_answers;
 drop table if exists questions;
 drop table if exists reaction;
 drop table if exists anno;
+drop table if exists achievements;
 
 -- Home Page
 
@@ -211,6 +212,7 @@ create table attempts
         foreign key (user_id) references users (id)
 );
 
+-- User Answers Table
 create table user_answers
 (
     user_answer_id int auto_increment,
@@ -223,6 +225,19 @@ create table user_answers
         primary key (user_answer_id),
     constraint attempt_id_fk
         foreign key (attempt_id) references attempts (attempt_id)
+);
+
+-- Achievements Table
+use oop_final;
+
+drop table if exists achievements;
+
+create table achievements(
+                             id int auto_increment primary key,
+                             type int not null,
+                             user_id int not null,
+                             constraint user_id_foreignk
+                                 foreign key (user_id) references users (id)
 );
 
 

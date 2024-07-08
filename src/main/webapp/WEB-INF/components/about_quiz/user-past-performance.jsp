@@ -14,11 +14,11 @@
     ArrayList<Attempt> pastPerformance = qm.getAttemptList(curr.getUserId(), currentQuiz.getId());
 %>
 
+<% if(pastPerformance.isEmpty()) { %>
+    <p>You have not taken this quiz yet.</p>
+<% }else { %>
     <table class="g-past-performance">
         <p>Your Past Performance</p>
-        <% if(pastPerformance.isEmpty()) { %>
-            <p>You have not taken this quiz yet.</p>
-        <% }else{%>
             <tr>
                 <th>Nth</th>
                 <th>Score</th>
@@ -31,5 +31,5 @@
                 <td><%= pastPerformance.get(i).getTime() %></td>
             </tr>
             <% } %>
-        <% } %>
     </table>
+<% } %>

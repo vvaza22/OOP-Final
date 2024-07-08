@@ -34,6 +34,9 @@ public class LoginServlet extends HttpServlet {
 
         // Access the current HTTP session
         SessionManager sessionManager = new SessionManager(request.getSession());
+        if(sessionManager.isUserLoggedIn()) {
+            return;
+        }
 
         AccountManager acm = ((AccountManager)
                 request.getServletContext().getAttribute("accountManager"));

@@ -1,5 +1,5 @@
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Quiz.Question.QuestionType" %>
+<%@ page import="Question.QuestionType" %>
 <link rel="stylesheet" href="/css/create.css" />
 
 <%
