@@ -51,7 +51,7 @@
   </servlet><servlet>
   <servlet-name>RandomServlet</servlet-name>
   <servlet-class>Layout.RandomServlet</servlet-class>
-</servlet>
+  </servlet>
   <servlet>
     <servlet-name>AboutQuizServlet</servlet-name>
     <servlet-class>AboutQuiz.AboutQuizServlet</servlet-class>
@@ -63,6 +63,10 @@
   <servlet>
     <servlet-name>PublishAnnoServlet</servlet-name>
     <servlet-class>PublishAnno.PublishAnnoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>Administrator.AdminServlet</servlet-class>
   </servlet>
   <!-- Servlet Definitions END -->
 
@@ -119,6 +123,11 @@
     <servlet-name>PublishAnnoServlet</servlet-name>
     <url-pattern>/publish</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+
 
   <!-- Servlet Mapping END -->
 
