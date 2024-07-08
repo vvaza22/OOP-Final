@@ -1,6 +1,6 @@
-<%@ page import="Question.QuestionResponse" %>
+<%@ page import="Quiz.Question.QuestionResponse" %>
 <%@ page import="Quiz.*" %>
-<%@ page import="Question.QuestionType" %>
+<%@ page import="Quiz.Question.QuestionType" %>
 <%@ page import="java.util.HashMap" %>
 <%
     QuestionResponse qObject = (QuestionResponse) request.getAttribute("currentQuestion");
@@ -21,7 +21,7 @@
     <div class="col">
         <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
             <div class="question">
-                <h5>Question #<%= curQuestionIndex %></h5>
+                <h5>Quiz.Question #<%= curQuestionIndex %></h5>
                 <p><%= qObject.getQuestionText() %></p>
             </div>
             <div class="answer">

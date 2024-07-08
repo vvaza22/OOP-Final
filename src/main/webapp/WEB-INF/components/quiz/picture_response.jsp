@@ -1,6 +1,6 @@
-<%@ page import="Question.PictureResponse" %>
+<%@ page import="Quiz.Question.PictureResponse" %>
 <%@ page import="Quiz.*" %>
-<%@ page import="Question.QuestionType" %>
+<%@ page import="Quiz.Question.QuestionType" %>
 <%@ page import="java.util.HashMap" %>
 <%
   PictureResponse qObject = (PictureResponse) request.getAttribute("currentQuestion");
@@ -21,7 +21,7 @@
   <div class="col">
     <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
       <div class="question">
-        <h5>Question #<%= curQuestionIndex %></h5>
+        <h5>Quiz.Question #<%= curQuestionIndex %></h5>
         <p><%= qObject.getQuestionText() %></p>
         <div class="question-image-cont">
           <img src="<%= qObject.getPicture() %>" alt="<%= qObject.getQuestionText() %>" />

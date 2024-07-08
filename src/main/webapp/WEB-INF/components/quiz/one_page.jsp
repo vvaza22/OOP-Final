@@ -1,16 +1,16 @@
 <%@ page import="Quiz.Quiz" %>
-<%@ page import="Question.*" %>
+<%@ page import="Quiz.Question.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-    ArrayList<Question> questions = currentQuiz.getQuestions();
+    ArrayList<Quiz.Question> questions = currentQuiz.getQuestions();
 %>
 
 <div class="quiz-cont">
     <div class="container">
 
         <% for(int i=1; i<=questions.size(); i++) {
-            Question curQuestion = questions.get(i-1);
+            Quiz.Question curQuestion = questions.get(i-1);
 
             // Pass the current question attribute to the component
             request.setAttribute("currentQuestion", curQuestion);

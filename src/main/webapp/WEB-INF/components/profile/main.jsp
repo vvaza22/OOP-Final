@@ -22,7 +22,7 @@
     FriendsManager fm = new FriendsManager(db);
     AccountManager acm = ((AccountManager) request.getServletContext().getAttribute("accountManager"));
     QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
-    AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
+    AchievementManager achmgr = (AchievementManager)(request.getServletContext().getAttribute("achievementManager"));
 %>
 
 <style>
@@ -106,23 +106,23 @@
                                         switch(achType){
                                           case 1: %>
                                         <li style="color: deepskyblue">Rookie Author</li>
-                                        <% break; %>
-                                        <%  case 2: %>
+                                        <% break;
+                                          case 2: %>
                                         <li style="color: darkblue">Prolific Author</li>
-                                        <% break; %>
-                                        <%  case 3: %>
+                                        <% break;
+                                          case 3: %>
                                         <li style="color: purple">Master Author</li>
-                                        <% break; %>
-                                        <%  case 4: %>
+                                        <% break;
+                                          case 4: %>
                                         <li style="color: green">Quiz Slayer</li>
-                                        <% break; %>
-                                        <%  case 5: %>
-                                        <% break; %>
+                                        <% break;
+                                          case 5: %>
                                         <li style="color: black">Lord Of The Quizzes</li>
-                                        <%  case 6: %>
+                                        <% break;
+                                         case 6: %>
                                         <li style="color: yellow">Practitioner</li>
-                                        <% break; %>
-                                 <%       }
+                                        <% break;
+                                        }
                                     }%>
                                 </ol>
                             </div>

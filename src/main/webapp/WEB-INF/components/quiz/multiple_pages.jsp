@@ -1,11 +1,11 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Question.*" %>
+<%@ page import="Quiz.Question.*" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.HashMap" %>
 
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-    ArrayList<Question> questionList = currentQuiz.getQuestions();
+    ArrayList<Quiz.Question> questionList = currentQuiz.getQuestions();
     Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
     Integer quizId = (Integer) request.getAttribute("quizId");
     boolean reviewFlag = request.getAttribute("reviewFlag") != null;
@@ -66,7 +66,7 @@
                 <jsp:include page="review.jsp" />
         <%
             } else {
-                Question curQuestion = questionList.get(curQuestionIndex - 1);
+                Quiz.Question curQuestion = questionList.get(curQuestionIndex - 1);
 
                 // Pass the current question attribute to the component
                 request.setAttribute("currentQuestion", curQuestion);
@@ -114,9 +114,9 @@
                     %>
 
                     <% if(curQuestionIndex > 1) { %>
-                    <button onclick="goToPrevPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-secondary">Jump to Next Question</button>
+                    <button onclick="goToPrevPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-secondary">Jump to Next Quiz.Question</button>
                     <% } else { %>
-                    <button class="btn disabled btn-round btn-outline-secondary">Jump to Previous Question</button>
+                    <button class="btn disabled btn-round btn-outline-secondary">Jump to Previous Quiz.Question</button>
                     <% } %>
 
                     <% if(!curQuestion.hasAnswer()) { %>
@@ -126,7 +126,7 @@
                     <% if(curQuestionIndex.equals(questionList.size())) { %>
                     <button onclick="goToReviewPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Review Page</button>
                     <% } else { %>
-                    <button onclick="goToNextPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Next Question</button>
+                    <button onclick="goToNextPage(<%= curQuestion.getId() %>, <%= curQuestionIndex %>, '<%= questionTypeStr %>')" class="btn btn-round btn-outline-success">Jump to Next Quiz.Question</button>
                     <% } %>
 
                 <% } else { %>

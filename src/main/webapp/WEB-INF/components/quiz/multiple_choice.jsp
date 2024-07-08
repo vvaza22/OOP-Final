@@ -1,8 +1,8 @@
-<%@ page import="Question.MultipleChoice" %>
+<%@ page import="Quiz.Question.MultipleChoice" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Question.Choice" %>
-<%@ page import="Question.QuestionType" %>
+<%@ page import="Quiz.Question.Choice" %>
+<%@ page import="Quiz.Question.QuestionType" %>
 <%@ page import="java.util.HashMap" %><%
   MultipleChoice qObject = (MultipleChoice) request.getAttribute("currentQuestion");
   Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
@@ -20,7 +20,7 @@
   <div class="col">
     <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
       <div class="question">
-        <h5>Question #<%= curQuestionIndex %></h5>
+        <h5>Quiz.Question #<%= curQuestionIndex %></h5>
         <p><%= qObject.getQuestionText() %></p>
       </div>
       <div class="answer answer-multiple">

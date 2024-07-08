@@ -1,5 +1,5 @@
 <%@ page import="java.util.HashMap" %>
-<%@ page import="Question.QuestionType" %>
+<%@ page import="Quiz.Question.QuestionType" %>
 <link rel="stylesheet" href="/css/create.css" />
 
 <%
@@ -24,7 +24,7 @@
             </div>
             <div class="option">
                 <input id="randomize" type="checkbox" />
-                <label for="randomize">Randomize Question Order</label>
+                <label for="randomize">Randomize Quiz.Question Order</label>
             </div>
             <div class="option">
                 <input id="immediate" type="checkbox" disabled />
@@ -39,13 +39,13 @@
         </div>
         <div class="row">
             <div class="question-control">
-                <label for="q-type">Question Type: </label>
+                <label for="q-type">Quiz.Question Type: </label>
                 <select class="form-select q-type" id="q-type" name="q-type">
                     <% for(Integer typeId : qTypes.keySet()) { %>
                     <option data-name="<%= qTypes.get(typeId).getTypeName() %>" value="<%= typeId %>"><%= qTypes.get(typeId).getTypeText() %></option>
                     <% } %>
                 </select>
-                <button id="add-question" class="btn btn-primary btn-round">Add Question</button>
+                <button id="add-question" class="btn btn-primary btn-round">Add Quiz.Question</button>
             </div>
         </div>
         <div class="quiz-control">

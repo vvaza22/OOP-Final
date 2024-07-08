@@ -1,10 +1,10 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Question.*" %>
+<%@ page import="Quiz.Question.*" %>
 <%@ page import="Quiz.*" %>
 
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-    ArrayList<Question> questionList = currentQuiz.getQuestions();
+    ArrayList<Quiz.Question> questionList = currentQuiz.getQuestions();
 %>
 
 <div class="review-wrapper">
@@ -15,12 +15,12 @@
     %>
         <ol>
             <% for(int i=1; i<=questionList.size(); i++) {
-                Question curQuestion = questionList.get(i-1);
+                Quiz.Question curQuestion = questionList.get(i-1);
             %>
                 <% if(curQuestion.hasAnswer()) { %>
-                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: green">Answered</span> <i>(<%= curQuestion.countPoints() %> Points)</i></li>
+                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: green">Answered</span> <i>(<%= curQuestion.countPoints() %> Points)</i></li>
                 <% } else { %>
-                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
                 <% } %>
             <% } %>
         </ol>
@@ -29,9 +29,9 @@
         <ol>
             <% for(int i=1; i<=questionList.size(); i++) { %>
                 <% if(questionList.get(i-1).hasAnswer()) { %>
-                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: green">Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: green">Answered</span></li>
                 <% } else { %>
-                    <li><a href="/quiz?q=<%= i %>">Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
+                    <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: red">*Not Answered</span></li>
                 <% } %>
             <% } %>
         </ol>
