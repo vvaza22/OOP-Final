@@ -133,3 +133,17 @@
     padding: 1em;
     text-align: right;
 }
+
+.practice-container {
+    margin-top: 2em;
+}
+.practice-statistics {
+    margin-bottom: 1em;
+}
+.statistics-wrapper {
+    max-width: 500px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: .3em;
+
+}

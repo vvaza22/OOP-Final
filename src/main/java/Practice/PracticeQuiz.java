@@ -22,6 +22,10 @@ public class PracticeQuiz {
         populateQueue();
     }
 
+    public Quiz getQuiz() {
+        return this.quiz;
+    }
+
     private void populateQueue() {
         ArrayList<Question> questionList = quiz.getQuestions();
         for (Question question : questionList) {
@@ -30,7 +34,13 @@ public class PracticeQuiz {
         }
     }
 
-    boolean hasNextQuestion() {
+    public boolean hasNextQuestion() {
+        if(curQuestion != null) {
+            // If the current question can repeat another time, we have the next question
+            if(curQuestion.getRepeatTimes() > 0) {
+                return true;
+            }
+        }
         return !questionQueue.isEmpty();
     }
 
@@ -40,13 +50,11 @@ public class PracticeQuiz {
         }
         Question curQuestionObj = curQuestion.getQuestion();
         if(curQuestionObj.countPoints() == curQuestionObj.getMaxScore()) {
-            curQuestion.reduceRepeatTimes();
             if(curQuestion.getRepeatTimes() > 0) {
                 curQuestionObj.resetAnswer();
                 questionQueue.add(curQuestion);
             }
         } else {
-            curQuestion.resetRepeatTimes();
             curQuestionObj.resetAnswer();
             questionQueue.add(curQuestion);
         }
@@ -54,13 +62,13 @@ public class PracticeQuiz {
         curQuestion = null;
     }
 
-    PracticeQuestion getNextQuestion() {
+    public PracticeQuestion getNextQuestion() {
         addPreviousQuestionBack();
         this.curQuestion = questionQueue.remove();
         return this.curQuestion;
     }
 
-    PracticeQuestion getCurrentPracticeQuestion() {
+    public PracticeQuestion getCurrentPracticeQuestion() {
         return this.curQuestion;
     }
 

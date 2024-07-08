@@ -3,13 +3,18 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Question.Choice" %>
 <%@ page import="Question.QuestionType" %>
-<%@ page import="java.util.HashMap" %><%
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Practice.PracticeQuiz" %><%
   MultipleChoice qObject = (MultipleChoice) request.getAttribute("currentQuestion");
   Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
   ArrayList<Choice> choiceList = qObject.getChoices();
 
+  // Check for practice mode
+  boolean isPractice = request.getAttribute("practiceModeFlag") != null;
+  PracticeQuiz curPracticeQuiz = (PracticeQuiz)
+          request.getAttribute("currentPracticeQuiz");
+
   Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-  Integer numQuestions = currentQuiz.getNumberOfQuestions();
 
   HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
   QuestionType questionType = typeMap.get(qObject.getId());
@@ -20,7 +25,9 @@
   <div class="col">
     <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
       <div class="question">
-        <h5>Question #<%= curQuestionIndex %></h5>
+        <% if(!isPractice) { %>
+          <h5>Question #<%= curQuestionIndex %></h5>
+        <% } %>
         <p><%= qObject.getQuestionText() %></p>
       </div>
       <div class="answer answer-multiple">
@@ -30,7 +37,7 @@
             String inputId = "choice_" + choice.getId() + "_for_" + curQuestionIndex;
         %>
 
-        <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) { %>
+        <% if((currentQuiz.isImmediateCorrectionOn() || isPractice) && qObject.hasAnswer()) { %>
           <div class="answer-selector-cont">
             <% if(choice.getId() == qObject.getUserAnswer()) { %>
               <% if(choice.getId() == qObject.getCorrectAnswerIndex()) { %>

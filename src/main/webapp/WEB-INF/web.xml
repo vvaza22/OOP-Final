@@ -42,6 +42,10 @@
     <servlet-class>Quiz.QuizServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>PracticeServlet</servlet-name>
+    <servlet-class>Practice.PracticeServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>CreateServlet</servlet-name>
     <servlet-class>Layout.CreateServlet</servlet-class>
   </servlet>
@@ -98,6 +102,10 @@
   <servlet-mapping>
     <servlet-name>QuizServlet</servlet-name>
     <url-pattern>/quiz</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PracticeServlet</servlet-name>
+    <url-pattern>/practice</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AboutQuizServlet</servlet-name>

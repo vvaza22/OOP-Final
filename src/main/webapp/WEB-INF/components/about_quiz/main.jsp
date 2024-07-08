@@ -52,7 +52,7 @@
                 <button id="challenge-friend" class="btn btn-round btn-outline-danger" onclick="sendChallenge(<%=currentQuiz.getId()%>)">Challenge a friend</button>
                 <% } %>
                 <% if(currentQuiz.isPracticeAllowed()) { %>
-                <button class="btn btn-round btn-outline-secondary">Practice</button>
+                <button id="practice" class="btn btn-round btn-outline-secondary">Practice</button>
                 <% } %>
                 <button id="take-quiz" class="btn btn-round btn-primary">Take Quiz</button>
             </div>
