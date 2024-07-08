@@ -39,7 +39,6 @@
                         <% } %>
 
                     <% } else { %>
-
                         <!--
                         <% for(int i=1; i<=questionList.size(); i++) { %>
                             <% if(i == curQuestionIndex)  { %>

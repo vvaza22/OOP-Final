@@ -51,6 +51,10 @@ public class MultipleChoice extends Question {
         this.userAnswer = userAnswer;
     }
 
+    public void resetAnswer() {
+        this.userAnswer = -1;
+    }
+
     public int getUserAnswer() {
         return userAnswer;
     }

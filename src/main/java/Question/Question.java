@@ -29,4 +29,5 @@ public abstract class Question {
     public abstract int getMaxScore();
     public abstract int countPoints();
     public abstract boolean hasAnswer();
+    public abstract void resetAnswer();
 }
