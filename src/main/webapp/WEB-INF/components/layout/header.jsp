@@ -22,6 +22,16 @@
                     <li class="navbar-item menu-item">
                         <a href="/random" class="nav-link">Random</a>
                     </li>
+                    <% if(sessionManager.isUserLoggedIn()) {
+                        // Get the user account
+                        Account userAccount = sessionManager.getCurrentUserAccount();
+
+                        if(userAccount.isAdmin()) {
+                    %>
+                        <li class="navbar-item menu-item admin-button">
+                            <a href="/admin" class="nav-link">Admin Page</a>
+                        </li>
+                    <% } } %>
                 </ul>
 
                 <form id="search-form" action="/profile" method="GET">

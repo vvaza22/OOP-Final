@@ -463,3 +463,7 @@ main {
 	color: #f18383;
 	font-weight: BOLD;
 }
+
+.admin-button {
+	background-color: crimson;
+}
