@@ -2,6 +2,9 @@
     <title>Page Title</title>
     <meta charset="UTF-8" />
 
+    <!-- Tell the browser not to cache pages -->
+    <meta http-equiv="cache-control" content="no-cache" />
+
     <!-- Bootstrap CSS Framework -->
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
 
