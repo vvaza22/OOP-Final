@@ -1,5 +1,5 @@
 <head>
-    <title>Page Title</title>
+    <title>MyCoolQuiz</title>
     <meta charset="UTF-8" />
 
     <!-- Tell the browser not to cache pages -->
