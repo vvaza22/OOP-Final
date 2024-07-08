@@ -90,6 +90,7 @@ public class FriendRequestManager {
                 users.add(to);
                 stmt.close();
                 con.close();
+                return users;
             }
             stmt.close();
             con.close();

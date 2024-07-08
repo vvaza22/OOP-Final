@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLOutput;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static junit.framework.Assert.*;
 
@@ -32,9 +34,9 @@ class AccontManagerTest {
         try {
             Connection con = db.openConnection();
             Statement stmt = con.createStatement();
-            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
+            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
             stmt.executeUpdate("truncate table users");
-            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS=1");
+            stmt.executeUpdate("SET FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,5 +137,21 @@ class AccontManagerTest {
         assertTrue(account2.getImage().equals(acc2.getImage()));
     }
 
+    @Test
+    public void testGetAccounts(){
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        accounts.add(acc0);
+        accounts.add(acc1);
+        accounts.add(acc2);
+        ArrayList<Account> data = accountManager.getAccounts();
+        boolean checker = true;
+        for(int i=0; i<data.size(); i++){
+            if(!data.get(i).getUserName().equals(accounts.get(i).getUserName())){
+                checker = false;
+                break;
+            }
+        }
+        assertEquals(true, checker);
+    }
 
 }
