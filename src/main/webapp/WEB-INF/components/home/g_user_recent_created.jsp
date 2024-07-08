@@ -21,7 +21,7 @@
                 <p> Unlock your creativity and inspire others. Create your first quiz today!</p>
             <% } else { %>
             <ol>
-                <%for(int i=0; i<userRecentlyCreated.size(); i++) { %>
+                <%for(int i=0; i<Math.min(5, userRecentlyCreated.size()); i++) { %>
                 <%
                     Quiz quiz = userRecentlyCreated.get(i);
                     if(quiz==null) { %>

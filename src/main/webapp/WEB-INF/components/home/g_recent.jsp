@@ -19,7 +19,7 @@
                 <p> No quizzes yet:( </p>
             <%}else {%>
                 <ol>
-                    <%for(int i=0; i<recentsList.size(); i++) { %>
+                    <%for(int i=0; i<Math.min(5,recentsList.size()); i++) { %>
                     <li><a href="/about_quiz?id=<%=recentsList.get(i).getId()%>"><%=recentsList.get(i).getName()%></a></li>
                     <% } %>
                 </ol>

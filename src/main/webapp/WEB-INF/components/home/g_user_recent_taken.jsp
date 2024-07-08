@@ -20,7 +20,7 @@
                 <p> Challenge yourself and have fun. Take your first quiz today!</p>
             <% } else { %>
                 <ol>
-                    <%for(int i=0; i<userRecentlyTaken.size(); i++) { %>
+                    <%for(int i=0; i<Math.min(5, userRecentlyTaken.size()); i++) { %>
                     <%
                         Quiz quiz = userRecentlyTaken.get(i);
                         if(quiz==null) { %>

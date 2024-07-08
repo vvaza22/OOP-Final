@@ -281,7 +281,7 @@ public class QuizManager {
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
                         "where is_deleted=0 " +
-                        "order by 2 desc limit 5;"
+                        "order by 2 desc;"
             );
 
             ResultSet rs = stmt.executeQuery();
@@ -313,7 +313,7 @@ public class QuizManager {
                         "from attempts a " +
                         "where a.user_id=? " +
                         "group by a.quiz_id " +
-                        "order by latest_attempt_time desc limit 5;"
+                        "order by latest_attempt_time desc;"
             );
 
             stmt.setInt(1, userId);
@@ -344,7 +344,7 @@ public class QuizManager {
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
                         "where author_id=? " +
-                        "order by 2 desc limit 5;"
+                        "order by 2 desc;"
             );
 
             stmt.setInt(1, userId);
