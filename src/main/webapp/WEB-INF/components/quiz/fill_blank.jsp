@@ -1,4 +1,4 @@
-<%@ page import="Question.*" %>
+<%@ page import="Quiz.Question.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.regex.Pattern" %>
@@ -37,7 +37,7 @@
     <div class="col">
         <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
             <div class="question">
-                <h5>Question #<%= curQuestionIndex %></h5>
+                <h5>Quiz.Question #<%= curQuestionIndex %></h5>
                 <p><%= qCode %></p>
             </div>
             <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer() && qObject.countPoints() == 0) { %>
