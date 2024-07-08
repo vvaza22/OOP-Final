@@ -5,11 +5,9 @@ import Database.Database;
 import Question.*;
 import org.json.JSONObject;
 
+import javax.jms.ConnectionConsumer;
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,6 +32,7 @@ public class QuizManager {
                             "from quiz q " +
                             "left outer join attempts a " +
                             "on(q.quiz_id = a.quiz_id) " +
+                            "where q.is_deleted=0 " +
                             "group by ID " +
                             "order by total_attempts desc limit 5;"
             );
@@ -67,6 +66,7 @@ public class QuizManager {
                             "from attempts a " +
                             "inner join users u on a.user_id = u.id " +
                             "where quiz_id=? " +
+                            "and is_deleted=0 " +
                             "order by a.attempt_time desc;"
             );
 
@@ -101,7 +101,9 @@ public class QuizManager {
                             "from quiz " +
                             "where author_id in (select friend_B " +
                                             "from friends " +
-                                            "where friend_A=?) limit 10;"
+                                            "where friend_A=?) " +
+                            "and is_deleted=0 " +
+                            "limit 10;"
             );
 
             stmt.setInt(1, userId);
@@ -169,6 +171,7 @@ public class QuizManager {
                             "         and date(a.attempt_time) = curdate() " +
                             "    ) as max_score " +
                             "from users u " +
+                            "where u.is_deleted=0 " +
                             "having max_score is not null " +
                             "order by 2 desc limit 5;"
             );
@@ -206,7 +209,8 @@ public class QuizManager {
                             "         where a.user_id = u.id " +
                             "         and quiz_id =? " +
                             "    )) as avg_score " +
-                            "from users u;"
+                            "from users u " +
+                            "where u.is_deleted=0;"
             );
 
             stmt.setInt(1, quizId);
@@ -241,6 +245,7 @@ public class QuizManager {
                             "   and quiz_id=?" +
                             ") as max_score " +
                             "from users u " +
+                            "where is_deleted=0 " +
                             "having max_score is not null " +
                             "order by 2 desc limit 5;"
             );
@@ -275,6 +280,7 @@ public class QuizManager {
             PreparedStatement stmt = con.prepareStatement(
                     "select quiz_id AS ID, create_time " +
                         "from quiz " +
+                        "where is_deleted=0 " +
                         "order by 2 desc limit 5;"
             );
 
@@ -358,6 +364,27 @@ public class QuizManager {
         return list;
     }
 
+    public void deleteQuiz(int quizId) {
+        try {
+            // Open connection to the database
+            Connection con = db.openConnection();
+
+            // Delete the quiz
+            PreparedStatement stmt = con.prepareStatement(
+                    "update quiz set is_deleted=1 where quiz_id=?;"
+            );
+
+            stmt.setInt(1, quizId);
+            stmt.executeUpdate();
+
+            // Close connection to the database
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Quiz getRandomQuiz() {
         try {
@@ -365,7 +392,7 @@ public class QuizManager {
             Connection con = db.openConnection();
             // Retrieve the quiz
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from quiz order by rand() LIMIT 1;"
+                    "select * from quiz where is_deleted=0 order by rand() LIMIT 1;"
             );
             // Create Quiz Object
             ResultSet rs = stmt.executeQuery();
@@ -412,7 +439,7 @@ public class QuizManager {
 
             // Retrieve the quiz
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from quiz where quiz_id=?"
+                    "select * from quiz where quiz_id=? and is_deleted=0;"
             );
             stmt.setInt(1, id);
 

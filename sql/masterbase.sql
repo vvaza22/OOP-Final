@@ -6,15 +6,16 @@ drop table if exists attempts;
 drop table if exists choices;
 drop table if exists text_answers;
 drop table if exists questions;
+drop table if exists reaction;
+drop table if exists anno;
 
 -- Home Page
-drop table if exists anno;
+
 
 -- Mail
 drop table if exists challenges;
 drop table if exists notes;
 drop table if exists frreqs;
-
 drop table if exists friends;
 drop table if exists quiz;
 drop table if exists users;
@@ -31,7 +32,8 @@ create table users
     password_hash varchar(256) not null,
     image         varchar(1024) default '/images/profile/default.jpg' null,
     about         text         not null,
-    type enum ('admin', 'user') not null
+    type enum ('admin', 'user') not null,
+    is_deleted    tinyint(1) default 0  not null
 );
 
 -- Create quiz table
@@ -47,6 +49,7 @@ create table quiz
     immediate_correction tinyint(1) default 0               not null,
     display_type         enum ('ONE_PAGE', 'MULTIPLE_PAGES') not null,
     create_time          datetime default CURRENT_TIMESTAMP not null,
+    is_deleted           tinyint(1) default 0               not null,
     constraint quiz_pk
         primary key (quiz_id),
     constraint quiz_pk_2
@@ -125,6 +128,21 @@ create table anno
         unique (anno_id),
     constraint anno_users_id_fk
         foreign key (author_id) references users (id)
+);
+
+-- Reactions
+create table reaction
+(
+    reaction_id   int auto_increment,
+    anno_id       int                      not null,
+    user_id       int                      not null,
+    reaction_type enum ('LIKE', 'DISLIKE') not null,
+    constraint reaction_pk
+        primary key (reaction_id),
+    constraint react_anno_id_fk
+        foreign key (anno_id) references anno (anno_id),
+    constraint react_users_id_fk
+        foreign key (user_id) references users (id)
 );
 
 -- Create questions table
@@ -467,3 +485,18 @@ insert into quiz(
             0,
             'ONE_PAGE'
         );
+
+-- Anno 1
+insert into anno(author_id, title, body, likes, dislikes, create_time)
+values (1, 'There are now more than 10 quizzes on this website!', 'This is such a huge achievement! I want thank everybody who made the quizzes or whatever! And please do not make anymore quizzes or our server won''t be able to handle that much content and will crash...',
+        10, 5, STR_TO_DATE('2077-04-05', '%Y-%m-%d %H:%i:%s'));
+
+-- Anno 2
+insert into anno(author_id, title, body, likes, dislikes, create_time)
+values (2, 'Why is nobody making quizzes???', 'Since the website started operating, only one guy has made a quiz and that was one guy was me. C''mon guys, can''t you see the website is very fun and creative. Taking quizzes is such a productive way to waste your finite life.',
+        15, 3, STR_TO_DATE('2024-03-12', '%Y-%m-%d %H:%i:%s'));
+
+-- Anno 3
+insert into anno(author_id, title, body, likes, dislikes, create_time)
+values (1, 'Welcome to MyCoolQuiz!', 'Welcome. Welcome to MyCoolQuiz. You have chosen or been chosen to take and make quizzes. I thought so much of MyCoolQuiz, that I elected my administration here, in the Tomcat server so thoughfully provided by our benefactors(Apache). I have been proud to call MyCoolQuiz my home. And so, whether you are here to stay, or passing through on your way to parts unknown, welcome to MyCoolQuiz. It''s safer here.',
+        7, 9, STR_TO_DATE('2004-01-25', '%Y-%m-%d %H:%i:%s'));

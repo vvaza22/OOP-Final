@@ -16,11 +16,16 @@
         </div>
         <div class="row">
             <h4>Explore More</h4>
-            <ul>
-                <%for(int i=0; i<list.size(); i++) { %>
-                <li><a href=<%="/about_quiz?id="+String.valueOf(list.get(i).getId())%>><%=list.get(i).getName()%></a></li>
-                <% } %>
-            </ul>
+
+            <% if (list.isEmpty()) {%>
+                <p> No quizzes yet. </p>
+            <% } else { %>
+                <ul>
+                    <%for(int i=0; i<list.size(); i++) { %>
+                    <li><a href="/about_quiz?id=<%=list.get(i).getId()%>"><%=list.get(i).getName()%></a></li>
+                    <% } %>
+                </ul>
+            <% } %>
         </div>
     </div>
 </main>

@@ -9,9 +9,10 @@ create table users
     first_name    VARCHAR(32)  not null,
     last_name     varchar(32)  not null,
     password_hash varchar(256) not null,
-    image         text default '/images/profile/default.jpg' null,
+    image         varchar(1024) default '/images/profile/default.jpg' null,
     about         text         not null,
-    type enum ('admin', 'user') not null
+    type enum ('admin', 'user') not null,
+    is_deleted    tinyint(1) default 0  not null
 );
 
 -- Sample Users

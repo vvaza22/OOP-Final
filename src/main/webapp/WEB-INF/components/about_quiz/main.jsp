@@ -34,7 +34,14 @@
                 <span class="quiz-flag immediate">Immediate Correction</span>
                 <% } %>
             </div>
-            <p>Author: <a href="/profile?username=<%= authorAccount.getUserName() %>" class="profile-link"><img class="profile-image" src="<%= authorAccount.getImage() %>" width="40" height="40" /> <%= authorAccount.getUserName() %></a></p>
+            <%
+                Account author = acm.getAccountById(currentQuiz.getAuthorId());
+                if(author==null) {
+            %>
+            <p>Author: <span style="color:black; font-weight: bold" class="profile-link">[deleted user]</span></p>
+            <% }else {%>
+                <p>Author: <a href="/profile?username=<%= authorAccount.getUserName() %>" class="profile-link"><img class="profile-image" src="<%= authorAccount.getImage() %>" width="40" height="40" /> <%= authorAccount.getUserName() %></a></p>
+            <% } %>
         </div>
         <div class="row">
             <% if(currentQuiz.getImage() != null) { %>

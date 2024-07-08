@@ -20,8 +20,14 @@
                 <p> Challenge yourself and have fun. Take your first quiz today!</p>
             <% } else { %>
                 <ol>
-                    <%for(int i=0; i<Math.min(5, userRecentlyTaken.size()); i++) { %>
-                    <li><a href=<%="/about_quiz?id="+String.valueOf(userRecentlyTaken.get(i).getId())%>><%=userRecentlyTaken.get(i).getName()%></a></li>
+                    <%for(int i=0; i<userRecentlyTaken.size(); i++) { %>
+                    <%
+                        Quiz quiz = userRecentlyTaken.get(i);
+                        if(quiz==null) { %>
+                            <li><span>[deleted quiz]</span></li>
+                        <% } else { %>
+                            <li><a href="/about_quiz?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></li>
+                        <% } %>
                     <% } %>
                 </ol>
             <% } %>

@@ -20,11 +20,17 @@
             <% if(userRecentlyCreated.isEmpty()) {%>
                 <p> Unlock your creativity and inspire others. Create your first quiz today!</p>
             <% } else { %>
-                <ol>
-                    <%for(int i=0; i<Math.min(5, userRecentlyCreated.size()); i++) { %>
-                    <li><a href=<%="/about_quiz?id="+String.valueOf(userRecentlyCreated.get(i).getId())%>><%=userRecentlyCreated.get(i).getName()%></a></li>
+            <ol>
+                <%for(int i=0; i<userRecentlyCreated.size(); i++) { %>
+                <%
+                    Quiz quiz = userRecentlyCreated.get(i);
+                    if(quiz==null) { %>
+                        <li><span>[deleted quiz]</span></li>
+                    <% } else { %>
+                        <li><a href="/about_quiz?id=<%=quiz.getId()%>"><%=quiz.getName()%></a></li>
                     <% } %>
-                </ol>
+                <% } %>
+            </ol>
             <% } %>
         </div>
     </div>

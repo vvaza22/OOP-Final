@@ -21,11 +21,34 @@ public class AccountManager {
         return this.getAccount(username).checkPassword(password);
     }
 
+    public ArrayList<Account> getAccounts() {
+        ArrayList<Account> list = new ArrayList<>();
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "select * from users where is_deleted=0;"
+            );
+
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()) {
+                Account ac = makeAccountObject(rs);
+                list.add(ac);
+            }
+
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
     public Account getAccountById(int userId) {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from users where id=?"
+                    "select * from users where id=? and is_deleted=0;"
             );
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
@@ -54,7 +77,7 @@ public class AccountManager {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "select * from users where user_name=?"
+                    "select * from users where user_name=? and is_deleted=0;"
             );
             stmt.setString(1,username);
             ResultSet rs = stmt.executeQuery();
@@ -125,13 +148,12 @@ public class AccountManager {
         }
     }
 
-    // not yet used.
     public void removeAccount(String username) {
         try {
             // if account exists:
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "delete from users where user_name=?"
+                    "update users set is_deleted=1 where user_name=?"
             );
 
             stmt.setString(1,username);

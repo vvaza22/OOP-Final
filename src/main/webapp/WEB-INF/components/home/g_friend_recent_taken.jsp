@@ -20,17 +20,25 @@
         </div>
         <div class="g-list pt-4">
 
-            <% if(friendsRecentlyTaken.isEmpty()) {%>
+            <% if(friendsRecentlyTaken.isEmpty()) { %>
             <p> No friends with taken quizzes yet.</p>
             <% } else { %>
             <ol>
-                <%for(int i=0; i<friendsRecentlyTaken.size(); i++) { %>
+                <% for(int i=0; i<friendsRecentlyTaken.size(); i++) { %>
                 <%
-                    String author = acm.getAccountById(friendsRecentlyTaken.get(i).getAuthorId()).getUserName();
-                %>
-                <li><a href=<%="/about_quiz?id="+String.valueOf(friendsRecentlyTaken.get(i).getId())%>><%=friendsRecentlyTaken.get(i).getName()%></a> (By <a class="friend-quiz-author" href="/profile?username=<%=author%>"><%=author%></a>)</li>
+                    Quiz quiz = friendsRecentlyTaken.get(i);
+                    if(quiz == null) { %>
+                        <li><span> [deleted quiz] </span></li>
+                        <% } else {
+                        Account author = acm.getAccountById(quiz.getAuthorId());
+                        if(author == null) { %>
+                            <li><a href="/about_quiz?id=<%= quiz.getId() %>"><%=quiz.getName()%></a> (By <span style="color:black" class="friend-quiz-author" >[deleted user]</span>)</li>
+                        <% } else { %>
+                            <li><a href="/about_quiz?id=<%= quiz.getId() %>"><%=quiz.getName()%></a> (By <a class="friend-quiz-author" href="/profile?username=<%=author.getUserName()%>"><%=author.getUserName()%></a>)</li>
+                        <% } %>
+                    <% } %>
                 <% } %>
-            </ol>
+                </ol>
             <% } %>
         </div>
     </div>

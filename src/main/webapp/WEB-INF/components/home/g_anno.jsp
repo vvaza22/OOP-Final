@@ -38,9 +38,12 @@
                 <div class="anno-meta">
                     <div class="anno-date"><i class="fa-solid fa-calendar-days me-1"></i><%= announcement.getDate() %></div>
                     <%
-                        String userName = acmn.getAccountById(announcement.getAuthorId()).getUserName();
-                    %>
-                    <div class="ms-1">By <a href="/profile?username=<%=userName%>" class="anno-by-admin"><%=userName%></a></div>
+                        Account user = acmn.getAccountById(announcement.getAuthorId());
+                        if(user == null) { %>
+                    <div class="ms-1">By <span style="color:black" class="anno-by-admin"> [deleted user]</span></div>
+                        <% }else { %>
+                        <div class="ms-1">By <a href="/profile?username=<%=user.getUserName()%>" class="anno-by-admin"><%=user.getUserName()%></a></div>
+                    <% } %>
                 </div>
                 <div class="anno-text">
                     <p><%=Encode.forHtml(announcement.getBody())%></p>
