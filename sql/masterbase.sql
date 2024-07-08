@@ -218,9 +218,9 @@ INSERT INTO users (user_name, first_name, last_name, password_hash, about, type)
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('elene', 'Elene', 'Kvitsiani', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
 
 -- Sample Friends
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (1, 2);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (4, 3);
-INSERT INTO oop_final.friends (friend_A, friend_B) VALUES (3, 2);
+INSERT INTO friends (friend_A, friend_B) VALUES (1, 2);
+INSERT INTO friends (friend_A, friend_B) VALUES (4, 3);
+INSERT INTO friends (friend_A, friend_B) VALUES (3, 2);
 
 -- Example Quiz 1
 insert into quiz(
