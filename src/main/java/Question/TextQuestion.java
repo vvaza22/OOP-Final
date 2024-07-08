@@ -40,6 +40,11 @@ public abstract class TextQuestion extends Question {
     }
 
     @Override
+    public void resetAnswer() {
+        this.userAnswer = null;
+    }
+
+    @Override
     public int countPoints() {
         return isAnswerCorrect() ? 1 : 0;
     }
