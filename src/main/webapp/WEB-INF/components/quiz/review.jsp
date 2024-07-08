@@ -1,10 +1,10 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Quiz.Question.*" %>
+<%@ page import="Question.*" %>
 <%@ page import="Quiz.*" %>
 
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
-    ArrayList<Quiz.Question> questionList = currentQuiz.getQuestions();
+    ArrayList<Question> questionList = currentQuiz.getQuestions();
 %>
 
 <div class="review-wrapper">
@@ -15,7 +15,7 @@
     %>
         <ol>
             <% for(int i=1; i<=questionList.size(); i++) {
-                Quiz.Question curQuestion = questionList.get(i-1);
+                Question curQuestion = questionList.get(i-1);
             %>
                 <% if(curQuestion.hasAnswer()) { %>
                     <li><a href="/quiz?q=<%= i %>">Quiz.Question #<%= i %></a> - <span style="color: green">Answered</span> <i>(<%= curQuestion.countPoints() %> Points)</i></li>
