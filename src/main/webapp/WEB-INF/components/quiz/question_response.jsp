@@ -1,10 +1,16 @@
-<%@ page import="Quiz.Question.QuestionResponse" %>
+<%@ page import="Question.QuestionResponse" %>
 <%@ page import="Quiz.*" %>
-<%@ page import="Quiz.Question.QuestionType" %>
+<%@ page import="Question.QuestionType" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="Practice.PracticeQuiz" %>
 <%
     QuestionResponse qObject = (QuestionResponse) request.getAttribute("currentQuestion");
     Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
+
+    // Check for practice mode
+    boolean isPractice = request.getAttribute("practiceModeFlag") != null;
+    PracticeQuiz curPracticeQuiz = (PracticeQuiz)
+            request.getAttribute("currentPracticeQuiz");
 
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
     Integer numQuestions = currentQuiz.getNumberOfQuestions();
@@ -21,11 +27,13 @@
     <div class="col">
         <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
             <div class="question">
-                <h5>Quiz.Question #<%= curQuestionIndex %></h5>
+                <% if(!isPractice) { %>
+                <h5>Question #<%= curQuestionIndex %></h5>
+                <% } %>
                 <p><%= qObject.getQuestionText() %></p>
             </div>
             <div class="answer">
-                <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) { %>
+                <% if((currentQuiz.isImmediateCorrectionOn() || isPractice) && qObject.hasAnswer()) { %>
 
                     <div><span>Your Answer: </span></div>
                     <% if(qObject.countPoints() > 0) { %>

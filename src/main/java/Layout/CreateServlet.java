@@ -133,11 +133,17 @@ public class CreateServlet extends HttpServlet {
         int currId = currentUser.getUserId();
         int quizCount = quizm.getQuizCount(currId);
         switch(quizCount){
-            case 1: achmgr.addAchievement(currId, 1);
+            case 1: if(!achmgr.hasAchievement(currId, 1)){
+                achmgr.addAchievement(currId, 1);
+            }
                 break;
-            case 5: achmgr.addAchievement(currId, 2);
+            case 5: if(!achmgr.hasAchievement(currId, 2)){
+                achmgr.addAchievement(currId, 2);
+            }
                 break;
-            case 10: achmgr.addAchievement(currId, 3);
+            case 10: if(!achmgr.hasAchievement(currId, 3)){
+                achmgr.addAchievement(currId, 3);
+            }
                 break;
             default: break;
         }

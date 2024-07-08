@@ -30,7 +30,7 @@ public class QuestionResponseTest extends TestCase {
     }
 
     @Test
-    public void testCheckAnswer() {
+    public void testGetCorrectAnswer() {
         ArrayList<String> correct1 = new ArrayList<>();
         correct1.add("Black Sabbath");
         QuestionResponse qr1 = new QuestionResponse("Which band is regarded as the inventors of Metal?", 0,

@@ -1,12 +1,18 @@
-<%@ page import="Quiz.Question.*" %>
+<%@ page import="Question.*" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Quiz.*" %>
 <%@ page import="java.util.regex.Pattern" %>
 <%@ page import="java.util.regex.Matcher" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="Practice.PracticeQuiz" %>
 <%
     Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
     Integer numQuestions = currentQuiz.getNumberOfQuestions();
+
+    // Check for practice mode
+    boolean isPractice = request.getAttribute("practiceModeFlag") != null;
+    PracticeQuiz curPracticeQuiz = (PracticeQuiz)
+            request.getAttribute("currentPracticeQuiz");
 
     FillBlank qObject = (FillBlank) request.getAttribute("currentQuestion");
     Integer curQuestionIndex = (Integer) request.getAttribute("curQuestionIndex");
@@ -18,7 +24,7 @@
     String userAnswer = qObject.getUserAnswer() == null ? "" : qObject.getUserAnswer();
 
     String qCode;
-    if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer()) {
+    if((currentQuiz.isImmediateCorrectionOn() || isPractice) && qObject.hasAnswer()) {
         if(qObject.countPoints() > 0) {
             qCode = regexMatch.replaceFirst("<b class=\"fill-blank-correct\">"+userAnswer+"</b>");
         } else {
@@ -37,10 +43,12 @@
     <div class="col">
         <div class="question-cont" data-index="<%= curQuestionIndex %>" data-type="<%= questionTypeStr %>" data-id="<%= qObject.getId() %>">
             <div class="question">
-                <h5>Quiz.Question #<%= curQuestionIndex %></h5>
+                <% if(!isPractice) { %>
+                <h5>Question #<%= curQuestionIndex %></h5>
+                <% } %>
                 <p><%= qCode %></p>
             </div>
-            <% if(currentQuiz.isImmediateCorrectionOn() && qObject.hasAnswer() && qObject.countPoints() == 0) { %>
+            <% if((currentQuiz.isImmediateCorrectionOn() || isPractice) && qObject.hasAnswer() && qObject.countPoints() == 0) { %>
                 <div><span>Correct Answer: </span></div>
                 <b class="text-ans text-correct"><%= String.join(", ", qObject.getCorrectAnswers()) %></b>
             <% } %>

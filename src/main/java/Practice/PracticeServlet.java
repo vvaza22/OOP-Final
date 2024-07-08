@@ -1,19 +1,20 @@
-package Quiz;
+package Practice;
+
+import Achievement.AchievementManager;
+import Global.SessionManager;
+import Question.*;
+import Quiz.Quiz;
+import Quiz.QuizManager;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import Account.AccountManager;
-import Achievement.AchievementManager;
-import Global.SessionManager;
-import Question.*;
-import org.json.JSONObject;
+public class PracticeServlet extends HttpServlet {
 
-public class QuizServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
@@ -27,47 +28,18 @@ public class QuizServlet extends HttpServlet {
             return;
         }
 
-        if(!sessionManager.isTakingQuiz()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You are not currently taking a quiz.");
+        if(!sessionManager.isTakingPracticeQuiz()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You are not currently taking a practice quiz.");
             return;
         }
 
         // Get the current quiz we are taking
-        Quiz currentQuiz = sessionManager.getCurrentQuiz();
-
-        // Only pay attention to ?q= parameter if we are taking a Multiple Pages quiz
-        if(currentQuiz.getDisplayMode() == Quiz.MULTIPLE_PAGES) {
-            // Get which question we are on
-            String questionIndex = request.getParameter("q");
-
-            // Check for review tab
-            if(questionIndex != null && questionIndex.equals("review")) {
-                // Pass the arguments to the client
-                request.setAttribute("currentQuiz", currentQuiz);
-                request.setAttribute("curQuestionIndex", -1);
-                request.setAttribute("reviewFlag", true);
-
-                request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
-                        .forward(request, response);
-                return;
-            }
-            Integer qIndex = 1;
-            if (questionIndex != null && !questionIndex.isEmpty() && isPosNumber(questionIndex)) {
-                // Parse the value of the question index
-                qIndex = Integer.parseInt(questionIndex);
-            }
-            // Check if the index is inbounds: questionIndex in [1, n]
-            if (qIndex > currentQuiz.getNumberOfQuestions()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Question index out of bounds.");
-                return;
-            }
-            request.setAttribute("curQuestionIndex", qIndex);
-        }
+        PracticeQuiz currentQuiz = sessionManager.getCurrentPracticeQuiz();
 
         // Pass the arguments to the client
-        request.setAttribute("currentQuiz", currentQuiz);
+        request.setAttribute("currentPracticeQuiz", currentQuiz);
 
-        request.getRequestDispatcher("/WEB-INF/pages/quiz.jsp")
+        request.getRequestDispatcher("/WEB-INF/pages/practice.jsp")
                 .forward(request, response);
     }
 
@@ -98,10 +70,10 @@ public class QuizServlet extends HttpServlet {
         // Get the action we are performing
         String action = request.getParameter("action");
 
-        if(action.equals("take_quiz")) {
+        if(action.equals("start_practice")) {
 
             if(sessionManager.isTakingQuiz()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to finish the quiz you are taking to take a new one!");
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to finish the quiz you are taking to start practice!");
                 return;
             }
 
@@ -121,40 +93,36 @@ public class QuizServlet extends HttpServlet {
                 return;
             }
 
-            // Take the quiz
-            sessionManager.setCurrentQuiz(curQuiz);
+            // Create Practice Quiz
+            PracticeQuiz curPracticeQuiz = new PracticeQuiz(curQuiz);
+
+            // Remember that the user is taking a practice quiz
+            sessionManager.setCurrentPracticeQuiz(curPracticeQuiz);
+
+            curPracticeQuiz.getNextQuestion();
 
             // Print success to the client
             responseObj.put("status", "success");
             response.getWriter().print(responseObj);
 
         } else if(action.equals("save_answer")) {
-            if(!sessionManager.isTakingQuiz()) {
+            if(!sessionManager.isTakingPracticeQuiz()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to be taking quiz!");
                 return;
             }
 
             // Get the current quiz we are taking
-            Quiz currentQuiz = sessionManager.getCurrentQuiz();
+            PracticeQuiz currentPracticeQuiz = sessionManager.getCurrentPracticeQuiz();
+            Quiz currentQuiz = currentPracticeQuiz.getQuiz();
 
-            String questionIdStr = request.getParameter("question_id");
-            if(questionIdStr == null || questionIdStr.isEmpty() || !isPosNumber(questionIdStr)) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid question id.");
-                return;
-            }
-
-            // Check if the question is in the quiz
-            Integer questionId = Integer.parseInt(questionIdStr);
-            if(!currentQuiz.hasQuestion(questionId)) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Quiz does not contain the question.");
-                return;
-            }
+            // Get the practice question
+            PracticeQuestion practiceQuestion = currentPracticeQuiz.getCurrentPracticeQuestion();
 
             // Get the question object
-            Question currentQuestion = currentQuiz.getQuestionById(questionId);
+            Question currentQuestion = practiceQuestion.getQuestion();
 
             // Do not allow users to answer to the same question multiple times if immediate is on
-            if(currentQuiz.isImmediateCorrectionOn() && currentQuestion.hasAnswer()) {
+            if(currentQuestion.hasAnswer()) {
                 responseObj.put("status", "fail");
                 responseObj.put("errorMsg", "You have already answered this question!");
                 response.getWriter().print(responseObj);
@@ -208,58 +176,37 @@ public class QuizServlet extends HttpServlet {
                     break;
             }
 
+            practiceQuestion.updateStatistics();
+
             // Print success to the client
             responseObj.put("status", "success");
-
-            // Instantly send the answer if immediate correction is on
-            if(currentQuiz.isImmediateCorrectionOn()) {
-                responseObj.put("points", currentQuestion.countPoints());
+            response.getWriter().print(responseObj);
+        } else if(action.equals("next_question")) {
+            if(!sessionManager.isTakingPracticeQuiz()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You need to be taking quiz!");
+                return;
             }
 
-            response.getWriter().print(responseObj);
+            // Get the current quiz we are taking
+            PracticeQuiz currentPracticeQuiz = sessionManager.getCurrentPracticeQuiz();
+            Quiz currentQuiz = currentPracticeQuiz.getQuiz();
 
-        } else if(action.equals("finish_attempt")) {
-            ArrayList<ScoresStruct> top = qm.getTopScorers(sessionManager.getCurrentQuiz().getId());
-            ScoresStruct topScore = top.get(0);
-            AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
-            int topId = amgr.getAccount(topScore.getUserName()).getUserId();
-
-            long attemptId = qm.saveAttempt(curUserId, sessionManager.getCurrentQuiz());
-
-            sessionManager.endCurrentQuiz();
-
-            if(attemptId != -1) {
-                AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
-
-                int completed = qm.getDoneQuizzes(curUserId);
-                if(completed == 10 && !achmgr.hasAchievement(curUserId, 4)) achmgr.addAchievement(curUserId, 4);
-
-                if(topScore.getScore() < sessionManager.getCurrentQuiz().countScore()){
-                    if(achmgr.hasAchievement(topId, 5)){
-                        achmgr.removeAchievement(topId, 5);
-                    }
-
-                    if(!achmgr.hasAchievement(curUserId, 5)){
-                        achmgr.addAchievement(curUserId, 5);
-                    }
-                }
-
-                // Print success to the client
-                responseObj.put("status", "success");
-                responseObj.put("attempt_id", attemptId);
-
+            if(currentPracticeQuiz.hasNextQuestion()) {
+                currentPracticeQuiz.getNextQuestion();
+                responseObj.put("practice_status", "continue");
             } else {
-                // Print success to the client
-                responseObj.put("status", "error");
+                AchievementManager achmgr = (AchievementManager) request.getServletContext().getAttribute("achievementManager");
+                if(!achmgr.hasAchievement(curUserId, 6)) achmgr.addAchievement(curUserId, 6);
+
+                responseObj.put("practice_status", "ended");
+                responseObj.put("return_to", currentQuiz.getId());
+                sessionManager.endCurrentPracticeQuiz();
             }
 
+            // Print success to the client
+            responseObj.put("status", "success");
             response.getWriter().print(responseObj);
-
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action.");
-            return;
         }
-
     }
 
     private boolean isPosNumber(String s) {
