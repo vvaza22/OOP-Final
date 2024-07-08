@@ -29,7 +29,7 @@ public class FillBlankTest extends TestCase {
     }
 
     @Test
-    public void testCheckAnswer() {
+    public void testGetCorrectAnswer() {
         ArrayList<String> correct1 = new ArrayList<>();
         correct1.add("Megadeth");
         correct1.add("Metallica");
