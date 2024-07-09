@@ -3,12 +3,15 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Account.Account" %>
+<%@ page import="Global.SessionManager" %>
 
 <%
     QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
     AccountManager acm = (AccountManager) request.getServletContext().getAttribute("accountManager");
     ArrayList<Quiz> quizzes = qm.getRecentQuizzes();
     ArrayList<Account> accounts = acm.getAccounts();
+    SessionManager ssm = new SessionManager(request.getSession());
+    Account curUser = ssm.getCurrentUserAccount();
 %>
 
 <style>
@@ -51,7 +54,11 @@
                 <% for(int i=0; i<accounts.size(); i++) { %>
                 <tr>
                     <td><a href="/profile?username=<%=accounts.get(i).getUserId()%>"><%=accounts.get(i).getUserName()%></a></td>
-                    <td><button onclick="sendDeleteAccountRequest(<%=accounts.get(i).getUserId()%>)" class="btn btn-round btn-danger">Delete</button></td>
+                    <td>
+                        <% if(curUser.getUserId() != accounts.get(i).getUserId()) { %>
+                        <button onclick="sendDeleteAccountRequest(<%=accounts.get(i).getUserId()%>)" class="btn btn-round btn-danger">Delete</button>
+                        <% } %>
+                    </td>
                 </tr>
                 <% } %>
             </table>
