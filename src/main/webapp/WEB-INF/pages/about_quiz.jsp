@@ -5,7 +5,7 @@
 <% /* Include global <head> tag */ %>
 <jsp:include page="/WEB-INF/components/global/head.jsp" />
 
-<body>
+<body style="height: 100%!important">
 <jsp:include page="/WEB-INF/components/layout/header.jsp" />
 <main class="container">
 <jsp:include page="/WEB-INF/components/about_quiz/main.jsp" />
