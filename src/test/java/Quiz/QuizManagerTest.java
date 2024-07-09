@@ -1,18 +1,17 @@
 package Quiz;
 
-import Account.Account;
-import Account.AccountManager;
-import Achievement.Achievement;
-import Achievement.AchievementManager;
+import Account.*;
 import Database.Database;
 import Database.DatabaseCredentials;
 import Question.Question;
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import Question.QuestionResponse;
-
+import Question.MultipleChoice;
+import Question.Choice;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,6 +24,7 @@ public class QuizManagerTest {
     private Connection con;
     private QuizManager quizManager;
     private static Quiz qz1, qz2;
+    private static Account acc1, acc2;
     @BeforeAll
     public static void setUp1() {
         ArrayList<Question> qList = new ArrayList<>();
@@ -40,8 +40,16 @@ public class QuizManagerTest {
         aList2.add("N");
         Question q2 = new QuestionResponse("Question 2", 2, aList2);
 
+
+        ArrayList<Choice> aList3 = new ArrayList<Choice>();
+        aList3.add(new Choice("A", 1, true));
+        aList3.add(new Choice("B", 2, false));
+
+        Question q3 = new MultipleChoice("Question 3", 3, aList3, 1);
+
         qList.add(q1);
         qList.add(q2);
+        qList.add(q3);
 
         qz1 = new Quiz(
                 1,
@@ -57,11 +65,14 @@ public class QuizManagerTest {
                 qList
         );
 
-        qList.remove(1);
+        ArrayList<Question> qList2 = new ArrayList<>();
+        qList2.add(q1);
+        qList2.add(q2);
+
         qz2 = new Quiz(
                 2,
                 "Test2 Quiz",
-                1,
+                2,
                 "Test Desc",
                 "some_image.jpg",
                 false,
@@ -69,7 +80,7 @@ public class QuizManagerTest {
                 false,
                 1,
                 "2023-10-12",
-                qList
+                qList2
         );
     }
 
@@ -87,35 +98,50 @@ public class QuizManagerTest {
             con = db.openConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
-            stmt.executeUpdate("truncate table quiz");
+            stmt.executeUpdate("truncate table user_answers;");
+            stmt.executeUpdate("truncate table attempts;");
+            stmt.executeUpdate("truncate table choices;");
+            stmt.executeUpdate("truncate table text_answers;");
+            stmt.executeUpdate("truncate table questions;");
+            stmt.executeUpdate("truncate table reaction;");
+            stmt.executeUpdate("truncate table anno;");
+            stmt.executeUpdate("truncate table achievements;");
+            stmt.executeUpdate("truncate table challenges;");
+            stmt.executeUpdate("truncate table notes;");
+            stmt.executeUpdate("truncate table frreqs;");
+            stmt.executeUpdate("truncate table friends;");
+            stmt.executeUpdate("truncate table quiz;");
+            stmt.executeUpdate("truncate table achievements;");
+            stmt.executeUpdate("truncate table users;");
             stmt.executeUpdate("set FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        try {
-            con = db.openConnection();
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
-            stmt.executeUpdate("truncate table attempts");
-            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
-            stmt.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        acc1 = new Account(1,
+                "Anakin",
+                "Skywalker",
+                "jedi_knight",
+                "/images/default.jpg",
+                Hash.hashPassword("padme"),
+                "I hate sand",
+                "user"
+        );
 
-        try {
-            con = db.openConnection();
-            Statement stmt = con.createStatement();
-            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
-            stmt.executeUpdate("truncate table user_answers");
-            stmt.executeUpdate("set FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
-            stmt.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        acc2 = new Account(2,
+                "obi-wan",
+                "kenobi",
+                "jedi master",
+                "/images/default.jpg",
+                Hash.hashPassword("padawan"),
+                "Hello there",
+                "admin"
+        );
 
+        AccountManager acm = new AccountManager(db);
+        acm.registerAccount(acc1);
+        acm.registerAccount(acc2);
     }
 
     @Test
@@ -136,13 +162,14 @@ public class QuizManagerTest {
 
         quizManager.addQuiz(qz2);
         int cnt = quizManager.getQuizCount(1);
-        assertEquals(2, cnt);
+        assertEquals(1, cnt);
         int cnt2 = quizManager.getQuizCount(2);
-        assertEquals(0, cnt2);
+        assertEquals(1, cnt2);
     }
 
     @Test
     public void test3() {
+        assertNull(quizManager.getQuiz(1));
         quizManager.addQuiz(qz1);
         quizManager.addQuiz(qz2);
 
@@ -220,11 +247,13 @@ public class QuizManagerTest {
         quizManager.addQuiz(qz1);
         quizManager.addQuiz(qz2);
 
-        quizManager.saveAttempt(1, qz1);
-        quizManager.saveAttempt(2, qz2);
+        int attmpId = (int) quizManager.saveAttempt(1, qz1);
+        int attmpId2 = (int) quizManager.saveAttempt(1, qz2);
 
-        assertEquals(1, quizManager.getUserAnswers(1, con).size());
-        assertEquals(0, quizManager.getUserAnswers(3, con).size());
+
+        assertEquals(3, quizManager.getUserAnswers(attmpId, con).size());
+        assertEquals(2, quizManager.getUserAnswers(attmpId2, con).size());
+
     }
 
 
@@ -236,10 +265,13 @@ public class QuizManagerTest {
         quizManager.saveAttempt(1, qz1);
         quizManager.saveAttempt(2, qz2);
 
-        assertEquals(0, quizManager.getFriendCreatedQuizzes(1).size());
-        assertEquals(0, quizManager.getFriendCreatedQuizzes(2).size());
-        assertEquals(0, quizManager.getFriendTakenQuizzes(1).size());
-        assertEquals(0, quizManager.getFriendTakenQuizzes(2).size());
+        FriendsManager frm = new FriendsManager(db);
+        frm.addFriend(1,2);
+
+        assertEquals(1, quizManager.getFriendCreatedQuizzes(1).size());
+        assertEquals(0, quizManager.getFriendCreatedQuizzes(3).size());
+        assertEquals(1, quizManager.getFriendTakenQuizzes(1).size());
+        assertEquals(1, quizManager.getFriendTakenQuizzes(2).size());
 
     }
 
@@ -295,6 +327,7 @@ public class QuizManagerTest {
         quizManager.addQuiz(qz1);
         quizManager.addQuiz(qz2);
 
+        assertNull(quizManager.getAttempt(5));
         quizManager.saveAttempt(1, qz1);
         quizManager.saveAttempt(2, qz1);
 
