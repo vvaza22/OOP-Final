@@ -24,7 +24,7 @@
                 <th>Score</th>
                 <th>Time</th>
             </tr>
-            <% for(int i=0; i<pastPerformance.size(); i++) { %>
+            <% for(int i=0; i<Math.min(5,pastPerformance.size()); i++) { %>
             <tr>
                 <td><%= pastPerformance.size() - i %></td>
                 <td><%= pastPerformance.get(i).getUserScore() %>/<%= pastPerformance.get(i).getMaxScore() %></td>
