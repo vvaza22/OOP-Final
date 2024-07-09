@@ -1,7 +1,5 @@
-package Questions;
+package Question;
 
-import Question.FillBlank;
-import Question.QuestionResponse;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
