@@ -251,7 +251,7 @@ INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, 
 INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (10, 'Physics Quiz', 1, 'physics quiz', '/images/sample/4.jpg', 0, 1, 0, 'ONE_PAGE', '2024-07-09 15:44:53', 0);
 INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (11, 'Video Games Quiz', 1, 'Rise and Shine Doctor Freeman Rise and shine...', '/images/sample/5.jpg', 1, 0, 0, 'ONE_PAGE', '2024-07-09 16:18:24', 0);
 
--- Questions
+-- Question
 INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (1, 1, 'Who is the creator of the C++ Programming Language?', 1, null, 1);
 INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (2, 1, 'In 2020 {?} created the best heavy metal OST for DOOM Eternal and shocked the world.', 2, null, 3);
 INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (3, 1, 'Mark the correct sentence.', 3, null, 2);
@@ -299,17 +299,17 @@ INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (15
 INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (16, 18, 'Molecule', 0);
 
 
--- Anno 1
+-- Announcements 1
 insert into anno(author_id, title, body, likes, dislikes, create_time)
 values (1, 'There are now more than 10 quizzes on this website!', 'This is such a huge achievement! I want thank everybody who made the quizzes or whatever! And please do not make anymore quizzes or our server won''t be able to handle that much content and will crash...',
         10, 5, STR_TO_DATE('2077-04-05', '%Y-%m-%d %H:%i:%s'));
 
--- Anno 2
+-- Announcements 2
 insert into anno(author_id, title, body, likes, dislikes, create_time)
 values (2, 'Why is nobody making quizzes???', 'Since the website started operating, only one guy has made a quiz and that was one guy was me. C''mon guys, can''t you see the website is very fun and creative. Taking quizzes is such a productive way to waste your finite life.',
         15, 3, STR_TO_DATE('2024-03-12', '%Y-%m-%d %H:%i:%s'));
 
--- Anno 3
+-- Announcements 3
 insert into anno(author_id, title, body, likes, dislikes, create_time)
 values (1, 'Welcome to MyCoolQuiz!', 'Welcome. Welcome to MyCoolQuiz. You have chosen or been chosen to take and make quizzes. I thought so much of MyCoolQuiz, that I elected my administration here, in the Tomcat server so thoughfully provided by our benefactors(Apache). I have been proud to call MyCoolQuiz my home. And so, whether you are here to stay, or passing through on your way to parts unknown, welcome to MyCoolQuiz. It''s safer here.',
         7, 9, STR_TO_DATE('2004-01-25', '%Y-%m-%d %H:%i:%s'));

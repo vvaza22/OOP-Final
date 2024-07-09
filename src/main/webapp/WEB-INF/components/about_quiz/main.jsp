@@ -21,7 +21,7 @@
         <div class="row">
             <div class="quiz-heading">
                 <h3><%= currentQuiz.getName() %></h3>
-                <span class="quiz-flag num-questions"><%= currentQuiz.getNumberOfQuestions() %> Questions</span>
+                <span class="quiz-flag num-questions"><%= currentQuiz.getNumberOfQuestions() %> Question</span>
                 <% if(currentQuiz.isRandomized()) { %>
                 <span class="quiz-flag randomized">Randomized</span>
                 <% } %>

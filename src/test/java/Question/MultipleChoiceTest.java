@@ -1,7 +1,5 @@
-package Questions;
+package Question;
 
-import Question.Choice;
-import Question.MultipleChoice;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 

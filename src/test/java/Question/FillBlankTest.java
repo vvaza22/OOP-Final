@@ -1,6 +1,5 @@
-package Questions;
+package Question;
 
-import Question.*;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
