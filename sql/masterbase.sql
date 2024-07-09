@@ -244,251 +244,60 @@ INSERT INTO users (user_name, first_name, last_name, password_hash, about, type)
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('bero', 'Gio', 'Beridze', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
 INSERT INTO users (user_name, first_name, last_name, password_hash, about, type) VALUES ('elene', 'Elene', 'Kvitsiani', 'e99a18c428cb38d5f260853678922e03', 'Hello Everyone!', 'user');
 
--- Example Quiz 1
-insert into quiz(
-    author_id,
-    name,
-    description,
-    quiz_image,
-    randomize,
-    practice_mode,
-    immediate_correction,
-    display_type
-) values(
-            2,
-            'Random Knowledge Test',
-            'This is my amazing quiz that tests your random knowledge in every single field there exists.',
-            '/images/sample/1.jpg',
-            1,
-            1,
-            0,
-            'MULTIPLE_PAGES'
-        );
+-- Quizzes
+INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (1, 'Random Knowledge Test', 2, 'This is my amazing quiz that tests your random knowledge in every single field there exists.', '/images/sample/1.jpg', 1, 1, 0, 'MULTIPLE_PAGES', '2024-07-09 14:51:01', 0);
+INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (7, 'Cosmos Quiz', 1, 'This is a quiz about cosmos.', '/images/sample/2.jpg', 1, 0, 0, 'ONE_PAGE', '2024-07-09 15:09:08', 0);
+INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (9, 'Geography Quiz', 1, 'geography quiz', '/images/sample/3.jpg', 0, 0, 1, 'MULTIPLE_PAGES', '2024-07-09 15:34:17', 0);
+INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (10, 'Physics Quiz', 1, 'physics quiz', '/images/sample/4.jpg', 0, 1, 0, 'ONE_PAGE', '2024-07-09 15:44:53', 0);
+INSERT INTO quiz (quiz_id, name, author_id, description, quiz_image, randomize, practice_mode, immediate_correction, display_type, create_time, is_deleted) VALUES (11, 'Video Games Quiz', 1, 'Rise and Shine Doctor Freeman Rise and shine...', '/images/sample/5.jpg', 1, 0, 0, 'ONE_PAGE', '2024-07-09 16:18:24', 0);
 
--- Question 1
-insert into questions(
-    quiz_id,
-    question_text,
-    question_type,
-    question_order
-) values(
-            1,
-            'Who is the creator of the C++ Programming Language?',
-            1,
-            1
-        );
+-- Questions
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (1, 1, 'Who is the creator of the C++ Programming Language?', 1, null, 1);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (2, 1, 'In 2020 {?} created the best heavy metal OST for DOOM Eternal and shocked the world.', 2, null, 3);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (3, 1, 'Mark the correct sentence.', 3, null, 2);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (4, 1, 'What is depicted in the picture?', 4, 'https://upload.wikimedia.org/wikipedia/commons/2/21/Mandel_zoom_00_mandelbrot_set.jpg', 4);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (7, 7, 'On which planet do humans live?', 3, null, 1);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (8, 7, 'Which planet is the closest to the sun?', 1, null, 2);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (9, 7, 'The name of our galaxy is {?}', 2, null, 3);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (14, 9, 'What is the capital of Georgia?', 1, null, 1);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (15, 9, 'The capital of France is {?}', 2, null, 2);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (16, 9, 'Which is the smallest country?', 3, null, 3);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (17, 10, 'Who is the author of the theory of relativity?', 1, null, 1);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (18, 10, 'What is the name of smallest particle? ', 3, null, 2);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (19, 11, 'Who published the game Red Dead Redemption? ', 1, null, 1);
+INSERT INTO questions (question_id, quiz_id, question_text, question_type, picture, question_order) VALUES (20, 11, 'When was Minecraft released? ', 1, null, 2);
 
--- Possible Answer 1
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             1,
-             'Bjarne Stroustrup'
-         );
 
--- Possible Answer 2
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             1,
-             'Stroustrup'
-         );
+-- Answers
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (1, 1, 'Bjarne Stroustrup');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (2, 1, 'Stroustrup');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (3, 2, 'Mick Gordon');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (4, 2, 'Mick');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (5, 2, 'Gordon');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (6, 4, 'Mandelbrot Set');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (10, 8, 'mercury');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (11, 14, 'tbilisi');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (12, 9, 'milky way');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (13, 9, 'not snickers');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (18, 15, 'paris');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (19, 17, 'albert einstein');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (20, 19, 'Rockstar games');
+INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (21, 20, '2011');
 
--- Question 2
-insert into questions(
-    quiz_id,
-    question_text,
-    question_type,
-    question_order
-) values(
-            1,
-            'In 2020 {?} created the best heavy metal OST for DOOM Eternal and shocked the world.',
-            2,
-            3
-        );
 
--- Possible Answer 1
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             2,
-             'Mick Gordon'
-         );
+-- Choices
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (1, 3, 'If P=NP, everything in NP is NP-HARD', 1);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (2, 3, 'P != Co-NP', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (3, 3, 'It is possible that P=EXPTIME', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (7, 7, 'Venus', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (8, 7, 'Earth', 1);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (9, 7, 'Pluto', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (12, 16, 'Georgia', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (13, 16, 'Vatican', 1);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (14, 16, 'England', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (15, 18, 'Atom', 1);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (16, 18, 'Molecule', 0);
 
--- Possible Answer 2
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             2,
-             'Mick'
-         );
-
--- Possible Answer 3
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             2,
-             'Gordon'
-         );
-
--- Question 3
-insert into questions(
-    quiz_id,
-    question_text,
-    question_type,
-    question_order
-) values(
-            1,
-            'Mark the correct sentence.',
-            3,
-            2
-        );
-
--- Choice 1(Correct)
-insert into choices(
-    question_id,
-    choice_text,
-    is_correct
-) values(
-            3,
-            'If P=NP, everything in NP is NP-HARD',
-            1
-        );
-
--- Choice 2
-insert into choices(
-    question_id,
-    choice_text,
-    is_correct
-) values(
-            3,
-            'P != Co-NP',
-            0
-        );
-
--- Choice 3
-insert into choices(
-    question_id,
-    choice_text,
-    is_correct
-) values(
-            3,
-            'It is possible that P=EXPTIME',
-            0
-        );
-
--- Question 4
-insert into questions(
-    quiz_id,
-    question_text,
-    question_type,
-    picture,
-    question_order
-) values(
-            1,
-            'What is depicted in the picture?',
-            4,
-            'https://upload.wikimedia.org/wikipedia/commons/2/21/Mandel_zoom_00_mandelbrot_set.jpg',
-            4
-        );
-
--- Possible Answer 1
-insert into text_answers(
-    question_id,
-    answer_value
-) values (
-             4,
-             'Mandelbrot Set'
-         );
-
--- Example Quiz 2
-insert into quiz(
-    author_id,
-    name,
-    description,
-    quiz_image,
-    randomize,
-    practice_mode,
-    immediate_correction,
-    display_type
-) values(
-            1,
-            'Cosmos Quiz',
-            'This Quiz tests your knowledge about cool space stuff',
-            '/images/sample/2.jpg',
-            1,
-            0,
-            0,
-            'ONE_PAGE'
-        );
-
--- Example Quiz 3
-insert into quiz(
-    author_id,
-    name,
-    description,
-    quiz_image,
-    randomize,
-    practice_mode,
-    immediate_correction,
-    display_type
-) values(
-            1,
-            'Geography Quiz',
-            'Do you know maps?',
-            '/images/sample/3.jpg',
-            1,
-            0,
-            0,
-            'ONE_PAGE'
-        );
-
--- Example Quiz 4
-insert into quiz(
-    author_id,
-    name,
-    description,
-    quiz_image,
-    randomize,
-    practice_mode,
-    immediate_correction,
-    display_type
-) values(
-            1,
-            'Physics Quiz',
-            'Do some multidimensional calculus.',
-            '/images/sample/4.jpg',
-            1,
-            0,
-            0,
-            'ONE_PAGE'
-        );
-
--- Example Quiz 5
-insert into quiz(
-    author_id,
-    name,
-    description,
-    quiz_image,
-    randomize,
-    practice_mode,
-    immediate_correction,
-    display_type
-) values(
-            1,
-            'Video Games Quiz',
-            'Rise and Shine Doctor Freeman Rise and shine...',
-            '/images/sample/5.jpg',
-            1,
-            0,
-            0,
-            'ONE_PAGE'
-        );
 
 -- Anno 1
 insert into anno(author_id, title, body, likes, dislikes, create_time)
@@ -504,3 +313,12 @@ values (2, 'Why is nobody making quizzes???', 'Since the website started operati
 insert into anno(author_id, title, body, likes, dislikes, create_time)
 values (1, 'Welcome to MyCoolQuiz!', 'Welcome. Welcome to MyCoolQuiz. You have chosen or been chosen to take and make quizzes. I thought so much of MyCoolQuiz, that I elected my administration here, in the Tomcat server so thoughfully provided by our benefactors(Apache). I have been proud to call MyCoolQuiz my home. And so, whether you are here to stay, or passing through on your way to parts unknown, welcome to MyCoolQuiz. It''s safer here.',
         7, 9, STR_TO_DATE('2004-01-25', '%Y-%m-%d %H:%i:%s'));
+
+
+
+
+
+
+
+
+
