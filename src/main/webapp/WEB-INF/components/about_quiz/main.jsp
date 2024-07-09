@@ -14,14 +14,12 @@
     QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
 %>
 
-<link href="/css/about_quiz.css" rel="stylesheet" />
-
 <div class="about-quiz-parent">
     <div class="container about_quiz">
         <div class="row">
             <div class="quiz-heading">
                 <h3><%= currentQuiz.getName() %></h3>
-                <span class="quiz-flag num-questions"><%= currentQuiz.getNumberOfQuestions() %> Question</span>
+                <span class="quiz-flag num-questions"><%= currentQuiz.getNumberOfQuestions() %> Questions</span>
                 <% if(currentQuiz.isRandomized()) { %>
                 <span class="quiz-flag randomized">Randomized</span>
                 <% } %>
