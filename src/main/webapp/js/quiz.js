@@ -5,7 +5,6 @@
 
         let reqServer = server === undefined ? "/quiz" : server;
 
-        // We need to send POST request to /login
         xhr.open("POST", reqServer, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
@@ -81,7 +80,7 @@
             dataObj["answer_index"] = markedIndex;
             sendRequest(questionId, questionIndex, dataObj, callback, server);
         } else {
-            callback();
+            callback(questionIndex);
         }
     }
 
@@ -257,7 +256,6 @@
         }
 
         let waitInterval = setInterval(function() {
-
             if(checkIfFinished(statusObj)) {
                 clearInterval(waitInterval);
                 finishAttempt();

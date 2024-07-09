@@ -18,7 +18,7 @@
   String userAnswer = qObject.getUserAnswer() == null ? "" : qObject.getUserAnswer();
 
   HashMap<Integer, QuestionType> typeMap = QuestionType.createMap();
-  QuestionType questionType = typeMap.get(qObject.getId());
+  QuestionType questionType = typeMap.get(qObject.getType());
   String questionTypeStr = questionType == null ? "UNKNOWN" : questionType.getTypeName();
 
 %>
