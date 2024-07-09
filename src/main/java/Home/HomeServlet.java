@@ -22,6 +22,14 @@ public class HomeServlet extends HttpServlet {
             throws IOException, ServletException {
 
         SessionManager sm = new SessionManager(request.getSession());
+        if(sm.isTakingQuiz()) {
+            response.sendRedirect("/quiz");
+            return;
+        }
+        if(sm.isTakingPracticeQuiz()) {
+            response.sendRedirect("/practice");
+            return;
+        }
         QuizManager qm = (QuizManager)(request.getServletContext().getAttribute("quizManager"));
         Account currentUser = sm.getCurrentUserAccount();
         ArrayList<Quiz> userTakenQuizzes = new ArrayList<Quiz>();
