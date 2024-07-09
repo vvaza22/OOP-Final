@@ -154,6 +154,24 @@ public class MailManager {
         return challenges;
     }
 
+    public void setNotesAsSeen(int userId) {
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement stmt = con.prepareStatement(
+                    "update notes set is_seen=1 where to_id=?"
+            );
+
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int countNotes(int userId) {
         int notes = 0;
         try {
@@ -161,7 +179,7 @@ public class MailManager {
             PreparedStatement stmt = con.prepareStatement(
                     "select count(*) as cnt " +
                             "from notes " +
-                            "where to_id =?;"
+                            "where to_id =? and is_seen=0;"
             );
 
             stmt.setInt(1, userId);

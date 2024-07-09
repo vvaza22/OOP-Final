@@ -37,12 +37,14 @@
         mails.addAll(reqs);
     }else if(curTab.equals("notes")){
         mails.addAll(notes);
+        mmgr.setNotesAsSeen(currUserId);
     }else if(curTab.equals("challenges")){
         mails.addAll(challenges);
     }else if(curTab.equals("all")){
         mails.addAll(reqs);
         mails.addAll(notes);
         mails.addAll(challenges);
+        mmgr.setNotesAsSeen(currUserId);
     }
 %>
 

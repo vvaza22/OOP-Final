@@ -87,6 +87,7 @@ create table notes(
       from_id int not null,
       to_id int not null,
       note text not null,
+      is_seen tinyint(1) default 0 not null,
       constraint from_id_frk
           foreign key (from_id) references users (id),
       constraint to_id_frk
