@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Account.AccountManager" %>
 <%@ page import="Question.UserAnswer" %>
+<%@ page import="org.owasp.encoder.Encode" %>
 <%
     Attempt curAttempt = (Attempt) request.getAttribute("attempt");
     QuizManager qm = (QuizManager) request.getServletContext().getAttribute("quizManager");
@@ -41,7 +42,7 @@
                 <tr>
                     <td><%= i %></td>
                     <td><%= userAnswer.getQuestion() %></td>
-                    <td><%= userAnswer.getUserAnswer() %></td>
+                    <td><%= Encode.forHtml(userAnswer.getUserAnswer()) %></td>
                     <td><%= userAnswer.getCorrectAnswer() %></td>
                     <td><%= userAnswer.getPoints() %></td>
                 </tr>

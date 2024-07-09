@@ -8,6 +8,7 @@
 <%@ page import="Quiz.QuizManager" %>
 <%@ page import="Quiz.Quiz" %>
 <%@ page import="Achievement.*" %>
+<%@ page import="org.owasp.encoder.Encode" %>
 
 
 <%
@@ -141,10 +142,10 @@
                                             <a id="edit-about-me" class="about-me-edit" style="display: inline;" href="#">edit</a>
                                         <% } %>
                                     </h4>
-                                    <p style="display: block" id="text-about-me" class="original-text"> <%=userAccount.getAboutMe()%></p>
+                                    <p style="display: block" id="text-about-me" class="original-text"> <%= Encode.forHtml(userAccount.getAboutMe())%></p>
 <%--                                    this wont work if edit button isnt clicked but just for insurance--%>
                                     <% if(myAccount != null && myAccount.getUserId() == userAccount.getUserId()) { %>
-                                        <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%=userAccount.getAboutMe()%></textarea>
+                                        <textarea style="display: none" id="write-about-me" name="aboutMe" class="edit-text"><%= Encode.forHtml(userAccount.getAboutMe())%></textarea>
                                         <input type="hidden" id="username" value="<%= userAccount.getUserName() %>">
                                         <div class="buttons">
                                             <button style="display: none" id="cancel-button" class="btn btn-round btn-danger" >Cancel</button>
