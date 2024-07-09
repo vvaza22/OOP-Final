@@ -28,10 +28,12 @@ public class CreateServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        // temporary code. user will always be logged in.
-//        SessionManager sessionManager = new SessionManager(request.getSession());
-//        AccountManager acm = (AccountManager) (request.getServletContext().getAttribute("accountManager"));
-//        sessionManager.setCurrentUser(acm.getAccount("realtia"));
+        SessionManager sessionManager = new SessionManager(request.getSession());
+
+        if(!sessionManager.isUserLoggedIn()) {
+            response.sendRedirect("/login");
+            return;
+        }
 
         // Pass question type map to the client
         request.setAttribute("qTypes", QuestionType.createMap());
