@@ -22,7 +22,7 @@
             <p> Be first to take the quiz!</p>
             <% } else { %>
             <ol>
-                <%for(int i=0; i<recentTakers.size(); i++) { %>
+                <%for(int i=0; i<Math.min(5,recentTakers.size()); i++) { %>
                 <li><a href=<%="/profile?username="+recentTakers.get(i).getUserName()%>><%=recentTakers.get(i).getUserName()%></a> (<%=recentTakers.get(i).getScore()%> Points)</li>
                 <% } %>
             </ol>
