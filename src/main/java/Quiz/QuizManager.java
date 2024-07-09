@@ -431,7 +431,6 @@ public class QuizManager {
         return null;
     }
 
-
     public Quiz getQuiz(int id) {
         try {
             // Open connection to the database
