@@ -79,6 +79,8 @@ public class AchievementManager {
             stmt.setInt(2,type);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
+                stmt.close();
+                con.close();
                 return true;
             }
             stmt.close();
