@@ -19,7 +19,7 @@
                     <a href="/about_quiz?id=<%= curQuiz.getId() %>" class="quiz-card">
                         <%
                             String image = curQuiz.getImage();
-                            if(image!=null) {
+                            if(image!=null && !image.isEmpty()) {
                         %>
                             <img class="quiz-card-img" src="<%=image%>" />
                         <% } %>

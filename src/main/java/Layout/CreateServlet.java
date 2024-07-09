@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import Question.Choice;
 import Account.AccountManager;
+import org.owasp.encoder.Encode;
 
 public class CreateServlet extends HttpServlet {
 
@@ -95,17 +96,17 @@ public class CreateServlet extends HttpServlet {
         for (int i = 0; i < questionsArray.length(); i++) {
             JSONObject questionObj = questionsArray.getJSONObject(i);
             int type = questionObj.getInt("type");
-            String text = questionObj.getString("question");
+            String text = Encode.forHtml(questionObj.getString("question"));
             String answer = "";
             String message = "";
             switch(type) {
                 case QuestionType.QUESTION_RESPONSE:
-                    answer = questionObj.getString("answer");
+                    answer = Encode.forHtml(questionObj.getString("answer"));
                     message = createQuestionResponse(type, text, answer, questions);
                     break;
                 case QuestionType.PICTURE_RESPONSE:
-                    String picture = questionObj.getString("picture");
-                    answer = questionObj.getString("answer");
+                    String picture = Encode.forHtml(questionObj.getString("picture"));
+                    answer = Encode.forHtml(questionObj.getString("answer"));
                     message = createPictureResponse(type, text, picture, answer, questions);
                     break;
                 case QuestionType.MULTIPLE_CHOICE:
@@ -113,7 +114,7 @@ public class CreateServlet extends HttpServlet {
                     message = createMultipleChoice(text, choices, questions);
                     break;
                 case QuestionType.FILL_BLANK:
-                    answer = questionObj.getString("answer");
+                    answer = Encode.forHtml(questionObj.getString("answer"));
                     message = createFillBlank(type, text, answer, questions);
                     break;
             }
@@ -130,10 +131,10 @@ public class CreateServlet extends HttpServlet {
 
         // Give dummy id.
         Quiz quiz = new Quiz(0,
-                    name,
+                    Encode.forHtml(name),
                     currentUser.getUserId(),
-                    description,
-                    quizPicture,
+                    Encode.forHtml(description),
+                    Encode.forHtml(quizPicture),
                     randomize,
                     practiceMode,
                     immediate,
@@ -189,7 +190,7 @@ public class CreateServlet extends HttpServlet {
         int correctAnswerIndx = 0;
         for(int i=0; i<jsonChoices.length(); i++) {
             JSONObject choiceObj = jsonChoices.getJSONObject(i);
-            String choiceText = choiceObj.getString("text");
+            String choiceText = Encode.forHtml(choiceObj.getString("text"));
             boolean isCorrect = choiceObj.getBoolean("isCorrect");
 
             message = checkChoice(choiceText);

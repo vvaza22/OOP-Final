@@ -248,7 +248,7 @@
 
     const pictureLink =
         document.getElementById("picture_" + questionId);
-    questionObj["picture"] = encodeURIComponent(pictureLink.value);
+    questionObj["picture"] = pictureLink.value;
 
     const answerText =
         document.getElementById("correct_" + questionId);
@@ -418,6 +418,9 @@
         }
       }
     }
+
+    console.log(JSON.stringify(quizData));
+    console.log(encodeURIComponent(JSON.stringify(quizData)));
 
     // Finally, send the request
     xhr.send("data=" + encodeURIComponent(JSON.stringify(quizData)));

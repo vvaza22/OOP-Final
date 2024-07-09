@@ -20,6 +20,17 @@ public class AboutQuizServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
+        SessionManager sm = new SessionManager(request.getSession());
+
+        if(sm.isTakingQuiz()) {
+            response.sendRedirect("/quiz");
+            return;
+        }
+        if(sm.isTakingPracticeQuiz()) {
+            response.sendRedirect("/practice");
+            return;
+        }
+
         String quizIdStr = request.getParameter("id");
 
         if(quizIdStr == null || quizIdStr.isEmpty() || !isPosNumber(quizIdStr)) {
