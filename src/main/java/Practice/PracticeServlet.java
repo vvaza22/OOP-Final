@@ -58,7 +58,9 @@ public class PracticeServlet extends HttpServlet {
                 new SessionManager(request.getSession());
 
         if(!sessionManager.isUserLoggedIn()) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You need to be logged in!");
+            responseObj.put("status", "fail");
+            responseObj.put("reason", "not_logged_in");
+            response.getWriter().print(responseObj);
             return;
         }
 
@@ -205,6 +207,14 @@ public class PracticeServlet extends HttpServlet {
 
             // Print success to the client
             responseObj.put("status", "success");
+            response.getWriter().print(responseObj);
+        } else if(action.equals("end_practice")) {
+            sessionManager.endCurrentPracticeQuiz();
+            // Print success to the client
+            responseObj.put("status", "success");
+            response.getWriter().print(responseObj);
+        } else {
+            responseObj.put("status", "fail");
             response.getWriter().print(responseObj);
         }
     }

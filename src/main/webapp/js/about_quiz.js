@@ -14,7 +14,7 @@
                 if(response.status === "success") {
                     callback();
                 } else {
-                    // Error
+                    location.href = "/login";
                 }
             }
         }
@@ -38,7 +38,7 @@
                 if(response.status === "success") {
                     callback();
                 } else {
-                    // Error
+                    location.href = "/login";
                 }
             }
         }

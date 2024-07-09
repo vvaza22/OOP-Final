@@ -165,7 +165,7 @@
                         saveButt.style.display = "none";
                     }
                 }
-                xhr.send("action=edited&aboutMe=" + aboutMeText);
+                xhr.send("action=edited&aboutMe=" + encodeURIComponent(aboutMeText));
             }
         }
     }

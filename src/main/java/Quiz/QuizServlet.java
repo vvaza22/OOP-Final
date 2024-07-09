@@ -87,7 +87,9 @@ public class QuizServlet extends HttpServlet {
                 new SessionManager(request.getSession());
 
         if(!sessionManager.isUserLoggedIn()) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You need to be logged in!");
+            responseObj.put("status", "fail");
+            responseObj.put("reason", "not_logged_in");
+            response.getWriter().print(responseObj);
             return;
         }
 
