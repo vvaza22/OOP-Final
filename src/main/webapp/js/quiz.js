@@ -214,8 +214,14 @@
             if(response.practice_status === "continue") {
                 location.reload();
             } else {
-                alert("Practice Finished!");
-                location.href = "/about_quiz?id=" + response.return_to;
+                Swal.fire({
+                    icon: "success",
+                    title: "Practice Finished!",
+                    showConfirmButton: false,
+                    timer: 3000
+                }).then(function() {
+                    location.href = "/about_quiz?id=" + response.return_to;
+                });
             }
         });
     }

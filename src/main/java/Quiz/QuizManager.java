@@ -817,25 +817,28 @@ public class QuizManager {
         try {
             Connection con = db.openConnection();
             PreparedStatement stmt = con.prepareStatement(
-                    "insert into quiz (name, " +
+                    "insert into quiz (" +
+                            "name, " +
                             "author_id, " +
                             "description, " +
+                            "quiz_image, " +
                             "randomize, " +
                             "practice_mode, " +
                             "immediate_correction, " +
                             "display_type, " +
                             "create_time) " +
-                            "values (?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS
+                            "values (?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS
             );
 
             stmt.setString(1, quiz.getName());
             stmt.setString(2, String.valueOf(quiz.getAuthorId()));
             stmt.setString(3, quiz.getDescription());
-            stmt.setBoolean(4, quiz.isRandomized());
-            stmt.setBoolean(5, quiz.isPracticeAllowed());
-            stmt.setBoolean(6, quiz.isImmediateCorrectionOn());
-            stmt.setString(7, (quiz.getDisplayMode()==1) ? "ONE_PAGE" : "MULTIPLE_PAGES");
-            stmt.setString(8, quiz.getCreateTime());
+            stmt.setString(4, quiz.getImage());
+            stmt.setBoolean(5, quiz.isRandomized());
+            stmt.setBoolean(6, quiz.isPracticeAllowed());
+            stmt.setBoolean(7, quiz.isImmediateCorrectionOn());
+            stmt.setString(8, (quiz.getDisplayMode()==1) ? "ONE_PAGE" : "MULTIPLE_PAGES");
+            stmt.setString(9, quiz.getCreateTime());
 
             stmt.executeUpdate();
             int quizNewId = 0;

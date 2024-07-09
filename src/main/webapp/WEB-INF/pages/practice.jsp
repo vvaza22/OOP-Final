@@ -8,7 +8,7 @@
 %>
 <jsp:include page="/WEB-INF/components/global/head.jsp" />
 
-<body>
+<body style="height:100%!important">
 <jsp:include page="/WEB-INF/components/layout/header.jsp" />
 <main>
     <jsp:include page="/WEB-INF/components/practice/main.jsp" />

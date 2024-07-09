@@ -294,13 +294,16 @@
     const quizDescription = document.getElementById("quiz-description");
     quizData["quizDescription"] = quizDescription.value;
 
+    const quizPicture = document.getElementById("quiz-picture");
+    quizData["quizPicture"] = quizPicture.value;
+
     const randCheckbox = document.getElementById("randomize");
     quizData["randomizeOrder"] = randCheckbox.checked;
 
     const practiceCheckbox = document.getElementById("practice_mode");
     quizData["practiceMode"] = practiceCheckbox.checked;
 
-    const immediateCheckbox = document.getElementById("practice_mode");
+    const immediateCheckbox = document.getElementById("immediate");
     quizData["immediateCorrection"] = immediateCheckbox.checked;
 
     let mulPageRadio = document.getElementById("d_mul_page");
@@ -417,7 +420,7 @@
     }
 
     // Finally, send the request
-    xhr.send("data=" + JSON.stringify(quizData));
+    xhr.send("data=" + encodeURIComponent(JSON.stringify(quizData)));
   }
 
   hook();

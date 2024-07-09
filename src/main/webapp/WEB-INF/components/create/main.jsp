@@ -13,6 +13,8 @@
             <input id="quiz-name" class="form-control" name="quiz-name" type="text" placeholder="e.g. Geography Quiz, Theoretical CS Quiz..." />
             <label for="quiz-description">Description: </label>
             <textarea class="form-control" id="quiz-description" placeholder="e. g. This quiz tests random knowledge in every field"></textarea>
+            <label for="quiz-picture">Quiz Picture Link: </label>
+            <input class="form-control" id="quiz-picture" placeholder="This image will be displayed on the home page and about quiz page." />
         </div>
         <div class="row quiz-options">
             <div class="option">

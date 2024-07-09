@@ -60,6 +60,7 @@ public class CreateServlet extends HttpServlet {
 
         // Grab the information about a quiz.
         String name = jsonObject.getString("quizName");
+        String quizPicture = jsonObject.getString("quizPicture");
         String description = jsonObject.getString("quizDescription");
         boolean randomize = jsonObject.getBoolean("randomizeOrder");
         boolean practiceMode = jsonObject.getBoolean("practiceMode");
@@ -128,7 +129,18 @@ public class CreateServlet extends HttpServlet {
         String createDate = dateFormat.format(new Date(System.currentTimeMillis()));
 
         // Give dummy id.
-        Quiz quiz = new Quiz(0, name, currentUser.getUserId(), description, null, randomize, practiceMode, immediate, display, createDate, questions);
+        Quiz quiz = new Quiz(0,
+                    name,
+                    currentUser.getUserId(),
+                    description,
+                    quizPicture,
+                    randomize,
+                    practiceMode,
+                    immediate,
+                    display,
+                    createDate,
+                    questions
+        );
         int quizId = quizm.addQuiz(quiz);
 
         AchievementManager achmgr = (AchievementManager)request.getServletContext().getAttribute("achievementManager");
