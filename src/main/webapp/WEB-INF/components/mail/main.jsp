@@ -100,8 +100,12 @@
                             <tr data-mail-type="<%= mail.getType() %>">
                                 <td><%= i %></td>
                                 <td>
+                                    <% if(from != null) { %>
                                     <a href="/profile?username=<%= from.getUserName() %>"><%= from.getFirstName() %> <%= from.getLastName() %></a>
                                     <span class="sender-username">(<%= from.getUserName() %>)</span>
+                                    <% } else { %>
+                                    <b>[ deleted user ]</b>
+                                    <% } %>
                                 </td>
                                 <td><%= mail.getMessage() %></td>
                                 <td>

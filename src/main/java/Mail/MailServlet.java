@@ -21,6 +21,11 @@ public class MailServlet extends HttpServlet {
         SessionManager sessionManager =
                 new SessionManager(request.getSession());
 
+        if(!sessionManager.isUserLoggedIn()) {
+            response.sendRedirect("/login");
+            return;
+        }
+
         Database db = (Database)request.getServletContext().getAttribute("database");
         AccountManager amgr = (AccountManager) request.getServletContext().getAttribute("accountManager");
 

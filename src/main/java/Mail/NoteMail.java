@@ -14,6 +14,9 @@ public class NoteMail extends Mail {
 
     @Override
     public String getMessage() {
+        if(this.from == null) {
+            return "<b>[ deleted user ]</b> sent you a message";
+        }
         return this.from.getUserName() + " sent you a message.";
     }
 
