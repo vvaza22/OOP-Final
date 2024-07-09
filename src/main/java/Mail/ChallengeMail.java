@@ -20,6 +20,9 @@ public class ChallengeMail extends Mail {
 
     @Override
     public String getMessage() {
+        if(from == null) {
+            return "<b>[ deleted user ]</b> " + " challenged you with \"" + quiz_name + "\"";
+        }
         return from.getUserName() + " challenged you with \"" + quiz_name + "\"";
     }
 
