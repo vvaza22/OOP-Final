@@ -172,9 +172,40 @@
         xhr.send("action=finish_attempt");
     }
 
+    function sendFinishPractice(callback) {
+        // Create XHR object
+        const xhr = new XMLHttpRequest();
+
+        // We need to send POST request to /login
+        xhr.open("POST", "/practice", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        // Listen for the state change
+        xhr.onreadystatechange = function() {
+            if(this.readyState === 4 && this.status === 200) {
+                // Read the server response
+                let response = JSON.parse(xhr.responseText);
+                if(response.status === "success") {
+                    callback(response.return_to);
+                } else {
+                    // Error
+                }
+            }
+        }
+
+        // Finally, send the request
+        xhr.send("action=end_practice");
+    }
+
     window.finishAttempt = function() {
         sendFinishAttempt(function (attempt_id) {
             location.href = "/attempt?attempt_id=" + attempt_id;
+        });
+    }
+
+    window.finishPractice = function() {
+        sendFinishPractice(function (quizId) {
+            location.href = "/about_quiz?id="+quizId;
         });
     }
 

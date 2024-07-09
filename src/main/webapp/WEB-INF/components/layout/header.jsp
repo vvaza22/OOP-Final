@@ -10,6 +10,8 @@
 
         <% if(sessionManager.isTakingQuiz()) { %>
             <jsp:include page="header-content-quiz.jsp" />
+        <% } else if(sessionManager.isTakingPracticeQuiz()) { %>
+            <jsp:include page="header-content-practice.jsp" />
         <% } else { %>
             <jsp:include page="header-content-default.jsp" />
         <% } %>

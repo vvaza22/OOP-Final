@@ -209,9 +209,15 @@ public class PracticeServlet extends HttpServlet {
             responseObj.put("status", "success");
             response.getWriter().print(responseObj);
         } else if(action.equals("end_practice")) {
+            // Get the current quiz we are taking
+            PracticeQuiz currentPracticeQuiz = sessionManager.getCurrentPracticeQuiz();
+            Quiz currentQuiz = currentPracticeQuiz.getQuiz();
+            int quizId = currentQuiz.getId();
+
             sessionManager.endCurrentPracticeQuiz();
             // Print success to the client
             responseObj.put("status", "success");
+            responseObj.put("return_to", quizId);
             response.getWriter().print(responseObj);
         } else {
             responseObj.put("status", "fail");
