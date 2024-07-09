@@ -1,11 +1,14 @@
 package Question;
 
-import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-public class MultipleChoiceTest extends TestCase {
+public class MultipleChoiceTest {
     @Test
     public void testVars() {
         ArrayList<Choice> ans1 = new ArrayList<>();
@@ -65,6 +68,42 @@ public class MultipleChoiceTest extends TestCase {
         assertEquals(0, mc.countPoints());
         assertTrue(mc.hasAnswer());
         assertEquals(pos.get(2), mc.getUserChoice());
+    }
+
+    @Test
+    public void testAnswer() {
+        ArrayList<Choice> ans2 = new ArrayList<>();
+        ans2.add(new Choice("Dark Souls", 0, false));
+        ans2.add(new Choice("Lies of P", 1, true));
+        ans2.add(new Choice("Elden Ring", 2, false));
+        ans2.add(new Choice("Bloodborne", 3, false));
+        MultipleChoice mc = new MultipleChoice("Which one is not a FromSoftware game?", 1,
+                ans2, 1);
+        assertFalse(mc.hasAnswer());
+        mc.setAnswer(1);
+        assertEquals(1, mc.countPoints());
+        assertTrue(mc.hasAnswer());
+        assertEquals(1, mc.getUserAnswer());
+        mc.resetAnswer();
+        assertFalse(mc.hasAnswer());
+        mc.setAnswer(2);
+        assertEquals(0, mc.countPoints());
+        assertEquals(ans2.get(1), mc.getCorrectChoice());
+        assertEquals(ans2.get(2), mc.getUserChoice());
+        mc.resetAnswer();
+        assertNull(mc.getUserChoice());
+    }
+
+    @Test
+    public void noCorrectChoiceTest() {
+        ArrayList<Choice> ans2 = new ArrayList<>();
+        ans2.add(new Choice("Dark Souls", 0, false));
+        ans2.add(new Choice("Lies of P", 1, false));
+        ans2.add(new Choice("Elden Ring", 2, false));
+        ans2.add(new Choice("Bloodborne", 3, false));
+        MultipleChoice mc = new MultipleChoice("Which one is not a FromSoftware game?", 1,
+                ans2, 1);
+        assertNull(mc.getCorrectChoice());
     }
 
 }

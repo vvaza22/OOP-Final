@@ -3,6 +3,7 @@
 <html>
 
 <% /* Include global <head> tag */ %>
+<% request.setAttribute("customStyle", "/css/about_quiz.css"); %>
 <jsp:include page="/WEB-INF/components/global/head.jsp" />
 
 <body style="height: 100%!important">
