@@ -287,7 +287,7 @@ INSERT INTO text_answers (text_answer_id, question_id, answer_value) VALUES (21,
 
 -- Choices
 INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (1, 3, 'If P=NP, everything in NP is NP-HARD', 1);
-INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (2, 3, 'P != Co-NP', 0);
+INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (2, 3, 'P != Co-P', 0);
 INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (3, 3, 'It is possible that P=EXPTIME', 0);
 INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (7, 7, 'Venus', 0);
 INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (8, 7, 'Earth', 1);
@@ -302,7 +302,7 @@ INSERT INTO choices (choice_id, question_id, choice_text, is_correct) VALUES (16
 -- Anno 1
 insert into anno(author_id, title, body, likes, dislikes, create_time)
 values (1, 'There are now more than 10 quizzes on this website!', 'This is such a huge achievement! I want thank everybody who made the quizzes or whatever! And please do not make anymore quizzes or our server won''t be able to handle that much content and will crash...',
-        10, 5, STR_TO_DATE('2077-04-05', '%Y-%m-%d %H:%i:%s'));
+        10, 5, STR_TO_DATE('2024-04-05', '%Y-%m-%d %H:%i:%s'));
 
 -- Anno 2
 insert into anno(author_id, title, body, likes, dislikes, create_time)

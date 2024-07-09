@@ -96,12 +96,19 @@
     return container;
   }
 
-  function genChoice() {
+  function genChoice(choiceLen) {
     let choiceCont = document.createElement("div");
 
+    if(choiceLen === 0) {
+      choiceCont.innerHTML =
+          "<input type=\"radio\" name=\"choice\" checked />\n";
+    } else {
+      choiceCont.innerHTML =
+          "<input type=\"radio\" name=\"choice\" />\n";
+    }
+
     choiceCont.className = "choice-cont";
-    choiceCont.innerHTML =
-        "<input type=\"radio\" name=\"choice\" />\n" +
+    choiceCont.innerHTML +=
         "<input class=\"form-control\" type=\"text\" placeholder=\"Type possible choice here...\" />\n" +
         "<div onclick=\"removeChoice(this)\" class=\"btn btn-outline-danger btn-round remove-choice\">Remove</div>";
 
@@ -378,13 +385,31 @@
     window.removeChoice = function(elem) {
       if(elem != null) {
         let choiceCont = elem.parentNode;
+        let choiceContCont = choiceCont.parentNode;
+        // Is Checked?
+        let radio = choiceCont.querySelector("input[type=radio]");
+        let reAdd = false;
+        if(radio != null && radio.checked) {
+          reAdd = true;
+        }
         choiceCont.parentNode.removeChild(choiceCont);
+
+        if(reAdd) {
+          let firstLeftElem = choiceContCont.firstElementChild;
+          if(firstLeftElem != null) {
+            let r2 = firstLeftElem.querySelector("input[type=radio]");
+            if(r2 != null) {
+              r2.checked = true;
+            }
+          }
+        }
       }
     }
 
     window.addChoice = function(uniqueId) {
       const elemContainer = document.getElementById("choice_wrapper_" + uniqueId);
-      elemContainer.appendChild(genChoice());
+      const existingChoiceList = elemContainer.querySelectorAll(".choice-cont");
+      elemContainer.appendChild(genChoice(existingChoiceList.length));
     }
 
     window.pageChange = function(elem) {
