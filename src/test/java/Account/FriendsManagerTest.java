@@ -36,8 +36,21 @@ public class FriendsManagerTest {
             Connection con = db.openConnection();
             Statement stmt = con.createStatement();
             stmt.executeUpdate("set FOREIGN_KEY_CHECKS=0"); // Disabling Foreign Key Checks
-            stmt.executeUpdate("truncate table users");
-            stmt.executeUpdate("truncate table friends");
+            stmt.executeUpdate("truncate table user_answers;");
+            stmt.executeUpdate("truncate table attempts;");
+            stmt.executeUpdate("truncate table choices;");
+            stmt.executeUpdate("truncate table text_answers;");
+            stmt.executeUpdate("truncate table questions;");
+            stmt.executeUpdate("truncate table reaction;");
+            stmt.executeUpdate("truncate table anno;");
+            stmt.executeUpdate("truncate table achievements;");
+            stmt.executeUpdate("truncate table challenges;");
+            stmt.executeUpdate("truncate table notes;");
+            stmt.executeUpdate("truncate table frreqs;");
+            stmt.executeUpdate("truncate table friends;");
+            stmt.executeUpdate("truncate table quiz;");
+            stmt.executeUpdate("truncate table achievements;");
+            stmt.executeUpdate("truncate table users;");
             stmt.executeUpdate("set FOREIGN_KEY_CHECKS=1"); // Enabling Foreign Key Checks
             stmt.close();
         } catch (SQLException e) {
