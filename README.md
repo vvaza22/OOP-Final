@@ -9,6 +9,14 @@
 
 **Step 4)** Start the website using tomcat7 server
 
+### Default users:
+
+In masterbase.sql there are 4 users: **realtia**, **elene**, **bero**, **vazzu**
+
+Password for these accounts is: **abc123**
+
+The user **realtia** is an admin.
+
 ### Libraries used:
 Our website uses the following front-end libraries: **Bootstrap**, **Font-Awesome** and **SweetAlert2**.
 
